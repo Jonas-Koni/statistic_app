@@ -140,8 +140,8 @@ public class enter_statistic extends AppCompatDialogFragment implements DataAdap
     public void onItemClick(int position) { //0: Date; 1: Platzierung; 2: Kniffel; 3: Mädn; 4: Monopoly; 5: Wikinger Schach; 6: Zeit und Anzahl
         switch (position){
             case 0:
-                DialogFragment datePicker = new com.example.statistik_v2.DatePicker();
-                datePicker.show(getFragmentManager(), "date picker");
+                //DialogFragment datePicker = new com.example.statistik_v2.DatePicker();
+                //datePicker.show(getFragmentManager(), "date picker");
                 break;
             case 1:
                 if(mGameType <= 4){
