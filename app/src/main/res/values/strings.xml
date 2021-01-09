@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Statistik_V2</string>
+    <string name="addFolder">Ordner hinzufügen</string>
+
+    <string-array name="PlayerList">
+        <item>Platzierung</item>
+        <item>Kniffel</item>
+        <item>Mensch ärger dich nicht</item>
+        <item>Monopoly</item>
+        <item>Wikinger Schach</item>
+        <item>Zeit und Anzahl</item>
+    </string-array>
+</resources>

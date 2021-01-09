@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/TvGameType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wähle den Statistik Typ aus!"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"/>
+
+    <Spinner
+        android:id="@+id/SpGameType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TvGameType"/>
+
+    <TextView
+        android:id="@+id/TvPlayerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Neuen Spieler hinzufügen"
+        android:layout_below="@id/SpGameType"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp" />
+
+    <EditText
+        android:id="@+id/Et_EnterName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TvPlayerName"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/TvRenamePlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Spielerliste"
+        android:layout_below="@id/Et_EnterName"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp" />
+
+    <Spinner
+        android:id="@+id/SpRenamePlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TvRenamePlayer"/>
+
+    <Button
+        android:id="@+id/BtnEnterGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/SpRenamePlayer"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_centerHorizontal="false"
+        android:text="Daten eintragen"/>
+
+    <Button
+        android:id="@+id/BtnEditGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/BtnEnterGame"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_centerHorizontal="false"
+        android:text="Daten verändern"/>
+
+    <Button
+        android:id="@+id/BtnSeeStatistic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/BtnEditGame"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_centerHorizontal="false"
+        android:text="Statistik ansehen"/>
+
+    <Button
+        android:id="@+id/BtnConfirmPlayerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:layout_alignBaseline="@+id/Et_EnterName"
+        android:layout_alignParentRight="true"/>
+
+
+    />
+</RelativeLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/ItemSpieler"
+        android:title="Spieler"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/itemGameType"
+        android:title="Spieltyp"
+        app:showAsAction="never">
+
+        <menu>
+
+            <item android:id="@+id/itemGameTypeOnlyPlacement"
+                android:title="Nur Platzierung"
+                app:showAsAction="never"/>
+
+            <item android:id="@+id/itemGameTypeKniffel"
+                android:title="Kniffel"
+                app:showAsAction="never"/>
+
+            <item android:id="@+id/itemGameTypeMaedn"
+                android:title="Mensch ärger dich nicht"
+                app:showAsAction="never"/>
+
+            <item android:id="@+id/itemGameTypeMonopoly"
+                android:title="Monopoly"
+                app:showAsAction="never"/>
+
+            <item android:id="@+id/itemGameTypeWikingerSchach"
+                android:title="Wikinger Schach"
+                app:showAsAction="never"/>
+
+            <item android:id="@+id/itemGameTypeTime"
+                android:title="Zeit und Anzahl"
+                app:showAsAction="never"/>
+        </menu>
+
+        <item android:id="@+id/itemDelete"
+            android:title="Löschen"
+            app:showAsAction="never"/>
+
+    </item>
+
+
+</menu>
