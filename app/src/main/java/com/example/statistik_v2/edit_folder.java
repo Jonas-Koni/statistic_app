@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import java.util.ArrayList;
 
+
+
 public class edit_folder extends AppCompatDialogFragment {
 
     private EditText Et_EnterName;
@@ -27,7 +29,6 @@ public class edit_folder extends AppCompatDialogFragment {
     private int mGameType;
     private int mPosition;
     private ArrayList<GamesItem> mGamesList;
-
     public edit_folder(ArrayList<String> PlayerList, int position, int GameType){
         mPlayerList = PlayerList;
         mPosition = position;
@@ -41,7 +42,6 @@ public class edit_folder extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_edit_folder, null);
-
         initList();
 
         Spinner mSpinner = (Spinner) view.findViewById(R.id.SpGameType);
@@ -64,6 +64,7 @@ public class edit_folder extends AppCompatDialogFragment {
         ArrayAdapter adapter2 = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, mPlayerList);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner2.setAdapter(adapter2);
+
 
         builder.setView(view)
                 .setTitle("Einstellungen")

@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements edit_foldername.dialogListener, edit_folder.ExampleDialogListener2,
         dialog_rename_item.ExampleDialogListener3, enter_statistic.DialogDataListener, DatePickerDialog.OnDateSetListener {
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements edit_foldername.d
     private Button buttonInsert;
     private String Et_NameText;
     private String Et_shortDescriptionText;
+    private int mPosition;
     private boolean errorText1 = false;
     private boolean errorText2 = false;
 
@@ -56,9 +58,10 @@ public class MainActivity extends AppCompatActivity implements edit_foldername.d
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        mFolderList.get(mPosition).changeDate(c.getTime());
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
 
-
+        open_EnterStatistic(mFolderList.get(mPosition).getGameType(), mFolderList.get(mPosition).getmPlayerList(), mPosition);
     }
 
     public void insertItem(int position) {
@@ -155,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements edit_foldername.d
     public void apply_btnEnterGame(int GameType, ArrayList<String> Player, int position, int reason) {
         mFolderList.get(position).changeGameType(GameType);
         mFolderList.get(position).changePlayerList(Player);
+
+        mPosition  = position;
 
         switch (reason) {
             case 0:
