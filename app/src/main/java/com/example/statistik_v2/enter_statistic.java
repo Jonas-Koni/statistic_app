@@ -24,7 +24,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class enter_statistic extends AppCompatDialogFragment implements DataAdapter.OnItemClickListener, DatePickerDialog.OnDateSetListener {
+public class enter_statistic extends AppCompatDialogFragment implements DataAdapter.OnItemClickListener {
     private ArrayList<DataItem> mDataList;
     private RecyclerView mRecyclerView;
     private DataAdapter mAdapter;
@@ -70,7 +70,7 @@ public class enter_statistic extends AppCompatDialogFragment implements DataAdap
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        listener.applyTexts4(mPlayerList, mPosition);
+                        listener.applyTexts4(mPlayerList, mPosition, -1);
                     }
                 });
 
@@ -140,8 +140,10 @@ public class enter_statistic extends AppCompatDialogFragment implements DataAdap
     public void onItemClick(int position) { //0: Date; 1: Platzierung; 2: Kniffel; 3: Mädn; 4: Monopoly; 5: Wikinger Schach; 6: Zeit und Anzahl
         switch (position){
             case 0:
-                //DialogFragment datePicker = new com.example.statistik_v2.DatePicker();
-                //datePicker.show(getFragmentManager(), "date picker");
+                listener.applyTexts4(mPlayerList, mPosition, 0);
+
+
+
                 break;
             case 1:
                 if(mGameType <= 4){
@@ -155,16 +157,8 @@ public class enter_statistic extends AppCompatDialogFragment implements DataAdap
         }
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
-    }
 
     public interface DialogDataListener {
-        void applyTexts4(ArrayList PlayerList, int position);
+        void applyTexts4(ArrayList PlayerList, int position, int reason); //reason-1: OK-Button; >=0: open dataType, example: 0 = Kalender, //0: Date; 1: Platzierung; 2: Kniffel; 3: Mädn; 4: Monopoly; 5: Wikinger Schach; 6: Zeit und Anzahl
     }
 }

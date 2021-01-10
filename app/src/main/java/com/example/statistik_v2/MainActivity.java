@@ -1,18 +1,24 @@
 package com.example.statistik_v2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements edit_foldername.dialogListener, edit_folder.ExampleDialogListener2, dialog_rename_item.ExampleDialogListener3, enter_statistic.DialogDataListener  {
+public class MainActivity extends AppCompatActivity implements edit_foldername.dialogListener, edit_folder.ExampleDialogListener2,
+        dialog_rename_item.ExampleDialogListener3, enter_statistic.DialogDataListener, DatePickerDialog.OnDateSetListener {
     private ArrayList<FolderItem> mFolderList;
     private RecyclerView mRecyclerView;
     private FolderAdapter mAdapter;
@@ -42,6 +48,17 @@ public class MainActivity extends AppCompatActivity implements edit_foldername.d
             }
         });
 
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+
+        
     }
 
     public void insertItem(int position) {
@@ -152,7 +169,17 @@ public class MainActivity extends AppCompatActivity implements edit_foldername.d
     }
 
     @Override
-    public void applyTexts4(ArrayList PlayerList, int position) {
+    public void applyTexts4(ArrayList PlayerList, int position, int reason) {
         mFolderList.get(position).changePlayerList(PlayerList);
+        switch (reason){
+            case 0:
+                DialogFragment datePicker = new com.example.statistik_v2.DatePicker();
+                datePicker.show(getSupportFragmentManager(),"date picker");
+                break;
+            case 1:
+
+                break;
+
+        }
     }
 }
