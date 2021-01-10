@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements edit_foldername.d
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
 
-        
+
     }
 
     public void insertItem(int position) {
