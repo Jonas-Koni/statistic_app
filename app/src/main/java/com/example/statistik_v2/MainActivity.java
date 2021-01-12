@@ -21,10 +21,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements edit_foldername.dialogListener, edit_folder.ExampleDialogListener2,
         dialog_rename_item.ExampleDialogListener3, enter_statistic.DialogDataListener, DatePickerDialog.OnDateSetListener {
     private ArrayList<FolderItem> mFolderList;
-    private RecyclerView mRecyclerView;
     private FolderAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private Button buttonInsert;
     private String Et_NameText;
     private String Et_shortDescriptionText;
     private int mPosition;
@@ -41,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements edit_foldername.d
         createFolderList();
         buildRecyclerView();
 
-        buttonInsert = findViewById(R.id.button_insert);
+        Button buttonInsert = findViewById(R.id.button_insert);
         buttonInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,9 +89,9 @@ public class MainActivity extends AppCompatActivity implements edit_foldername.d
     }
 
     public void buildRecyclerView() {
-        mRecyclerView = findViewById(R.id.recycleView);
+        RecyclerView mRecyclerView = findViewById(R.id.recycleView);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new FolderAdapter(mFolderList);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -166,7 +163,9 @@ public class MainActivity extends AppCompatActivity implements edit_foldername.d
                 break;
             case 1:
                 open_EnterStatistic(GameType, Player, position);
-
+                break;
+            default:
+                break;
         }
     }
     @Override
@@ -177,12 +176,15 @@ public class MainActivity extends AppCompatActivity implements edit_foldername.d
     public void applyTexts4(ArrayList PlayerList, int position, int reason) {
         mFolderList.get(position).changePlayerList(PlayerList);
         switch (reason){
+            case -1:
+                break;
             case 0:
                 DialogFragment datePicker = new com.example.statistik_v2.DatePicker();
                 datePicker.show(getSupportFragmentManager(),"date picker");
                 break;
             case 1:
-
+                break;
+            default:
                 break;
 
         }

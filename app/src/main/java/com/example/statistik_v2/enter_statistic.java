@@ -138,23 +138,26 @@ public class enter_statistic extends AppCompatDialogFragment implements DataAdap
 
     @Override
     public void onItemClick(int position) { //0: Date; 1: Platzierung; 2: Kniffel; 3: Mädn; 4: Monopoly; 5: Wikinger Schach; 6: Zeit und Anzahl
+        int reason;
         switch (position){
             case 0:
-                listener.applyTexts4(mPlayerList, mPosition, 0);
-
-
-
+                reason=0;
                 break;
             case 1:
                 if(mGameType <= 4){
-                    //1
+                    reason=1;
                 } else {
-                    //6
+                    reason = 6;
                 }
+                break;
             case 2:
-                    //mGameType+1
-
+                reason = mGameType+1;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + position);
         }
+
+        listener.applyTexts4(mPlayerList, mPosition, reason);
     }
 
 
