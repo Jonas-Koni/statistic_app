@@ -1,7 +1,6 @@
 package com.example.statistik_v2;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,18 +12,25 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class edit_foldername extends AppCompatDialogFragment {
+import java.util.ArrayList;
+
+
+
+public class edit_FolderName extends AppCompatDialogFragment {
     private EditText Et_Name;
     private EditText Et_shortDescription;
-    private dialogListener listener;
-    private int mposition;
+    private int mPosition;
     private String mEt_NameText;
     private String mEt_shortDescriptionText;
+    private ArrayList<FolderItem> mFolderList;
+    private FolderAdapter mAdapter;
 
-    public edit_foldername(int position, String Et_NameText, String Et_shortDescriptionText){
-        mposition = position;
+    public edit_FolderName(int position, String Et_NameText, String Et_shortDescriptionText, ArrayList<FolderItem> FolderList, FolderAdapter Adapter){
+        mPosition = position;
         mEt_NameText = Et_NameText;
         mEt_shortDescriptionText = Et_shortDescriptionText;
+        mFolderList = FolderList;
+        mAdapter = Adapter;
     }
 
 
@@ -49,12 +55,14 @@ public class edit_foldername extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String name;
                         if(Et_Name.getText().toString().length() < 1){
-                            name = "Neuer Ordner (Position:" + mposition + ")";
+                            name = "Neuer Ordner (Position:" + mPosition + ")";
                         } else {
                             name = Et_Name.getText().toString();
                         }
                         String shortDescription = Et_shortDescription.getText().toString();
-                        listener.applyText(name, shortDescription, mposition);
+                        mFolderList.get(mPosition).changeText1(name);
+                        mFolderList.get(mPosition).changeText2(shortDescription);
+                        mAdapter.notifyDataSetChanged();
                     }
                 });
         Et_Name = view.findViewById(R.id.Et_Name);
@@ -66,18 +74,4 @@ public class edit_foldername extends AppCompatDialogFragment {
         return builder.create();
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        try {
-            listener = (dialogListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement dialogListener");
-        }
-    }
-
-    public interface dialogListener{
-        void applyText(String Name, String shortDescription, int position);
-    }
 }

@@ -16,9 +16,8 @@ import android.widget.DatePicker;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements edit_foldername.dialogListener, edit_folder.ExampleDialogListener2,
+public class MainActivity extends AppCompatActivity implements edit_folder.ExampleDialogListener2, //edit_foldername.dialogListener,
         dialog_rename_item.ExampleDialogListener3, enter_statistic.DialogDataListener, DatePickerDialog.OnDateSetListener {
     private ArrayList<FolderItem> mFolderList;
     private FolderAdapter mAdapter;
@@ -64,11 +63,11 @@ public class MainActivity extends AppCompatActivity implements edit_foldername.d
     public void insertItem(int position) {
         mFolderList.add(position, new FolderItem(R.drawable.ordner_empty, "Neuer Ordner (" + position + ")", "This is Line 2"));
         mAdapter.notifyItemInserted(position);
-        openEdit_Foldername(position, "", "");
+        openEdit_Foldername(position, "", "", mFolderList, mAdapter);
     }
 
-    public void openEdit_Foldername(int position, String Et_NameText, String Et_shortDescriptionText) {
-        edit_foldername dialog = new edit_foldername(position, Et_NameText, Et_shortDescriptionText);
+    public void openEdit_Foldername(int position, String Et_NameText, String Et_shortDescriptionText, ArrayList<FolderItem> mFolderList, FolderAdapter folderAdapter) {
+        edit_FolderName dialog = new edit_FolderName(position, Et_NameText, Et_shortDescriptionText, mFolderList, folderAdapter);
         dialog.show(getSupportFragmentManager(), "edit_foldername");
     }
 
@@ -126,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements edit_foldername.d
                 errorText1 = false;
                 errorText2 = false;
 
-                openEdit_Foldername(position, Et_NameText, Et_shortDescriptionText);
+                openEdit_Foldername(position, Et_NameText, Et_shortDescriptionText, mFolderList, mAdapter);
             }
 
             @Override
@@ -136,14 +135,14 @@ public class MainActivity extends AppCompatActivity implements edit_foldername.d
         });
     }
 
-    @Override
+    /*@Override
     public void applyText(String Name, String shortDescription, int position) {
         mFolderList.get(position).changeText1(Name);
         mFolderList.get(position).changeText2(shortDescription);
         mAdapter.notifyDataSetChanged();
 
     }
-
+        */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
