@@ -17,8 +17,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements edit_folder.ExampleDialogListener2, //edit_foldername.dialogListener,
-        dialog_rename_item.ExampleDialogListener3, enter_statistic.DialogDataListener, DatePickerDialog.OnDateSetListener {
+public class MainActivity extends AppCompatActivity implements //edit_folder.ExampleDialogListener2, edit_foldername.dialogListener,
+        dialog_rename_item.ExampleDialogListener3 , DatePickerDialog.OnDateSetListener {//, enter_statistic.DialogDataListener {
     private ArrayList<FolderItem> mFolderList;
     private FolderAdapter mAdapter;
     private String Et_NameText;
@@ -57,30 +57,30 @@ public class MainActivity extends AppCompatActivity implements edit_folder.Examp
         mFolderList.get(mPosition).changeDate(c.getTime());
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
 
-        open_EnterStatistic(mFolderList.get(mPosition).getGameType(), mFolderList.get(mPosition).getmPlayerList(), mPosition);
+        //open_EnterStatistic(mFolderList.get(mPosition).getGameType(), mFolderList.get(mPosition).getmPlayerList(), mPosition);
     }
 
     public void insertItem(int position) {
         mFolderList.add(position, new FolderItem(R.drawable.ordner_empty, "Neuer Ordner (" + position + ")", "This is Line 2"));
         mAdapter.notifyItemInserted(position);
-        openEdit_Foldername(position, "", "", mFolderList, mAdapter);
+        open_EditFolderName(position, "", "", mFolderList, mAdapter);
     }
 
-    public void openEdit_Foldername(int position, String Et_NameText, String Et_shortDescriptionText, ArrayList<FolderItem> mFolderList, FolderAdapter folderAdapter) {
+    public void open_EditFolderName(int position, String Et_NameText, String Et_shortDescriptionText, ArrayList<FolderItem> mFolderList, FolderAdapter folderAdapter) {
         edit_FolderName dialog = new edit_FolderName(position, Et_NameText, Et_shortDescriptionText, mFolderList, folderAdapter);
         dialog.show(getSupportFragmentManager(), "edit_foldername");
     }
 
-    public void open_EditFolder(int position) {
-        edit_folder dialog2 = new edit_folder(mFolderList.get(position).getmPlayerList(), position, mFolderList.get(position).getGameType());
+    public void open_EditFolder(int position, ArrayList<FolderItem> mFolderList) {
+        edit_folder dialog2 = new edit_folder(mFolderList.get(position).getmPlayerList(), position, mFolderList.get(position).getGameType(), mFolderList);
         dialog2.show(getSupportFragmentManager(), "edit_folder");
     }
 
-    public void open_EnterStatistic(int GameType, ArrayList PlayerList, int position){ //0: Platzierung; 1: Knffel; 2: Mädn; 3: Monopoly; 4: Wikinger Schach; 5: Zeit und Anzahl
+    /*public void open_EnterStatistic(int GameType, ArrayList PlayerList, int position){ //0: Platzierung; 1: Knffel; 2: Mädn; 3: Monopoly; 4: Wikinger Schach; 5: Zeit und Anzahl
             enter_statistic dialog_data = new enter_statistic(GameType, PlayerList, mFolderList.get(position).getText1().toString(), R.drawable.figure, position);
             dialog_data.show(getSupportFragmentManager(), "ExampleDialog");
 
-    }
+    }*/
 
 
     public void createFolderList() {
@@ -125,12 +125,13 @@ public class MainActivity extends AppCompatActivity implements edit_folder.Examp
                 errorText1 = false;
                 errorText2 = false;
 
-                openEdit_Foldername(position, Et_NameText, Et_shortDescriptionText, mFolderList, mAdapter);
+                open_EditFolderName(position, Et_NameText, Et_shortDescriptionText, mFolderList, mAdapter);
             }
 
             @Override
             public void onSettingsClick(int position) {
-                open_EditFolder(position);
+                mPosition = position;
+                open_EditFolder(position, mFolderList);
             }
         });
     }
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements edit_folder.Examp
         return true;
     }
 
-    @Override
+    /*@Override
     public void apply_btnEnterGame(int GameType, ArrayList<String> Player, int position, int reason) {
         mFolderList.get(position).changeGameType(GameType);
         mFolderList.get(position).changePlayerList(Player);
@@ -166,12 +167,12 @@ public class MainActivity extends AppCompatActivity implements edit_folder.Examp
             default:
                 break;
         }
-    }
+    }*/
     @Override
     public void applyText3(String newName, int position) {
     }
 
-    @Override
+    /*@Override
     public void applyTexts4(ArrayList PlayerList, int position, int reason) {
         mFolderList.get(position).changePlayerList(PlayerList);
         switch (reason){
@@ -187,5 +188,5 @@ public class MainActivity extends AppCompatActivity implements edit_folder.Examp
                 break;
 
         }
-    }
+    }*/
 }

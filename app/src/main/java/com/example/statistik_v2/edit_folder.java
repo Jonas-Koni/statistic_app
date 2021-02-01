@@ -24,15 +24,17 @@ import java.util.ArrayList;
 public class edit_folder extends AppCompatDialogFragment {
 
     private EditText Et_EnterName;
-    private ExampleDialogListener2 listener2;
+    //private ExampleDialogListener2 listener2;
     private ArrayList<String> mPlayerList = new ArrayList<String>();
     private int mGameType;
     private int mPosition;
     private ArrayList<GamesItem> mGamesList;
-    public edit_folder(ArrayList<String> PlayerList, int position, int GameType){
+    private ArrayList<FolderItem> mFolderList;
+    public edit_folder(ArrayList<String> PlayerList, int position, int GameType, ArrayList<FolderItem> FolderList){
         mPlayerList = PlayerList;
         mPosition = position;
         mGameType = GameType;
+        mFolderList = FolderList;
     }
 
 
@@ -77,7 +79,8 @@ public class edit_folder extends AppCompatDialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        listener2.apply_btnEnterGame(mGameType, mPlayerList, mPosition, 0);
+                        saveChanges();
+                        //listener2.apply_btnEnterGame(mGameType, mPlayerList, mPosition, 0);
                     }
                 });
 
@@ -101,8 +104,23 @@ public class edit_folder extends AppCompatDialogFragment {
         btnEnterGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener2.apply_btnEnterGame(mGameType, mPlayerList, mPosition, 1);
-                dismiss();
+                saveChanges();
+                open_EnterStatistic(mGameType, mPlayerList, mPosition);
+                //listener2.apply_btnEnterGame(mGameType, mPlayerList, mPosition, 1);
+                //dismiss();
+            }
+        });
+
+        btnEditGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveChanges();
+            }
+        });
+        btnSeeStatistic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveChanges();
             }
         });
 
@@ -119,7 +137,7 @@ public class edit_folder extends AppCompatDialogFragment {
         mGamesList.add(new GamesItem("Zeit und Anzahl", R.drawable.stoppuhr));
     }
 
-    @Override
+    /*@Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
@@ -132,5 +150,16 @@ public class edit_folder extends AppCompatDialogFragment {
 
     public interface ExampleDialogListener2 {
         void apply_btnEnterGame(int GameType, ArrayList<String> Player, int position, int reason); //int reason: 0:nothing; 1:EnterGame; 2: EditGame; 3: SeeStatistics
+    }*/
+
+    public void saveChanges(){
+        mFolderList.get(mPosition).changeGameType(mGameType);
+        mFolderList.get(mPosition).changePlayerList(mPlayerList);
+    }
+
+    public void open_EnterStatistic(int GameType, ArrayList PlayerList, int position){ //0: Platzierung; 1: Knffel; 2: Mädn; 3: Monopoly; 4: Wikinger Schach; 5: Zeit und Anzahl
+        enter_statistic dialog_data = new enter_statistic(GameType, PlayerList, mFolderList.get(position).getText1().toString(), R.drawable.figure, position, mFolderList);
+        dialog_data.show(getFragmentManager(), "ExampleDialog");
+
     }
 }

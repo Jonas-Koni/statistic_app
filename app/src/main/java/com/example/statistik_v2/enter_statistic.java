@@ -35,16 +35,18 @@ public class enter_statistic extends AppCompatDialogFragment implements DataAdap
 
     private String mTitle;
     private int mImageResource;
-    private DialogDataListener listener;
+    //private DialogDataListener listener;
     private int mPosition;
+    private ArrayList<FolderItem> mFolderList;
 
     //private RecyclerView.Adapter mAdapter;
-    public enter_statistic(int GameType, ArrayList Playerlist, String Title, int ImageResource, int position) {
+    public enter_statistic(int GameType, ArrayList Playerlist, String Title, int ImageResource, int position, ArrayList<FolderItem> FolderList) {
         mTitle = Title;
         mGameType = GameType;
         mPlayerList = Playerlist;
         mImageResource = ImageResource;
         mPosition = position;
+        mFolderList = FolderList;
 
 
     }
@@ -70,7 +72,7 @@ public class enter_statistic extends AppCompatDialogFragment implements DataAdap
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        listener.applyTexts4(mPlayerList, mPosition, -1);
+                        //listener.applyTexts4(mPlayerList, mPosition, -1);
                     }
                 });
 
@@ -125,7 +127,7 @@ public class enter_statistic extends AppCompatDialogFragment implements DataAdap
 
 
 
-    @Override
+    /*@Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
@@ -134,13 +136,15 @@ public class enter_statistic extends AppCompatDialogFragment implements DataAdap
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implement DialogDataListener");
         }
-    }
+    }*/
 
     @Override
     public void onItemClick(int position) { //0: Date; 1: Platzierung; 2: Kniffel; 3: Mädn; 4: Monopoly; 5: Wikinger Schach; 6: Zeit und Anzahl
         int reason;
         switch (position){
             case 0:
+                DialogFragment datePicker = new com.example.statistik_v2.DatePicker(mFolderList, mPosition);
+                datePicker.show(getFragmentManager(),"date picker");
                 reason=0;
                 break;
             case 1:
@@ -157,11 +161,14 @@ public class enter_statistic extends AppCompatDialogFragment implements DataAdap
                 throw new IllegalStateException("Unexpected value: " + position);
         }
 
-        listener.applyTexts4(mPlayerList, mPosition, reason);
+        //listener.applyTexts4(mPlayerList, mPosition, reason);
+    }
+
+    public void saveChanges(){
     }
 
 
-    public interface DialogDataListener {
+    /*public interface DialogDataListener {
         void applyTexts4(ArrayList PlayerList, int position, int reason); //reason-1: OK-Button; >=0: open dataType, example: 0 = Kalender, //0: Date; 1: Platzierung; 2: Kniffel; 3: Mädn; 4: Monopoly; 5: Wikinger Schach; 6: Zeit und Anzahl
-    }
+    }*/
 }

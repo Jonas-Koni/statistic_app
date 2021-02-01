@@ -4,6 +4,7 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class FolderItem {
     private int mImageResource;
@@ -33,7 +34,9 @@ public class FolderItem {
     void changeText2(String text){
         mText2 = text;
     }
-    void changeDate(Date Date) { mDate = Date; }
+    void changeDate(Date Date) {
+        mDate = Date;
+    }
 
     ArrayList getmPlayerList() {return mPlayerList;}
     int getGameType(){return mGameType;}
