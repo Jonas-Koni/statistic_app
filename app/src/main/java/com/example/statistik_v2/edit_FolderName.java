@@ -47,7 +47,8 @@ public class edit_FolderName extends AppCompatDialogFragment {
                 .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        mFolderList.remove(mFolderList.size()-1);
+                        mAdapter.notifyDataSetChanged();
                     }
                 })
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

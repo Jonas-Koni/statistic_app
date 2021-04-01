@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 
 
-public class edit_folder extends AppCompatDialogFragment {
+public class dialogEditFolder extends AppCompatDialogFragment {
 
     private EditText Et_EnterName;
     //private ExampleDialogListener2 listener2;
@@ -30,7 +30,7 @@ public class edit_folder extends AppCompatDialogFragment {
     private int mPosition;
     private ArrayList<GamesItem> mGamesList;
     private ArrayList<FolderItem> mFolderList;
-    public edit_folder(ArrayList<String> PlayerList, int position, int GameType, ArrayList<FolderItem> FolderList){
+    public dialogEditFolder(ArrayList<String> PlayerList, int position, int GameType, ArrayList<FolderItem> FolderList){
         mPlayerList = PlayerList;
         mPosition = position;
         mGameType = GameType;

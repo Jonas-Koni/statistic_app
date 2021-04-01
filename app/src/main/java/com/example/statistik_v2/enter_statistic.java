@@ -5,10 +5,12 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -26,25 +28,22 @@ import java.util.Calendar;
 
 public class enter_statistic extends AppCompatDialogFragment implements DataAdapter.OnItemClickListener {
     private ArrayList<DataItem> mDataList;
-    private RecyclerView mRecyclerView;
-    private DataAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     private int mGameType;
-    private ArrayList mPlayerList = new ArrayList();
 
     private String mTitle;
-    private int mImageResource;
     //private DialogDataListener listener;
     private int mPosition;
     private ArrayList<FolderItem> mFolderList;
+
+    public static final String EXTRA_TEXT = "com.example.statistik_v2.EXTRA_TEXT";
+    public static final String EXTRA_NUMBER = "com.example.statistik_v2.EXTRA_NUMBER";
+    public static final String EXTRA_ARRAY = "com.example.statistik_v2.EXTRA_ARRAY";
 
     //private RecyclerView.Adapter mAdapter;
     public enter_statistic(int GameType, ArrayList Playerlist, String Title, int ImageResource, int position, ArrayList<FolderItem> FolderList) {
         mTitle = Title;
         mGameType = GameType;
-        mPlayerList = Playerlist;
-        mImageResource = ImageResource;
         mPosition = position;
         mFolderList = FolderList;
 
@@ -114,10 +113,10 @@ public class enter_statistic extends AppCompatDialogFragment implements DataAdap
         }
     }
     public void buildRecyclerview(View view){
-        mRecyclerView = view.findViewById(R.id.recycleViewData);
+        RecyclerView mRecyclerView = view.findViewById(R.id.recycleViewData);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getContext());
-        mAdapter = new DataAdapter(mDataList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        DataAdapter mAdapter = new DataAdapter(mDataList);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -126,49 +125,41 @@ public class enter_statistic extends AppCompatDialogFragment implements DataAdap
     }
 
 
-
-    /*@Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        try {
-            listener = (DialogDataListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement DialogDataListener");
-        }
-    }*/
-
     @Override
     public void onItemClick(int position) { //0: Date; 1: Platzierung; 2: Kniffel; 3: Mädn; 4: Monopoly; 5: Wikinger Schach; 6: Zeit und Anzahl
-        int reason;
-        switch (position){
-            case 0:
-                DialogFragment datePicker = new com.example.statistik_v2.DatePicker(mFolderList, mPosition);
-                datePicker.show(getFragmentManager(),"date picker");
-                reason=0;
+       switch (mDataList.get(position).getTitle()) {
+           case "Kalender":
+               DialogFragment datePicker = new com.example.statistik_v2.DatePicker(mFolderList, mPosition);
+               datePicker.show(getFragmentManager(),"date picker");
+               break;
+           case "Platzierung":
+               open_EnterPlacement();
                 break;
-            case 1:
-                if(mGameType <= 4){
-                    reason=1;
-                } else {
-                    reason = 6;
-                }
-                break;
-            case 2:
-                reason = mGameType+1;
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + position);
-        }
+           case "Kniffel":
+               open_EnterKniffel();
+               break;
+           case "Mensch ärger dich nicht":
+               open_EnterMadn();
+               break;
+           default:
+               throw new IllegalStateException("Unexpected value: " + position);
 
-        //listener.applyTexts4(mPlayerList, mPosition, reason);
+       }
+
+    }
+    public void open_EnterMadn() {
+        EnterMadn enterMadn = new EnterMadn(mPosition, mFolderList);
+        enterMadn.show(getFragmentManager(), "enterMadn");
     }
 
-    public void saveChanges(){
+    public void open_EnterKniffel(){
+        EnterKniffel enterKniffel = new EnterKniffel(mFolderList,  mPosition);
+        enterKniffel.show(getFragmentManager(), "enterKniffel");
     }
 
+    public void open_EnterPlacement() {
+        EnterPlacement enterPlacement = new EnterPlacement(mPosition, mFolderList);
+        enterPlacement.show(getFragmentManager(),"EnterPlacementDialog");
+    }
 
-    /*public interface DialogDataListener {
-        void applyTexts4(ArrayList PlayerList, int position, int reason); //reason-1: OK-Button; >=0: open dataType, example: 0 = Kalender, //0: Date; 1: Platzierung; 2: Kniffel; 3: Mädn; 4: Monopoly; 5: Wikinger Schach; 6: Zeit und Anzahl
-    }*/
 }

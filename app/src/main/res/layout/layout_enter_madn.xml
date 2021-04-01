@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/TextViewWurfverhaeltnis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:text="Wurfverhältnis"/>
+
+    <Spinner
+        android:id="@+id/SpinnerPlayerList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:layout_below="@+id/TextViewWurfverhaeltnis" />
+
+
+
+    <EditText
+        android:id="@+id/EditTextWuerfe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:layout_below="@+id/SpinnerPlayerList" />
+
+
+    <EditText
+        android:id="@+id/EditTextGeworfen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:layout_below="@+id/EditTextWuerfe"/>
+    <TextView
+        android:id="@+id/TextViewShowWurfverhaeltnis"
+        android:text="Gesamtsumme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:layout_below="@+id/EditTextGeworfen"/>
+
+</RelativeLayout>

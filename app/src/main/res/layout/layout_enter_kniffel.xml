@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Spinner
+        android:id="@+id/SpinnerPlayerList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px" />
+
+
+
+    <TextView
+        android:id="@+id/TextViewGesamtsumme01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:text="Gesamtsumme erster Teil (inkl. Bonus)"
+        android:layout_below="@+id/SpinnerPlayerList"/>
+
+    <EditText
+        android:id="@+id/EditTextGesamtSumme01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:layout_below="@+id/TextViewGesamtsumme01" />
+
+    <TextView
+        android:id="@+id/TextViewGesamtsumme02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/EditTextGesamtSumme01"
+        android:layout_marginLeft="30px"
+        android:text="Gesamtsumme zweiter Teil"/>
+
+    <EditText
+        android:id="@+id/EditTextGesamtSumme02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+
+        android:layout_below="@+id/TextViewGesamtsumme02"/>
+    <TextView
+        android:id="@+id/TextViewGesamtsumme"
+        android:text="Gesamtsumme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:layout_below="@+id/EditTextGesamtSumme02"/>
+
+    <Button
+        android:id="@+id/ButtonConfirmPlayerStats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextViewGesamtsumme"
+        android:layout_marginLeft="30px"
+        android:text="OK" />
+
+
+</RelativeLayout>

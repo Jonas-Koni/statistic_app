@@ -15,14 +15,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class dialog_rename_item extends AppCompatDialogFragment {
+public class dialogRenameItem extends AppCompatDialogFragment {
     private TextView tvOldName;
     private EditText etNewName;
     private int mPosition;
     private String mOnItemSelectedText;
     private ExampleDialogListener3 listener3;
 
-    public dialog_rename_item(String onItemSelectedText, int position){
+    public dialogRenameItem(String onItemSelectedText, int position){
         mOnItemSelectedText = onItemSelectedText;
         mPosition = position;
     }

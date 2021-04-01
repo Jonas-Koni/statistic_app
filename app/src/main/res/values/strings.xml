@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Statistik_V2</string>
     <string name="addFolder">Ordner hinzufügen</string>
+    <string name="TvGameType_text">Wähle den Statistik Typ aus!</string>
+    <string name="TvPlayerName_text">Neuen Spieler hinzufügen</string>
+    <string name="TvRenamePlayer_text">Spielerliste</string>
+    <string name="BtnEnterGame_text">Daten eintragen</string>
+    <string name="BtnEditGame_text">Daten verändern</string>
+    <string name="BtnSeeStatisitics_text">Statistik ansehen</string>
+    <string name="BtnConfirmPlayerName_text">OK</string>
 
     <string-array name="PlayerList">
         <item>Platzierung</item>

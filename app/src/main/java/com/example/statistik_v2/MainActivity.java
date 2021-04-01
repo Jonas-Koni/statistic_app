@@ -1,7 +1,6 @@
 package com.example.statistik_v2;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements //edit_folder.ExampleDialogListener2, edit_foldername.dialogListener,
-        dialog_rename_item.ExampleDialogListener3 , DatePickerDialog.OnDateSetListener {//, enter_statistic.DialogDataListener {
+        dialogRenameItem.ExampleDialogListener3 , DatePickerDialog.OnDateSetListener {//, enter_statistic.DialogDataListener {
     private ArrayList<FolderItem> mFolderList;
     private FolderAdapter mAdapter;
     private String Et_NameText;
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements //edit_folder.Exa
     }
 
     public void open_EditFolder(int position, ArrayList<FolderItem> mFolderList) {
-        edit_folder dialog2 = new edit_folder(mFolderList.get(position).getmPlayerList(), position, mFolderList.get(position).getGameType(), mFolderList);
+        dialogEditFolder dialog2 = new dialogEditFolder(mFolderList.get(position).getmPlayerList(), position, mFolderList.get(position).getGameType(), mFolderList);
         dialog2.show(getSupportFragmentManager(), "edit_folder");
     }
 
@@ -81,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements //edit_folder.Exa
             dialog_data.show(getSupportFragmentManager(), "ExampleDialog");
 
     }*/
+
+
 
 
     public void createFolderList() {
