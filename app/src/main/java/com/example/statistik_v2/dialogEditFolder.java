@@ -1,7 +1,6 @@
 package com.example.statistik_v2;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,16 +24,17 @@ public class dialogEditFolder extends AppCompatDialogFragment {
 
     private EditText Et_EnterName;
     //private ExampleDialogListener2 listener2;
-    private ArrayList<String> mPlayerList = new ArrayList<String>();
+    private ArrayList mPlayerList;
     private int mGameType;
     private int mPosition;
     private ArrayList<GamesItem> mGamesList;
     private ArrayList<FolderItem> mFolderList;
-    public dialogEditFolder(ArrayList<String> PlayerList, int position, int GameType, ArrayList<FolderItem> FolderList){
-        mPlayerList = PlayerList;
+    private ArrayList<informationGame> mInformationList;
+    public dialogEditFolder(int position, ArrayList<FolderItem> FolderList){
         mPosition = position;
-        mGameType = GameType;
         mFolderList = FolderList;
+        mPlayerList = mFolderList.get(mPosition).getmPlayerList();
+        mGameType = mFolderList.get(mPosition).getGameType();
     }
 
 
@@ -67,7 +67,7 @@ public class dialogEditFolder extends AppCompatDialogFragment {
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner2.setAdapter(adapter2);
 
-
+        createInformationGame();
         builder.setView(view)
                 .setTitle("Einstellungen")
                 .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
@@ -105,7 +105,8 @@ public class dialogEditFolder extends AppCompatDialogFragment {
             @Override
             public void onClick(View v) {
                 saveChanges();
-                open_EnterStatistic(mGameType, mPlayerList, mPosition);
+                mInformationList.add(new informationGame(mPosition));
+                open_EnterStatistic();
                 //listener2.apply_btnEnterGame(mGameType, mPlayerList, mPosition, 1);
                 //dismiss();
             }
@@ -137,29 +138,19 @@ public class dialogEditFolder extends AppCompatDialogFragment {
         mGamesList.add(new GamesItem("Zeit und Anzahl", R.drawable.stoppuhr));
     }
 
-    /*@Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        try {
-            listener2 = (ExampleDialogListener2) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement dialogListener2");
-        }
-    }
-
-    public interface ExampleDialogListener2 {
-        void apply_btnEnterGame(int GameType, ArrayList<String> Player, int position, int reason); //int reason: 0:nothing; 1:EnterGame; 2: EditGame; 3: SeeStatistics
-    }*/
 
     public void saveChanges(){
         mFolderList.get(mPosition).changeGameType(mGameType);
         mFolderList.get(mPosition).changePlayerList(mPlayerList);
     }
 
-    public void open_EnterStatistic(int GameType, ArrayList PlayerList, int position){ //0: Platzierung; 1: Knffel; 2: Mädn; 3: Monopoly; 4: Wikinger Schach; 5: Zeit und Anzahl
-        enter_statistic dialog_data = new enter_statistic(GameType, PlayerList, mFolderList.get(position).getText1().toString(), R.drawable.figure, position, mFolderList);
+    public void open_EnterStatistic(){ //0: Platzierung; 1: Knffel; 2: Mädn; 3: Monopoly; 4: Wikinger Schach; 5: Zeit und Anzahl
+        dialogEnterStatistic dialog_data = new dialogEnterStatistic(R.drawable.figure, mPosition, mFolderList, mInformationList);
         dialog_data.show(getFragmentManager(), "ExampleDialog");
+
+    }
+    public void createInformationGame () {
+        mInformationList = new ArrayList();
 
     }
 }

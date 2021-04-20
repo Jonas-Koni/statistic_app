@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 
 
-public class edit_FolderName extends AppCompatDialogFragment {
+public class dialogEditFolderName extends AppCompatDialogFragment {
     private EditText Et_Name;
     private EditText Et_shortDescription;
     private int mPosition;
@@ -24,13 +24,15 @@ public class edit_FolderName extends AppCompatDialogFragment {
     private String mEt_shortDescriptionText;
     private ArrayList<FolderItem> mFolderList;
     private FolderAdapter mAdapter;
+    private boolean mDeleteOnCancel;
 
-    public edit_FolderName(int position, String Et_NameText, String Et_shortDescriptionText, ArrayList<FolderItem> FolderList, FolderAdapter Adapter){
+    public dialogEditFolderName(int position, String Et_NameText, String Et_shortDescriptionText, ArrayList<FolderItem> FolderList, FolderAdapter Adapter, boolean DeleteOnCancel){
         mPosition = position;
         mEt_NameText = Et_NameText;
         mEt_shortDescriptionText = Et_shortDescriptionText;
         mFolderList = FolderList;
         mAdapter = Adapter;
+        mDeleteOnCancel = DeleteOnCancel;
     }
 
 
@@ -47,8 +49,10 @@ public class edit_FolderName extends AppCompatDialogFragment {
                 .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mFolderList.remove(mFolderList.size()-1);
-                        mAdapter.notifyDataSetChanged();
+                        if(mDeleteOnCancel) {
+                            mFolderList.remove(mFolderList.size() - 1);
+                            mAdapter.notifyDataSetChanged();
+                        }
                     }
                 })
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

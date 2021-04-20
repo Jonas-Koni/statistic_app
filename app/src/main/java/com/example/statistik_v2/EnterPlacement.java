@@ -3,12 +3,10 @@ package com.example.statistik_v2;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -26,13 +23,17 @@ public class EnterPlacement extends AppCompatDialogFragment {
     private ArrayList mPlayerList;
     private ArrayList Platzierung;
     private ArrayList PlatzierungPlayers;
-    private int SelectedPlacement;
-    private int SelectedPlayer;
-    public EnterPlacement(int position, ArrayList<FolderItem> FolderList){
+    private int SelectedPlacementSpinner;
+    private int SelectedPlayerSpinner;
+    private ArrayList<informationGame> mInformationGamesList;
+
+    public EnterPlacement(int position, ArrayList<FolderItem> FolderList, ArrayList<informationGame> informationGamesList){
         mPosition = position;
         mFolderList = FolderList;
-        mPlayerList = mFolderList.get(mPosition).getmPlayerList();
+        mPlayerList = (ArrayList) mFolderList.get(mPosition).getmPlayerList().clone();
         Platzierung = new ArrayList();
+        PlatzierungPlayers = new ArrayList();
+        mInformationGamesList = informationGamesList;
     }
 
 
@@ -54,6 +55,9 @@ public class EnterPlacement extends AppCompatDialogFragment {
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if(mPlayerList.size()<=0){
+                            mInformationGamesList.get(mPosition).setRankingPlayers(PlatzierungPlayers);
+                        }
 
                     }
                 });
@@ -65,7 +69,7 @@ public class EnterPlacement extends AppCompatDialogFragment {
         EpSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                SelectedPlayer = position;
+                SelectedPlayerSpinner = position;
             }
 
             @Override
@@ -76,6 +80,7 @@ public class EnterPlacement extends AppCompatDialogFragment {
 
         for(int i = 0; i < mPlayerList.size(); i++){
             Platzierung.add(i+1);
+            PlatzierungPlayers.add("not defined yet");
         }
 
         Spinner EpPlatzierung = view.findViewById(R.id.SpPlacementList);
@@ -85,7 +90,7 @@ public class EnterPlacement extends AppCompatDialogFragment {
         EpPlatzierung.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                SelectedPlacement = position;
+                SelectedPlacementSpinner = position;
             }
 
             @Override
@@ -100,11 +105,12 @@ public class EnterPlacement extends AppCompatDialogFragment {
             @Override
             public void onClick(View v) {
                 if(mPlayerList.size()<=0){return;}
-                System.out.println(SelectedPlacement + ". " + SelectedPlayer);
-                Platzierung.remove(SelectedPlacement);
-                mPlayerList.remove(SelectedPlayer);
+                PlatzierungPlayers.set(SelectedPlacementSpinner, SelectedPlayerSpinner);
+                Platzierung.remove(SelectedPlacementSpinner);
+                mPlayerList.remove(SelectedPlayerSpinner);
                 adapter.notifyDataSetChanged();
                 adapter1.notifyDataSetChanged();
+
             }
         });
 
@@ -113,33 +119,6 @@ public class EnterPlacement extends AppCompatDialogFragment {
 
 
     }
-
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enter_placement);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext())
-
-
-        Intent intent = getIntent();
-        //int mPosition = intent.getIntExtra(enter_statistic.EXTRA_NUMBER, 0);
-        ArrayList<FolderItem> mFolderList = intent.getParcelableExtra("Folder Item");
-
-
-        Spinner EpSpinner = findViewById(R.id.SpPlayerList);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.PlayerList, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        EpSpinner.setAdapter(adapter);
-        EpSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-
-
-
-        /*Spinner mSpinner = (Spinner) view.findViewById(R.id.SpGameType);
-        GamesAdapter mAdapter = new GamesAdapter(getActivity(), mGamesList);
-        mSpinner.setAdapter(mAdapter);
-        mSpinner.setEnabled(true);
-        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {*/
 
 
 

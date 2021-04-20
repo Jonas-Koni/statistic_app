@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import java.util.ArrayList;
 
-public class EnterKniffel extends AppCompatDialogFragment {
+public class dialogEnterKniffel extends AppCompatDialogFragment {
 
     private String Gesamtsumme01String;
     private String Gesamtsumme02String;
@@ -27,13 +27,17 @@ public class EnterKniffel extends AppCompatDialogFragment {
     private int Gesamtsumme02Int;
     private ArrayList<FolderItem> mFolderList;
     private ArrayList mPlayerList;
+    private ArrayList mKniffelGesamtsumme01;
+    private ArrayList mKniffelGesamtsumme02;
     private int mPosition;
-    //private ArrayList m
+    private ArrayList<informationGame> mInformationGamesList;
 
-    public EnterKniffel (ArrayList<FolderItem> FolderList, int position){
+
+    public dialogEnterKniffel(ArrayList<FolderItem> FolderList, int position, ArrayList<informationGame> informationGamesList){
         mFolderList = FolderList;
         mPosition = position;
         mPlayerList = mFolderList.get(mPosition).getmPlayerList();
+        mInformationGamesList = informationGamesList;
     }
 
     @NonNull
@@ -65,7 +69,7 @@ public class EnterKniffel extends AppCompatDialogFragment {
         ConfirmPlayerStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //mKniffelGesamtsumme01.get()
             }
         });
 
@@ -84,15 +88,9 @@ public class EnterKniffel extends AppCompatDialogFragment {
                         Gesamtsumme02String = EditTextGesamtsumme02.getText().toString();
                         Gesamtsumme01Int = Gesamtsumme(Gesamtsumme01String);
                         Gesamtsumme02Int = Gesamtsumme(Gesamtsumme02String);
+
                     }
                 });
-
-
-
-
-
-
-
 
         return builder.create();
     }

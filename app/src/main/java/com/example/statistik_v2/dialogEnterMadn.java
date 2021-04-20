@@ -16,14 +16,16 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import java.util.ArrayList;
 
-public class EnterMadn extends AppCompatDialogFragment {
+public class dialogEnterMadn extends AppCompatDialogFragment {
     private ArrayList mPlayerList;
     private int mPosition;
     private ArrayList<FolderItem> mFolderList;
-    public EnterMadn(int position, ArrayList FolderList){
+    private ArrayList<informationGame> mInformationGamesList;
+    public dialogEnterMadn(int position, ArrayList FolderList, ArrayList<informationGame> informationGamesList){
         mFolderList = FolderList;
         mPosition = position;
         mPlayerList = mFolderList.get(mPosition).getmPlayerList();
+        mInformationGamesList = informationGamesList;
     }
     @NonNull
     @Override
