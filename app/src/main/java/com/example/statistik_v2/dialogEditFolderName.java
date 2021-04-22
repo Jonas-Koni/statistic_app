@@ -20,22 +20,16 @@ public class dialogEditFolderName extends AppCompatDialogFragment {
     private EditText Et_Name;
     private EditText Et_shortDescription;
     private int mPosition;
-    private String mEt_NameText;
-    private String mEt_shortDescriptionText;
     private ArrayList<FolderItem> mFolderList;
     private FolderAdapter mAdapter;
-    private boolean mDeleteOnCancel;
+    private boolean mNewFolder;
 
-    public dialogEditFolderName(int position, String Et_NameText, String Et_shortDescriptionText, ArrayList<FolderItem> FolderList, FolderAdapter Adapter, boolean DeleteOnCancel){
+    public dialogEditFolderName(int position, ArrayList<FolderItem> FolderList, FolderAdapter Adapter, boolean newFolder){
         mPosition = position;
-        mEt_NameText = Et_NameText;
-        mEt_shortDescriptionText = Et_shortDescriptionText;
         mFolderList = FolderList;
         mAdapter = Adapter;
-        mDeleteOnCancel = DeleteOnCancel;
+        mNewFolder = newFolder;
     }
-
-
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -49,7 +43,7 @@ public class dialogEditFolderName extends AppCompatDialogFragment {
                 .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(mDeleteOnCancel) {
+                        if(mNewFolder) {
                             mFolderList.remove(mFolderList.size() - 1);
                             mAdapter.notifyDataSetChanged();
                         }
@@ -58,25 +52,29 @@ public class dialogEditFolderName extends AppCompatDialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String name;
-                        if(Et_Name.getText().toString().length() < 1){
-                            name = "Neuer Ordner (Position:" + mPosition + ")";
-                        } else {
-                            name = Et_Name.getText().toString();
-                        }
-                        String shortDescription = Et_shortDescription.getText().toString();
-                        mFolderList.get(mPosition).changeText1(name);
-                        mFolderList.get(mPosition).changeText2(shortDescription);
-                        mAdapter.notifyDataSetChanged();
+                        changeFolderName();
                     }
                 });
+
         Et_Name = view.findViewById(R.id.Et_Name);
         Et_shortDescription = view.findViewById(R.id.Et_ShortDescription);
 
-        Et_Name.setText(mEt_NameText);
-        Et_shortDescription.setText(mEt_shortDescriptionText);
+
+        if(!mNewFolder) {
+            Et_Name.setText(mFolderList.get(mPosition).getText1()); //StandardText soll aktueller Text sein
+            Et_shortDescription.setText(mFolderList.get(mPosition).getText2());
+        }
 
         return builder.create();
+    }
+    private void changeFolderName() {
+        String Text1 = Et_Name.getText().toString();
+        String Text2 = Et_shortDescription.getText().toString();
+        if(Text1.length()>=1){
+            mFolderList.get(mPosition).changeText1(Text1);
+        }
+        mFolderList.get(mPosition).changeText2(Text2);
+        mAdapter.notifyDataSetChanged();
     }
 
 }
