@@ -25,8 +25,8 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
     private int mGameType;
 
     private String mTitle;
-    //private DialogDataListener listener;
     private int mPosition;
+    private int mGamePosition;
     private ArrayList mPlayerList;
     private ArrayList<FolderItem> mFolderList;
     private ArrayList<informationGame> mInformationGamesList;
@@ -47,13 +47,14 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
     public static final String EXTRA_ARRAY = "com.example.statistik_v2.EXTRA_ARRAY";
 
     //private RecyclerView.Adapter mAdapter;
-    public dialogEnterStatistic(int ImageResource, int position, ArrayList<FolderItem> FolderList, ArrayList<informationGame> informationGamesList) {
+    public dialogEnterStatistic(int ImageResource, int position, ArrayList<FolderItem> FolderList, ArrayList<informationGame> informationGamesList, int GamePosition) {
         mPosition = position;
         mFolderList = FolderList;
         mPlayerList = mFolderList.get(mPosition).getmPlayerList();
         mGameType = mFolderList.get(mPosition).getGameType();
         mTitle = mFolderList.get(mPosition).getText1().toString();
         mInformationGamesList = informationGamesList;
+        mGamePosition = GamePosition;
 
 
     }
@@ -166,7 +167,7 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
     }
 
     public void open_EnterKniffel(){
-        dialogEnterKniffel enterKniffel = new dialogEnterKniffel(mFolderList, mPosition, mInformationGamesList);
+        dialogEnterKniffel enterKniffel = new dialogEnterKniffel(mFolderList, mPosition, mInformationGamesList, mGamePosition);
         enterKniffel.show(getFragmentManager(), "dialogEnterKniffel");
     }
 

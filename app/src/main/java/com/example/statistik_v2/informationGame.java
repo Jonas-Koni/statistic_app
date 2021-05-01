@@ -1,7 +1,11 @@
 package com.example.statistik_v2;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,6 +29,8 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
     public Date getDate() {
         return Date;
     }
+    public ArrayList getKniffelGesamtsumme01() {return KniffelGesamtsumme01;}
+    public ArrayList getKniffelGesamtsumme02() {return KniffelGesamtsumme02;}
     public void setDate(Date date) {
         Date = date;
     }
@@ -44,6 +50,60 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
         MadnGeworfen = madnGeworfen;
     }
 
+    public int changeSelection(ArrayList stringEditText, ArrayList stringSavedValues, int selectedPlayerSpinner, int position, Context context, Spinner spinner, int SelectedPlayerSpinner){
+        if(selectedPlayerSpinner != position) {
+            for (int i = 0; i < stringEditText.size(); i ++){
+                if (stringEditText.get(i).toString() != stringSavedValues.get(i).toString() && stringEditText.get(i).toString().length() > 0) {
+                    Toast toast = Toast.makeText(context, "Ungespeicherte Daten", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    SelectedPlayerSpinner = position;
+                }
+                spinner.setSelection(SelectedPlayerSpinner);
+            }
+        }
+        return SelectedPlayerSpinner;
+    }
+
+    public ArrayList setupArrayListSavedValues(int mPlayerListSize, ArrayList ListStringSavedValues){
+        ArrayList SetupArrayList = new ArrayList();
+        for(int numberPlayer = 0; numberPlayer < mPlayerListSize; numberPlayer++) {
+            if(ListStringSavedValues != null && isInteger(ListStringSavedValues.get(numberPlayer).toString())) {
+                SetupArrayList.add(ListStringSavedValues.get(numberPlayer).toString());
+            } else {
+                SetupArrayList.add("not defined yet");
+            }
+        }
+        return SetupArrayList;
+    }
+
+    public boolean setValuesSuccessful(ArrayList newValue, int SelectedPlayerSpinner, Context context, EditText editText, int mPlayerListSize){
+        if(mPlayerListSize < 1 || getInteger(editText.getText().toString(), context) == -1) {return false;}
+        newValue.set(SelectedPlayerSpinner,editText.getText().toString());
+        return true;
+
+    }
+
+
+    boolean isInteger (String StringIsInteger) {
+        try {
+            int Checkint = Integer.parseInt(StringIsInteger);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    int getInteger (String ConvertToInt, Context context) {
+        try {
+            int CheckInt = Integer.parseInt(ConvertToInt);
+        } catch (NumberFormatException nfe) {
+            Toast errorToast = Toast.makeText(context, "Keine gültige Eingabe, bitte verwenden Sie nur Zahlen", Toast.LENGTH_SHORT);
+            errorToast.show();
+            return -1;
+        }
+        return Integer.parseInt(ConvertToInt);
+    }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
