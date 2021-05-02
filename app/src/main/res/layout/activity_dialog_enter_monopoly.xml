@@ -11,27 +11,35 @@
 
 
     <EditText
-        android:id="@+id/EditTextWuerfe"
+        android:id="@+id/EditTextGeldBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30px"
-        android:hint="Würfe"
+        android:hint="Geld Bar"
         android:layout_below="@+id/SpinnerPlayerList" />
 
 
     <EditText
-        android:id="@+id/EditTextGeworfen"
+        android:id="@+id/EditTextGeldHaus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30px"
-        android:hint="geworfen"
-        android:layout_below="@+id/EditTextWuerfe"/>
+        android:hint="Geld in Häusern"
+        android:layout_below="@+id/EditTextGeldBar"/>
 
-    <Button
-        android:id="@+id/ButtonConfirmPlayerStatsMadn"
+    <EditText
+        android:id="@+id/EditTextGeldGrundstueck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/EditTextGeworfen"
+        android:layout_marginLeft="30px"
+        android:hint="Geld in Grundstücken"
+        android:layout_below="@+id/EditTextGeldHaus"/>
+
+    <Button
+        android:id="@+id/ButtonConfirmPlayerStatsMonopoly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/EditTextGeldGrundstueck"
         android:layout_marginLeft="30px"
         android:text="OK" />
 

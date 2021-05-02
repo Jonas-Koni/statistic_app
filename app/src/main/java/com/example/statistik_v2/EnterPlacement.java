@@ -80,8 +80,9 @@ public class EnterPlacement extends AppCompatDialogFragment {
 
         for(int i = 0; i < mPlayerList.size(); i++){
             Platzierung.add(i+1);
-            PlatzierungPlayers.add("not defined yet");
         }
+
+        PlatzierungPlayers = mInformationGamesList.get(0).setupArrayListSavedValues(mPlayerList.size(), mInformationGamesList.get(0).getRankingPlayers());
 
         Spinner EpPlatzierung = view.findViewById(R.id.SpPlacementList);
         final ArrayAdapter adapter1 = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, Platzierung);

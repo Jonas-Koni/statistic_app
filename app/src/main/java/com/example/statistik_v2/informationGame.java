@@ -19,6 +19,9 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
     private ArrayList KniffelGesamtsumme02;
     private ArrayList MadnWuerfe;
     private ArrayList MadnGeworfen;
+    private ArrayList MonopolyGeldBar;
+    private ArrayList MonopolyGeldHaus;
+    private ArrayList MonopolyGeldGrundstueck;
 
     public informationGame(int folderIndex){
         FolderIndex = folderIndex;
@@ -26,29 +29,38 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
 
 
 
-    public Date getDate() {
+    Date getDate() {
         return Date;
     }
-    public ArrayList getKniffelGesamtsumme01() {return KniffelGesamtsumme01;}
-    public ArrayList getKniffelGesamtsumme02() {return KniffelGesamtsumme02;}
-    public void setDate(Date date) {
+    ArrayList getKniffelGesamtsumme01() {return KniffelGesamtsumme01;}
+    ArrayList getKniffelGesamtsumme02() {return KniffelGesamtsumme02;}
+    ArrayList getRankingPlayers() {return RankingPlayers;}
+    ArrayList getMadnWuerfe() {return MadnWuerfe;}
+    ArrayList getMadnGeworfen() {return MadnGeworfen;}
+    ArrayList getMonopolyGeldBar() {return MonopolyGeldBar;}
+    ArrayList getMonopolyGeldHaus() {return MonopolyGeldHaus;}
+    ArrayList getMonopolyGeldGrundstueck() {return MonopolyGeldGrundstueck;}
+    void setDate(Date date) {
         Date = date;
     }
-    public void setRankingPlayers(ArrayList rankingPlayers) {
+    void setRankingPlayers(ArrayList rankingPlayers) {
         RankingPlayers = rankingPlayers;
     }
-    public void setKniffelGesamtsumme01(ArrayList kniffelGesamtsumme01) {
+    void setKniffelGesamtsumme01(ArrayList kniffelGesamtsumme01) {
         KniffelGesamtsumme01 = kniffelGesamtsumme01;
     }
-    public void setKniffelGesamtsumme02(ArrayList kniffelGesamtsumme02) {
+    void setKniffelGesamtsumme02(ArrayList kniffelGesamtsumme02) {
         KniffelGesamtsumme02 = kniffelGesamtsumme02;
     }
-    public void setMadnWuerfe(ArrayList madnWuerfe) {
+    void setMadnWuerfe(ArrayList madnWuerfe) {
         MadnWuerfe = madnWuerfe;
     }
-    public void setMadnGeworfen(ArrayList madnGeworfen) {
+    void setMadnGeworfen(ArrayList madnGeworfen) {
         MadnGeworfen = madnGeworfen;
     }
+    void setMonopolyGeldBar(ArrayList geldBar) {MonopolyGeldBar = geldBar;}
+    void setMonopolyGeldHaus(ArrayList geldHaus) {MonopolyGeldHaus = geldHaus;}
+    void setMonopolyGeldGrundstueck(ArrayList geldGrundstueck) {MonopolyGeldGrundstueck = geldGrundstueck;}
 
     public int changeSelection(ArrayList stringEditText, ArrayList stringSavedValues, int selectedPlayerSpinner, int position, Context context, Spinner spinner, int SelectedPlayerSpinner){
         if(selectedPlayerSpinner != position) {
@@ -85,7 +97,7 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
     }
 
 
-    boolean isInteger (String StringIsInteger) {
+    public boolean isInteger (String StringIsInteger) {
         try {
             int Checkint = Integer.parseInt(StringIsInteger);
         } catch (NumberFormatException nfe) {

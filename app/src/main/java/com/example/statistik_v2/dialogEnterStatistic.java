@@ -149,6 +149,9 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
            case "Mensch ärger dich nicht":
                open_EnterMadn();
                break;
+           case "Monopoly":
+               open_Monopoly();
+               break;
            default:
                throw new IllegalStateException("Unexpected value: " + position);
 
@@ -174,6 +177,11 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
     public void open_EnterPlacement() {
         EnterPlacement enterPlacement = new EnterPlacement(mPosition, mFolderList, mInformationGamesList);
         enterPlacement.show(getFragmentManager(),"EnterPlacementDialog");
+    }
+
+    public void open_Monopoly() {
+        dialogEnterMonopoly enterMonopoly = new dialogEnterMonopoly(mFolderList, mPosition, mInformationGamesList, mGamePosition);
+        enterMonopoly.show(getFragmentManager(), "dialogEnterMonopoly");
     }
 
     @Override

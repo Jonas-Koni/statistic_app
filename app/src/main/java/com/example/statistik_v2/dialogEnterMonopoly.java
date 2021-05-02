@@ -20,19 +20,18 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class dialogEnterKniffel extends AppCompatDialogFragment {
-
+public class dialogEnterMonopoly extends AppCompatDialogFragment  {
     private int SelectedPlayerSpinner;
     private ArrayList<FolderItem> mFolderList;
     private ArrayList mPlayerList;
-    private ArrayList mKniffelGesamtsumme01 = new ArrayList<Serializable>();
-    private ArrayList mKniffelGesamtsumme02 = new ArrayList<Serializable>();
+    private ArrayList mMonopolyGeldBar = new ArrayList<Serializable>();
+    private ArrayList mMonopolyGeldHaus = new ArrayList<Serializable>();
+    private ArrayList mMonopolyGeldGrundstueck = new ArrayList<Serializable>();
     private int mPosition;
     private int mGamePosition;
     private ArrayList<informationGame> mInformationGamesList;
 
-
-    public dialogEnterKniffel(ArrayList<FolderItem> FolderList, int position, ArrayList<informationGame> informationGamesList, int gamePosition){
+    public dialogEnterMonopoly(ArrayList<FolderItem> FolderList, int position, ArrayList<informationGame> informationGamesList, int gamePosition){
         mFolderList = FolderList;
         mPosition = position;
         mPlayerList =  (ArrayList) mFolderList.get(mPosition).getmPlayerList().clone();
@@ -45,7 +44,7 @@ public class dialogEnterKniffel extends AppCompatDialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_enter_kniffel, null);
+        View view = inflater.inflate(R.layout.activity_dialog_enter_monopoly, null);
 
         builder.setView(view)
                 .setTitle("Kniffel")
@@ -59,20 +58,22 @@ public class dialogEnterKniffel extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         for(int i = 0; i < mPlayerList.size(); i++){
-                            if(!mInformationGamesList.get(0).isInteger(mKniffelGesamtsumme01.get(i).toString()) || !mInformationGamesList.get(0).isInteger(mKniffelGesamtsumme02.get(i).toString())){
+                            if(!mInformationGamesList.get(0).isInteger(mMonopolyGeldBar.get(i).toString()) || !mInformationGamesList.get(0).isInteger(mMonopolyGeldHaus.get(i).toString()) || !mInformationGamesList.get(0).isInteger(mMonopolyGeldGrundstueck.get(i).toString())){
                                 Toast errorToast = Toast.makeText(getActivity(), "Keine gültige Eingabe bei Person: "+mPlayerList.get(i), Toast.LENGTH_SHORT);
                                 errorToast.show();
                                 dismiss();
                             }
                         }
-                        mInformationGamesList.get(mGamePosition).setKniffelGesamtsumme01(mKniffelGesamtsumme01);
-                        mInformationGamesList.get(mGamePosition).setKniffelGesamtsumme02(mKniffelGesamtsumme02);
+                        mInformationGamesList.get(mGamePosition).setMonopolyGeldBar(mMonopolyGeldBar);
+                        mInformationGamesList.get(mGamePosition).setMonopolyGeldHaus(mMonopolyGeldHaus);
+                        mInformationGamesList.get(mGamePosition).setMonopolyGeldGrundstueck(mMonopolyGeldGrundstueck);
                     }
                 });
 
 
-        final EditText EditTextGesamtsumme01 = view.findViewById(R.id.EditTextGesamtSumme01);
-        final EditText EditTextGesamtsumme02 = view.findViewById(R.id.EditTextGesamtSumme02);
+        final EditText EditTextGeldHaus = view.findViewById(R.id.EditTextGeldHaus);
+        final EditText EditTextGeldBar = view.findViewById(R.id.EditTextGeldBar);
+        final EditText EditTextGeldGrundstueck = view.findViewById(R.id.EditTextGeldGrundstueck);
 
         final Spinner spinner = view.findViewById(R.id.SpinnerPlayerList);
         final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, mPlayerList);
@@ -83,10 +84,12 @@ public class dialogEnterKniffel extends AppCompatDialogFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ArrayList stringEditText = new ArrayList();
                 ArrayList stringSavedValues = new ArrayList();
-                stringEditText.add(EditTextGesamtsumme01.getText().toString());
-                stringEditText.add(EditTextGesamtsumme02.getText().toString());
-                stringSavedValues.add(mKniffelGesamtsumme01.get(SelectedPlayerSpinner).toString());
-                stringSavedValues.add(mKniffelGesamtsumme02.get(SelectedPlayerSpinner).toString());
+                stringEditText.add(EditTextGeldHaus.getText().toString());
+                stringEditText.add(EditTextGeldBar.getText().toString());
+                stringEditText.add(EditTextGeldGrundstueck.getText().toString());
+                stringSavedValues.add(mMonopolyGeldBar.get(SelectedPlayerSpinner).toString());
+                stringSavedValues.add(mMonopolyGeldHaus.get(SelectedPlayerSpinner).toString());
+                stringSavedValues.add(mMonopolyGeldGrundstueck.get(SelectedPlayerSpinner).toString());
 
                 SelectedPlayerSpinner =  mInformationGamesList.get(0).changeSelection(stringEditText, stringSavedValues, SelectedPlayerSpinner, position, getContext(), spinner, SelectedPlayerSpinner);
             }
@@ -94,15 +97,17 @@ public class dialogEnterKniffel extends AppCompatDialogFragment {
             public void onNothingSelected(AdapterView<?> parent) {spinner.setSelection(0);}
         });
 
-        mKniffelGesamtsumme01 = mInformationGamesList.get(mGamePosition).setupArrayListSavedValues(mPlayerList.size(), mInformationGamesList.get(mGamePosition).getKniffelGesamtsumme01());
-        mKniffelGesamtsumme02 = mInformationGamesList.get(mGamePosition).setupArrayListSavedValues(mPlayerList.size(), mInformationGamesList.get(mGamePosition).getKniffelGesamtsumme02());
+        mMonopolyGeldBar = mInformationGamesList.get(mGamePosition).setupArrayListSavedValues(mPlayerList.size(), mInformationGamesList.get(mGamePosition).getMonopolyGeldBar());
+        mMonopolyGeldHaus = mInformationGamesList.get(mGamePosition).setupArrayListSavedValues(mPlayerList.size(), mInformationGamesList.get(mGamePosition).getMonopolyGeldHaus());
+        mMonopolyGeldGrundstueck = mInformationGamesList.get(mGamePosition).setupArrayListSavedValues(mPlayerList.size(), mInformationGamesList.get(mGamePosition).getMonopolyGeldGrundstueck());
 
-        Button ConfirmPlayerStats = view.findViewById(R.id.ButtonConfirmPlayerStats);
+        Button ConfirmPlayerStats = view.findViewById(R.id.ButtonConfirmPlayerStatsMonopoly);
         ConfirmPlayerStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mInformationGamesList.get(mGamePosition).setValuesSuccessful(mKniffelGesamtsumme01, SelectedPlayerSpinner, getContext(), EditTextGesamtsumme01, mPlayerList.size()) &&
-                        mInformationGamesList.get(mGamePosition).setValuesSuccessful(mKniffelGesamtsumme02, SelectedPlayerSpinner, getContext(), EditTextGesamtsumme02, mPlayerList.size())){
+                if(mInformationGamesList.get(mGamePosition).setValuesSuccessful(mMonopolyGeldBar, SelectedPlayerSpinner, getContext(), EditTextGeldHaus, mPlayerList.size()) &&
+                        mInformationGamesList.get(mGamePosition).setValuesSuccessful(mMonopolyGeldHaus, SelectedPlayerSpinner, getContext(), EditTextGeldBar, mPlayerList.size()) &&
+                        mInformationGamesList.get(mGamePosition).setValuesSuccessful(mMonopolyGeldGrundstueck, SelectedPlayerSpinner, getContext(), EditTextGeldGrundstueck, mPlayerList.size())){
                     mPlayerList.remove(SelectedPlayerSpinner);
                     adapter.notifyDataSetChanged();
                 }
@@ -111,4 +116,3 @@ public class dialogEnterKniffel extends AppCompatDialogFragment {
         return builder.create();
     }
 }
-
