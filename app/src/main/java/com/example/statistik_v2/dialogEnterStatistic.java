@@ -80,7 +80,7 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //listener.applyTexts4(mPlayerList, mPosition, -1);
+
                     }
                 });
 
@@ -88,6 +88,10 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
         buildRecyclerview(view);
 
         return builder.create();
+    }
+
+    public void exportCSV(View view) {
+
     }
 
     public void createDataList(){
