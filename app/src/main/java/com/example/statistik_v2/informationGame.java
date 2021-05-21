@@ -91,7 +91,6 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
 
     public boolean setValuesSuccessful(ArrayList newValue, int SelectedPlayerSpinner, Context context, EditText editText, int mPlayerListSize){
         if(mPlayerListSize < 1 || getInteger(editText.getText().toString(), context) == -1) {return false;}
-        newValue.set(SelectedPlayerSpinner,editText.getText().toString());
         return true;
 
     }

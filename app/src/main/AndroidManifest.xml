@@ -19,15 +19,15 @@
             </intent-filter>
         </activity>
 
-        <provider
+        <!-- <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.statistik_v2.fileprovider"
             android:grantUriPermissions="true"
             android:exported="true">
             <meta-data
-                android:name="android.support">
+                android:name="android.">
             </meta-data>
-        </provider>
+        </provider> -->
 
     </application>
 

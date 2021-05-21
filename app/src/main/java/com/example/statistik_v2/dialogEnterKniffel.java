@@ -103,6 +103,8 @@ public class dialogEnterKniffel extends AppCompatDialogFragment {
             public void onClick(View v) {
                 if(mInformationGamesList.get(mGamePosition).setValuesSuccessful(mKniffelGesamtsumme01, SelectedPlayerSpinner, getContext(), EditTextGesamtsumme01, mPlayerList.size()) &&
                         mInformationGamesList.get(mGamePosition).setValuesSuccessful(mKniffelGesamtsumme02, SelectedPlayerSpinner, getContext(), EditTextGesamtsumme02, mPlayerList.size())){
+                    mKniffelGesamtsumme01.set(SelectedPlayerSpinner,EditTextGesamtsumme01.getText().toString());
+                    mKniffelGesamtsumme02.set(SelectedPlayerSpinner,EditTextGesamtsumme02.getText().toString());
                     mPlayerList.remove(SelectedPlayerSpinner);
                     adapter.notifyDataSetChanged();
                 }

@@ -67,7 +67,7 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_enter_statistic, null);
+        final View view = inflater.inflate(R.layout.layout_enter_statistic, null);
 
         builder.setView(view)
                 .setTitle(mTitle)
@@ -80,7 +80,7 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        saveData(view);
                     }
                 });
 
@@ -88,6 +88,33 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
         buildRecyclerview(view);
 
         return builder.create();
+    }
+    public void saveData(View view) {
+        String FILENAME = mFolderList.get(mPosition).getText1();
+        String entry = mFolderList.get(mPosition).getGameType()+","+mFolderList.get(mPosition).getmPlayerList().size();
+
+        switch (mFolderList.get(mPosition).getGameType()) {
+            case 0:
+                for (int players = 0; players <= mFolderList.get(mPosition).getmPlayerList().size()-1; players ++) {
+                    entry += mInformationGamesList.get(mGamePosition).getRankingPlayers().get(players);
+                    entry += ",";
+                }
+                break;
+            case 1:
+                for (int players = 0; players <= mFolderList.get(mPosition).getmPlayerList().size()-1; players ++) {
+                    entry += mInformationGamesList.get(mGamePosition).getRankingPlayers().get(players);
+                    entry += ",";
+                }
+                for (int players = 0; players <= mFolderList.get(mPosition).getmPlayerList().size()-1; players ++) {
+                    entry += mInformationGamesList.get(mGamePosition).getKniffelGesamtsumme01().get(players);
+                    entry += ",";
+                }
+                for (int players = 0; players <= mFolderList.get(mPosition).getmPlayerList().size()-1; players ++) {
+                    entry += mInformationGamesList.get(mGamePosition).getKniffelGesamtsumme02().get(players);
+                    entry += ",";
+                }
+        }
+        entry += ",    hi";
     }
 
     public void exportCSV(View view) {
