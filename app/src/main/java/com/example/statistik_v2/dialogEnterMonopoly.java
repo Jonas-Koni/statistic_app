@@ -91,7 +91,7 @@ public class dialogEnterMonopoly extends AppCompatDialogFragment  {
                 stringSavedValues.add(mMonopolyGeldHaus.get(SelectedPlayerSpinner).toString());
                 stringSavedValues.add(mMonopolyGeldGrundstueck.get(SelectedPlayerSpinner).toString());
 
-                SelectedPlayerSpinner =  mInformationGamesList.get(0).changeSelection(stringEditText, stringSavedValues, SelectedPlayerSpinner, position, getContext(), spinner, SelectedPlayerSpinner);
+                SelectedPlayerSpinner =  mInformationGamesList.get(0).changeSelection(stringEditText, stringSavedValues, SelectedPlayerSpinner, position, getContext(), spinner);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {spinner.setSelection(0);}
@@ -108,8 +108,9 @@ public class dialogEnterMonopoly extends AppCompatDialogFragment  {
                 if(mInformationGamesList.get(mGamePosition).setValuesSuccessful(mMonopolyGeldBar, SelectedPlayerSpinner, getContext(), EditTextGeldHaus, mPlayerList.size()) &&
                         mInformationGamesList.get(mGamePosition).setValuesSuccessful(mMonopolyGeldHaus, SelectedPlayerSpinner, getContext(), EditTextGeldBar, mPlayerList.size()) &&
                         mInformationGamesList.get(mGamePosition).setValuesSuccessful(mMonopolyGeldGrundstueck, SelectedPlayerSpinner, getContext(), EditTextGeldGrundstueck, mPlayerList.size())){
-                    mPlayerList.remove(SelectedPlayerSpinner);
-                    adapter.notifyDataSetChanged();
+                    EditTextGeldBar.setText(null);
+                    EditTextGeldGrundstueck.setText(null);
+                    EditTextGeldHaus.setText(null);
                 }
             }
         });

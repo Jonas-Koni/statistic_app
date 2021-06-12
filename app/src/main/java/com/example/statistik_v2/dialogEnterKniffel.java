@@ -88,7 +88,7 @@ public class dialogEnterKniffel extends AppCompatDialogFragment {
                 stringSavedValues.add(mKniffelGesamtsumme01.get(SelectedPlayerSpinner).toString());
                 stringSavedValues.add(mKniffelGesamtsumme02.get(SelectedPlayerSpinner).toString());
 
-                SelectedPlayerSpinner =  mInformationGamesList.get(0).changeSelection(stringEditText, stringSavedValues, SelectedPlayerSpinner, position, getContext(), spinner, SelectedPlayerSpinner);
+                SelectedPlayerSpinner =  mInformationGamesList.get(0).changeSelection(stringEditText, stringSavedValues, SelectedPlayerSpinner, position, getContext(), spinner);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {spinner.setSelection(0);}
@@ -105,8 +105,9 @@ public class dialogEnterKniffel extends AppCompatDialogFragment {
                         mInformationGamesList.get(mGamePosition).setValuesSuccessful(mKniffelGesamtsumme02, SelectedPlayerSpinner, getContext(), EditTextGesamtsumme02, mPlayerList.size())){
                     mKniffelGesamtsumme01.set(SelectedPlayerSpinner,EditTextGesamtsumme01.getText().toString());
                     mKniffelGesamtsumme02.set(SelectedPlayerSpinner,EditTextGesamtsumme02.getText().toString());
-                    mPlayerList.remove(SelectedPlayerSpinner);
-                    adapter.notifyDataSetChanged();
+                    //Farbige Markierung der definierten ELemente einbauen!
+                    EditTextGesamtsumme01.setText(null);
+                    EditTextGesamtsumme02.setText(null);
                 }
             }
         });

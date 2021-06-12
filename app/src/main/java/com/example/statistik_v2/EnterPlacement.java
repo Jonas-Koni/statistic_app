@@ -55,9 +55,9 @@ public class EnterPlacement extends AppCompatDialogFragment {
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(mPlayerList.size()<=0){
                             mInformationGamesList.get(mPosition).setRankingPlayers(PlatzierungPlayers);
-                        }
+                        //Kontrolle fehlt!
+
 
                     }
                 });
@@ -107,10 +107,6 @@ public class EnterPlacement extends AppCompatDialogFragment {
             public void onClick(View v) {
                 if(mPlayerList.size()<=0){return;}
                 PlatzierungPlayers.set(SelectedPlacementSpinner, SelectedPlayerSpinner);
-                Platzierung.remove(SelectedPlacementSpinner);
-                mPlayerList.remove(SelectedPlayerSpinner);
-                adapter.notifyDataSetChanged();
-                adapter1.notifyDataSetChanged();
 
             }
         });

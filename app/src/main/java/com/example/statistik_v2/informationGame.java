@@ -62,8 +62,8 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
     void setMonopolyGeldHaus(ArrayList geldHaus) {MonopolyGeldHaus = geldHaus;}
     void setMonopolyGeldGrundstueck(ArrayList geldGrundstueck) {MonopolyGeldGrundstueck = geldGrundstueck;}
 
-    public int changeSelection(ArrayList stringEditText, ArrayList stringSavedValues, int selectedPlayerSpinner, int position, Context context, Spinner spinner, int SelectedPlayerSpinner){
-        if(selectedPlayerSpinner != position) {
+    public int changeSelection(ArrayList stringEditText, ArrayList stringSavedValues, int SelectedPlayerSpinner, int position, Context context, Spinner spinner){
+        if(SelectedPlayerSpinner != position) {
             for (int i = 0; i < stringEditText.size(); i ++){
                 if (stringEditText.get(i).toString() != stringSavedValues.get(i).toString() && stringEditText.get(i).toString().length() > 0) {
                     Toast toast = Toast.makeText(context, "Ungespeicherte Daten", Toast.LENGTH_SHORT);

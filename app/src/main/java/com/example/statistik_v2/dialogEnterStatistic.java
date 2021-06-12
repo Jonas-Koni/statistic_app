@@ -91,7 +91,7 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
     }
     public void saveData(View view) {
         String FILENAME = mFolderList.get(mPosition).getText1();
-        String entry = mFolderList.get(mPosition).getGameType()+","+mFolderList.get(mPosition).getmPlayerList().size();
+        String entry = mFolderList.get(mPosition).getGameType()+","+mFolderList.get(mPosition).getmPlayerList().size()+",";
 
         switch (mFolderList.get(mPosition).getGameType()) {
             case 0:

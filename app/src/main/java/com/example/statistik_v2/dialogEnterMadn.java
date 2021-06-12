@@ -83,7 +83,7 @@ public class dialogEnterMadn extends AppCompatDialogFragment {
                 stringSavedValues.add(mAnzahlGeworfen.get(SelectedPlayerSpinner).toString());
                 stringSavedValues.add(mAnzahlWuerfe.get(SelectedPlayerSpinner).toString());
 
-                SelectedPlayerSpinner =  mInformationGamesList.get(0).changeSelection(stringEditText, stringSavedValues, SelectedPlayerSpinner, position, getContext(), spinner, SelectedPlayerSpinner);
+                SelectedPlayerSpinner =  mInformationGamesList.get(0).changeSelection(stringEditText, stringSavedValues, SelectedPlayerSpinner, position, getContext(), spinner);
             }
 
             @Override
@@ -101,8 +101,8 @@ public class dialogEnterMadn extends AppCompatDialogFragment {
             public void onClick(View v) {
                 if(mInformationGamesList.get(0).setValuesSuccessful(mAnzahlGeworfen, SelectedPlayerSpinner, getContext(), EditTextGeworfen, mPlayerList.size()) &&
                         mInformationGamesList.get(0).setValuesSuccessful(mAnzahlWuerfe, SelectedPlayerSpinner, getContext(), EditTextWuerfe, mPlayerList.size())){
-                    mPlayerList.remove(SelectedPlayerSpinner);
-                    adapter.notifyDataSetChanged();
+                    EditTextGeworfen.setText(null);
+                    EditTextWuerfe.setText(null);
                 }
             }
         });

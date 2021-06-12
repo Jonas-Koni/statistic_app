@@ -33,7 +33,7 @@ public class FolderItem implements Parcelable {
         mGameType = in.readInt();
     }
 
-    public static final Creator<FolderItem> CREATOR = new Creator<FolderItem>() {
+    /*public static final Creator<FolderItem> CREATOR = new Creator<FolderItem>() {
         @Override
         public FolderItem createFromParcel(Parcel in) {
             return new FolderItem(in);
@@ -43,7 +43,7 @@ public class FolderItem implements Parcelable {
         public FolderItem[] newArray(int size) {
             return new FolderItem[size];
         }
-    };
+    };*/
 
     void changePlayerList(ArrayList PlayerList){
         mPlayerList = PlayerList;
