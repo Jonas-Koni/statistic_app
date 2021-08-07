@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -23,12 +24,14 @@ public class dialogEditFolderName extends AppCompatDialogFragment {
     private ArrayList<FolderItem> mFolderList;
     private FolderAdapter mAdapter;
     private boolean mNewFolder;
+    private ArrayList<File> mFileList = new ArrayList<File>();
 
-    public dialogEditFolderName(int position, ArrayList<FolderItem> FolderList, FolderAdapter Adapter, boolean newFolder){
+    public dialogEditFolderName(int position, ArrayList<FolderItem> FolderList, FolderAdapter Adapter, boolean newFolder, ArrayList<File> fileList){
         mPosition = position;
         mFolderList = FolderList;
         mAdapter = Adapter;
         mNewFolder = newFolder;
+        mFileList = fileList;
     }
     @NonNull
     @Override
@@ -53,6 +56,7 @@ public class dialogEditFolderName extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         changeFolderName();
+
                     }
                 });
 
@@ -75,6 +79,15 @@ public class dialogEditFolderName extends AppCompatDialogFragment {
         }
         mFolderList.get(mPosition).changeText2(Text2);
         mAdapter.notifyDataSetChanged();
+    }
+
+    private void createFile(){
+        /*if(!mNewFolder){return;}
+        StringBuilder FolderName = new StringBuilder();
+                //mFolderList.get(mPosition).getText1());
+        FolderName = FolderName.replaceAll("\\s", "_");
+        File newFile = new File("storage/emulated/0/Android/data/com.example.statistik_v2/files/"+ FolderName + ".csv");
+        mFileList.add(newFile);*/
     }
 
 }

@@ -91,7 +91,7 @@ public class EnterPlacement extends AppCompatDialogFragment {
         EpPlatzierung.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                SelectedPlacementSpinner = position;
+                SelectedPlacementSpinner = position + 1;
             }
 
             @Override
@@ -106,7 +106,7 @@ public class EnterPlacement extends AppCompatDialogFragment {
             @Override
             public void onClick(View v) {
                 if(mPlayerList.size()<=0){return;}
-                PlatzierungPlayers.set(SelectedPlacementSpinner, SelectedPlayerSpinner);
+                PlatzierungPlayers.set(SelectedPlayerSpinner, SelectedPlacementSpinner);
 
             }
         });

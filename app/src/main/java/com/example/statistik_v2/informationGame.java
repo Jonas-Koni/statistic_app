@@ -1,7 +1,9 @@
 package com.example.statistik_v2;
 
 import android.app.DatePickerDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -79,7 +81,7 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
 
     public ArrayList setupArrayListSavedValues(int mPlayerListSize, ArrayList ListStringSavedValues){
         ArrayList SetupArrayList = new ArrayList();
-        for(int numberPlayer = 0; numberPlayer < mPlayerListSize; numberPlayer++) {
+        for(int numberPlayer = 1; numberPlayer <= mPlayerListSize; numberPlayer++) {
             if(ListStringSavedValues != null && isInteger(ListStringSavedValues.get(numberPlayer).toString())) {
                 SetupArrayList.add(ListStringSavedValues.get(numberPlayer).toString());
             } else {
@@ -126,6 +128,32 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
         //date.get(mPosition).changeDate(c.getTime());
 
         //String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+    }
+
+
+
+    public static long insertNewGame(SQLiteDatabase database, ArrayList<informationGame> informationGameArrayList, ArrayList<FolderItem> folderItemArrayList) {
+        int GameID = informationGameArrayList.size() - 1;
+
+        ContentValues values = new ContentValues();
+        values.put(informationGameContractClass.StatisticTable.COLUMN_DATE, informationGameArrayList.get(GameID).getDate().toString());
+        values.put(informationGameContractClass.StatisticTable.COLUMN_GAMETYPE, folderItemArrayList.get(GameID).getGameType());
+        long newRowID = database.insert(
+                informationGameContractClass.StatisticTable.TABLE_NAME, null, values);
+        return newRowID;
+    }
+
+
+
+    public static String getSingleGame(SQLiteDatabase database, int userId) {
+        String userName = null;
+        final String SQL_GET_SINGLE_GAME =
+                "SELECT " + informationGameContractClass.StatisticTable.COLUMN_DATE +
+                        " FROM " + informationGameContractClass.StatisticTable.TABLE_NAME +
+                        " WHERE " + userId +
+                        ");";
+
+
     }
 }
 

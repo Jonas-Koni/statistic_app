@@ -81,6 +81,7 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         saveData(view);
+
                     }
                 });
 
