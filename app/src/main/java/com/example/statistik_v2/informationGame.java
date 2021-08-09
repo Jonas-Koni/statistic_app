@@ -25,6 +25,7 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
     private ArrayList MonopolyGeldHaus;
     private ArrayList MonopolyGeldGrundstueck;
 
+
     public informationGame(int folderIndex){
         FolderIndex = folderIndex;
     }
@@ -34,6 +35,7 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
     Date getDate() {
         return Date;
     }
+
     ArrayList getKniffelGesamtsumme01() {return KniffelGesamtsumme01;}
     ArrayList getKniffelGesamtsumme02() {return KniffelGesamtsumme02;}
     ArrayList getRankingPlayers() {return RankingPlayers;}
@@ -130,6 +132,9 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
         //String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
     }
 
+    informationGameDbHelper informationgamedbhelper;
+
+
 
 
     public static long insertNewGame(SQLiteDatabase database, ArrayList<informationGame> informationGameArrayList, ArrayList<FolderItem> folderItemArrayList) {
@@ -139,7 +144,7 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
         values.put(informationGameContractClass.StatisticTable.COLUMN_DATE, informationGameArrayList.get(GameID).getDate().toString());
         values.put(informationGameContractClass.StatisticTable.COLUMN_GAMETYPE, folderItemArrayList.get(GameID).getGameType());
         long newRowID = database.insert(
-                informationGameContractClass.StatisticTable.TABLE_NAME, null, values);
+                informationGameContractClass.StatisticTable.DATABASE_NAME, null, values);
         return newRowID;
     }
 
@@ -149,11 +154,11 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
         String userName = null;
         final String SQL_GET_SINGLE_GAME =
                 "SELECT " + informationGameContractClass.StatisticTable.COLUMN_DATE +
-                        " FROM " + informationGameContractClass.StatisticTable.TABLE_NAME +
+                        " FROM " + informationGameContractClass.StatisticTable.DATABASE_NAME +
                         " WHERE " + userId +
                         ");";
 
-
+        return null;
     }
 }
 

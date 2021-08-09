@@ -84,9 +84,6 @@ public class MainActivity extends AppCompatActivity {
         mFolderList.add(position, new FolderItem(R.drawable.ordner_empty, "", ""));
         mAdapter.notifyItemInserted(position);
         mFolderList.get(position).changeText1("Neuer Ordner (" + position + ")");
-
-        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-
         open_EditFolderName(position, mFolderList, mAdapter, true);
     }
     public void open_EditFolderName(int position, ArrayList<FolderItem> mFolderList, FolderAdapter folderAdapter, boolean newFolder) {
