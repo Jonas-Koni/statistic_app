@@ -75,9 +75,9 @@ public class dialogEditFolderName extends AppCompatDialogFragment {
         String Text1 = Et_Name.getText().toString();
         String Text2 = Et_shortDescription.getText().toString();
         if(Text1.length()>=1){
-            mFolderList.get(mPosition).changeText1(Text1);
+            mFolderList.get(mPosition).setText1(Text1);
         }
-        mFolderList.get(mPosition).changeText2(Text2);
+        mFolderList.get(mPosition).setText2(Text2);
         mAdapter.notifyDataSetChanged();
     }
 

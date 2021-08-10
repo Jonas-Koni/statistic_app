@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        informationGame testMemo = new informationGame(0);
+        informationGame testMemo = new informationGame();
         Log.d(LOG_TAG, "Inhalt: " + testMemo.toString());
 
         dataSource = new StatisticDataSource(this);
@@ -81,9 +80,10 @@ public class MainActivity extends AppCompatActivity {
     }
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void insertItem(int position) {
-        mFolderList.add(position, new FolderItem(R.drawable.ordner_empty, "", ""));
+        mFolderList.add(position, new FolderItem());
+        mFolderList.get(position).setImageResource(R.drawable.ordner_empty);
         mAdapter.notifyItemInserted(position);
-        mFolderList.get(position).changeText1("Neuer Ordner (" + position + ")");
+        mFolderList.get(position).setText1("Neuer Ordner (" + position + ")");
         open_EditFolderName(position, mFolderList, mAdapter, true);
     }
     public void open_EditFolderName(int position, ArrayList<FolderItem> mFolderList, FolderAdapter folderAdapter, boolean newFolder) {

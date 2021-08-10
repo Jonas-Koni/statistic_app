@@ -15,15 +15,12 @@ public class FolderItem implements Parcelable {
     private ArrayList mPlayerList = new ArrayList();
     private int mGameType;
 
+
     //Zwischenspeicherung bis Übernahme in Datenbank
     private Date mDate;
 
 
-    FolderItem(int ImageResource, String text1, String text2){
-        mImageResource = ImageResource;
-        mText1 = text1;
-        mText2 = text2;
-
+    FolderItem(){
     }
 
     protected FolderItem(Parcel in) {
@@ -45,19 +42,32 @@ public class FolderItem implements Parcelable {
         }
     };*/
 
-    void changePlayerList(ArrayList PlayerList){
+    public static final Creator<FolderItem> CREATOR = new Creator<FolderItem>() {
+        @Override
+        public FolderItem createFromParcel(Parcel in) {
+            return new FolderItem(in);
+        }
+
+        @Override
+        public FolderItem[] newArray(int size) {
+            return new FolderItem[size];
+        }
+    };
+
+    void setPlayerList(ArrayList PlayerList){
         mPlayerList = PlayerList;
     }
-    void changeGameType(int GameType){
+    void setGameType(int GameType){
         mGameType = GameType;
     }
-    void changeText1(String text){
+    void setText1(String text){
         mText1 = text;
     }
-    void changeText2(String text){
+    void setText2(String text){
         mText2 = text;
     }
-    void changeDate(Date Date) {
+    void setImageResource(int ImageResource) {mImageResource = ImageResource;}
+    void setDate(Date Date) {
         mDate = Date;
     }
 

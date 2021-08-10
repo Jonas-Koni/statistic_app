@@ -15,7 +15,8 @@ import java.util.Date;
 
 public class informationGame implements DatePickerDialog.OnDateSetListener {
     private int FolderIndex;
-    private Date Date;
+    private int GameId;
+    private String Date;
     private ArrayList RankingPlayers;
     private ArrayList KniffelGesamtsumme01;
     private ArrayList KniffelGesamtsumme02;
@@ -26,13 +27,13 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
     private ArrayList MonopolyGeldGrundstueck;
 
 
-    public informationGame(int folderIndex){
-        FolderIndex = folderIndex;
+    public informationGame(){
+        FolderIndex = 0;
     }
 
 
 
-    Date getDate() {
+    String getDate() {
         return Date;
     }
 
@@ -44,7 +45,10 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
     ArrayList getMonopolyGeldBar() {return MonopolyGeldBar;}
     ArrayList getMonopolyGeldHaus() {return MonopolyGeldHaus;}
     ArrayList getMonopolyGeldGrundstueck() {return MonopolyGeldGrundstueck;}
-    void setDate(Date date) {
+    int getFolderIndex() {return FolderIndex;}
+    void setFolderIndex(int folderIndex) {FolderIndex = folderIndex;}
+    void setGameId(int gameId) {GameId = gameId;}
+    void setDate(String date) {
         Date = date;
     }
     void setRankingPlayers(ArrayList rankingPlayers) {
@@ -126,7 +130,7 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        Date = c.getTime();
+        Date = c.getTime().toString();
         //date.get(mPosition).changeDate(c.getTime());
 
         //String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());

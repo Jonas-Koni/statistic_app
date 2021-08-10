@@ -25,11 +25,15 @@ public final class informationGameContractClass {
         public static final String COLUMN_GAME_ID = "ID of game (in directory)";
         public static final String COLUMN_DATE = "date";
 
+        //DIrectoryPlayerList
+        public static final String TABLE_NAME_DIRECTORY_PLAYERS = "players in directory";
+        //directory Id
+        public static final String COLUMN_PLAYER_ID = "ID of player";
+
         //every GameType
         //directory ID
         //game ID
-        public static final String COLUMN_PLAYER_ID = "ID of player";
-
+        //PlayerId
 
         //Platzierung:
         public static final String TABLE_NAME_PLACEMENT = "placement";

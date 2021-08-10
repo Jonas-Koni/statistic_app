@@ -26,7 +26,7 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
                     informationGameContractClass.StatisticTable.COLUMN_DESCRIPTION + " TEXT" +
                     ");";
 
-    public static final String SQL_CREATE_PLAYERLIST =
+    public static final String SQL_CREATE_PLAYERS =
             "CREATE TABLE " + informationGameContractClass.StatisticTable.TABLE_NAME_PLAYERS +
                     "(" + informationGameContractClass.StatisticTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     informationGameContractClass.StatisticTable.COLUMN_PLAYER_NAME + " TEXT" +
@@ -37,6 +37,12 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
                     "(" + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " INTEGER, " +
                     informationGameContractClass.StatisticTable.COLUMN_GAME_ID + " INTEGER, " +
                     informationGameContractClass.StatisticTable.COLUMN_DATE + " TEXT" +
+                    ");";
+
+    public static final String SQL_CREATE_DIRECTORY_PLAYERS =
+            "CREATE TABLE " + informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY_PLAYERS +
+                    "(" + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " INTEGER, " +
+                    informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID + " INTEGER" +
                     ");";
 
     public static final String SQL_CREATE_PLACEMENT =
@@ -94,8 +100,9 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         //db.execSQL("DROP TABLE IF EXISTS " + informationGameContractClass.StatisticTable.DATABASE_NAME);
         db.execSQL(SQL_CREATE_DIRECTORY);
-        db.execSQL(SQL_CREATE_PLAYERLIST);
+        db.execSQL(SQL_CREATE_PLAYERS);
         db.execSQL(SQL_CREATE_DATE);
+        db.execSQL(SQL_CREATE_DIRECTORY_PLAYERS);
         db.execSQL(SQL_CREATE_PLACEMENT);
         db.execSQL(SQL_CREATE_KNIFFEL);
         db.execSQL(SQL_CREATE_MADN);
@@ -132,6 +139,15 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         values.put(informationGameContractClass.StatisticTable.COLUMN_DATE, Date);
         database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_DATE, null, values);
     }
+
+    public void insertDirectoryPlayers(int DirectoryId, int PlayerId) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID, DirectoryId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID, PlayerId);
+        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY_PLAYERS, null, values);
+    }
+
 
     public void insertPlacementList(int DirectoryId, int GameId, int PlayerId, int Placement) {
         SQLiteDatabase database = this.getWritableDatabase();
@@ -181,6 +197,38 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_MONOPOLY, null, values);
     }
 
+    public ArrayList<FolderItem> getDirectoryInformation() {
+        ArrayList<FolderItem> folderItemArrayList = new ArrayList<FolderItem>();
+
+        String selectQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY;
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+
+        if(cursor.moveToFirst()) {
+            do {
+                FolderItem folderItem = new FolderItem();
+                folderItem.setGameType(cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_GAMETYPE)));
+                folderItem.setText1(cursor.getString(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_TITLE)));
+                folderItem.setText2(cursor.getString(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_DESCRIPTION)));
+
+                String selectPlayerQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY_PLAYERS + " WHERE "
+                        + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + cursor.getPosition();
+
+                Cursor PlayerCursor = database.rawQuery(selectPlayerQuery, null);
+
+                if (PlayerCursor.moveToFirst()) {
+                    ArrayList PlayerList = new ArrayList();
+                    do {
+                        PlayerList.add(PlayerCursor.getString(PlayerCursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID)));
+                    } while (PlayerCursor.moveToNext());
+                    folderItem.setPlayerList(PlayerList);
+                }
+                folderItemArrayList.add(folderItem);
+            } while (cursor.moveToNext());
+        }
+        return folderItemArrayList;
+    }
+
 
     public ArrayList<informationGame> getInformation() { //only game information; PlayerList, title, description, GameType not here
         ArrayList<informationGame> informationGameArrayList = new ArrayList<informationGame>();
@@ -192,9 +240,45 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         if(cursor.moveToFirst()) {
             do {
                 informationGame informationGame = new informationGame();
-                informationGame.s
-            }
+                informationGame.setFolderIndex(cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID)));
+                informationGame.setGameId(cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_GAME_ID)));
+                informationGame.setDate(cursor.getString(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_DATE)));
+
+                String selectGameQuery; //0: Platzierung; 1: Kniffel; 2: Mädn; 3: Monopoly; 4: Wikinger Schach; 5: Zeit und Anzahl
+                switch (getDirectoryInformation().get(informationGame.getFolderIndex()).getGameType()){ //inefficient
+                    case 0:
+                        selectGameQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_PLACEMENT + " WHERE "
+                                + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + cursor.getPosition();
+                        Cursor PlacementCursor = database.rawQuery(selectGameQuery, null);
+                        if(PlacementCursor.moveToFirst()){
+                            informationGame.setRankingPlayers();
+                        }
+                        break;
+                    case 1:
+                        selectGameQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_KNIFFEL + " WHERE "
+                                + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + cursor.getPosition();
+                        break;
+                    case 2:
+                        selectGameQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_MADN + " WHERE "
+                                + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + cursor.getPosition();
+                        break;
+                    case 3:
+                        selectGameQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_MONOPOLY + " WHERE "
+                                + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + cursor.getPosition();
+                        break;
+                    case 4:
+                    case 5:
+                        //selectPlayerQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_KNIFFEL + " WHERE "
+                        // + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + cursor.getPosition();
+                        throw new IllegalStateException("Not implemented yet " + getDirectoryInformation().get(informationGame.getFolderIndex()).getGameType());
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + getDirectoryInformation().get(informationGame.getFolderIndex()).getGameType());
+                }
+
+
+            } while (cursor.moveToNext());
         }
+        return null;
     }
 
 }

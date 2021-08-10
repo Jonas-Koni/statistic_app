@@ -99,7 +99,7 @@ public class dialogEditFolder extends AppCompatDialogFragment {
             @Override
             public void onClick(View v) {
                 saveChanges(); //
-                mInformationList.add(new informationGame(mGamePosition));
+                mInformationList.add(new informationGame());
                 open_EnterStatistic();
             }
         });
@@ -132,8 +132,8 @@ public class dialogEditFolder extends AppCompatDialogFragment {
 
 
     public void saveChanges(){
-        mFolderList.get(mPosition).changeGameType(mGameType);
-        mFolderList.get(mPosition).changePlayerList(mPlayerList);
+        mFolderList.get(mPosition).setGameType(mGameType);
+        mFolderList.get(mPosition).setPlayerList(mPlayerList);
     }
 
     public void open_EnterStatistic(){ //0: Platzierung; 1: Knffel; 2: Mädn; 3: Monopoly; 4: Wikinger Schach; 5: Zeit und Anzahl

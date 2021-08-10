@@ -37,7 +37,7 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
             c.set(Calendar.YEAR, year);
             c.set(Calendar.MONTH, month);
             c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            mInformationGamesList.get(mPosition).setDate(c.getTime());
+            mInformationGamesList.get(mPosition).setDate(c.getTime().toString());
             //mFolderList.get(mPosition).changeDate(c.getTime());
         }
     };
