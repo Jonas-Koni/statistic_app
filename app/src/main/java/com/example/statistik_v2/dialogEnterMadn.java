@@ -28,12 +28,14 @@ public class dialogEnterMadn extends AppCompatDialogFragment {
     private ArrayList<informationGame> mInformationGamesList;
     private ArrayList mAnzahlGeworfen = new ArrayList<Serializable>();
     private ArrayList mAnzahlWuerfe = new ArrayList<Serializable>();
+    private ArrayList<informationGamePlayerStats> InformationGamePlayerStatsArray;
 
-    public dialogEnterMadn(int position, ArrayList FolderList, ArrayList<informationGame> informationGamesList){
+    public dialogEnterMadn(int position, ArrayList FolderList, ArrayList<informationGame> informationGamesList, ArrayList<informationGamePlayerStats> informationGamePlayerStatsArray){
         mFolderList = FolderList;
         mPosition = position;
-        mPlayerList = mFolderList.get(mPosition).getmPlayerList();
+        mPlayerList = (ArrayList) mFolderList.get(mPosition).getmPlayerList().clone();
         mInformationGamesList = informationGamesList;
+        InformationGamePlayerStatsArray = informationGamePlayerStatsArray;
 
     }
     @NonNull
@@ -54,17 +56,27 @@ public class dialogEnterMadn extends AppCompatDialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        for(int i = 0; i < mPlayerList.size(); i++){
-                            if(!mInformationGamesList.get(0).isInteger(mAnzahlGeworfen.get(i).toString()) || !mInformationGamesList.get(0).isInteger(mAnzahlWuerfe.get(i).toString())){
-                                Toast errorToast = Toast.makeText(getActivity(), "Keine gültige Eingabe bei Person: "+mPlayerList.get(i), Toast.LENGTH_SHORT);
+                        for(int players = 0; players < InformationGamePlayerStatsArray.size(); players ++){
+                            if(!mInformationGamesList.get(InformationGamePlayerStatsArray.get(0).getGameId()).isInteger(mAnzahlGeworfen.get(players).toString())
+                                    || !mInformationGamesList.get(InformationGamePlayerStatsArray.get(0).getGameId()).isInteger(mAnzahlWuerfe.get(players).toString())){
+                                Toast errorToast = Toast.makeText(getActivity(), "Keine gültige Eingabe bei Person: "+mPlayerList.get(players), Toast.LENGTH_SHORT);
                                 errorToast.show();
                                 dismiss();
                             }
                         }
-                        mInformationGamesList.get(0).setMadnWuerfe(mAnzahlWuerfe);
-                        mInformationGamesList.get(0).setMadnGeworfen(mAnzahlGeworfen);
+                        for(int players = 0; players < InformationGamePlayerStatsArray.size(); players ++) {
+                            InformationGamePlayerStatsArray.get(players).setMadnWuerfe(mAnzahlWuerfe.indexOf(players));
+                            InformationGamePlayerStatsArray.get(players).setMadnGeworfen(mAnzahlGeworfen.indexOf(players));
+                        }
                     }
                 });
+
+        mAnzahlWuerfe = new ArrayList();
+        mAnzahlGeworfen = new ArrayList();
+        for (int players = 0; players < InformationGamePlayerStatsArray.size(); players ++) {
+            mAnzahlWuerfe.add(null);
+            mAnzahlGeworfen.add(null);
+        }
 
         final EditText EditTextWuerfe = view.findViewById(R.id.EditTextWuerfe);
         final EditText EditTextGeworfen = view.findViewById(R.id.EditTextGeworfen);
@@ -76,14 +88,13 @@ public class dialogEnterMadn extends AppCompatDialogFragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList stringEditText = new ArrayList();
-                ArrayList stringSavedValues = new ArrayList();
-                stringEditText.add(EditTextGeworfen.getText().toString());
-                stringEditText.add(EditTextWuerfe.getText().toString());
-                stringSavedValues.add(mAnzahlGeworfen.get(SelectedPlayerSpinner).toString());
-                stringSavedValues.add(mAnzahlWuerfe.get(SelectedPlayerSpinner).toString());
+                mAnzahlWuerfe.set(position, EditTextWuerfe.getText().toString());
+                mAnzahlGeworfen.set(position, EditTextGeworfen.getText().toString());
 
-                SelectedPlayerSpinner =  mInformationGamesList.get(0).changeSelection(stringEditText, stringSavedValues, SelectedPlayerSpinner, position, getContext(), spinner);
+                EditTextWuerfe.setText(null);
+                EditTextGeworfen.setText(null);
+
+                SelectedPlayerSpinner = position;
             }
 
             @Override
@@ -91,22 +102,6 @@ public class dialogEnterMadn extends AppCompatDialogFragment {
                 spinner.setSelection(0);
             }
         });
-
-        mAnzahlGeworfen = mInformationGamesList.get(0).setupArrayListSavedValues(mPlayerList.size(), mInformationGamesList.get(0).getMadnGeworfen());
-        mAnzahlWuerfe = mInformationGamesList.get(0).setupArrayListSavedValues(mPlayerList.size(), mInformationGamesList.get(0).getMadnWuerfe());
-
-        Button ConfirmPlayerStats = view.findViewById(R.id.ButtonConfirmPlayerStatsMadn);
-        ConfirmPlayerStats.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mInformationGamesList.get(0).setValuesSuccessful(mAnzahlGeworfen, SelectedPlayerSpinner, getContext(), EditTextGeworfen, mPlayerList.size()) &&
-                        mInformationGamesList.get(0).setValuesSuccessful(mAnzahlWuerfe, SelectedPlayerSpinner, getContext(), EditTextWuerfe, mPlayerList.size())){
-                    EditTextGeworfen.setText(null);
-                    EditTextWuerfe.setText(null);
-                }
-            }
-        });
-
 
         return builder.create();
     }

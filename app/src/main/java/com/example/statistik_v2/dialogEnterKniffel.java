@@ -25,19 +25,21 @@ public class dialogEnterKniffel extends AppCompatDialogFragment {
     private int SelectedPlayerSpinner;
     private ArrayList<FolderItem> mFolderList;
     private ArrayList mPlayerList;
-    private ArrayList mKniffelGesamtsumme01 = new ArrayList<Serializable>();
-    private ArrayList mKniffelGesamtsumme02 = new ArrayList<Serializable>();
+    private ArrayList mKniffelTotalUpperSection = new ArrayList<Serializable>();
+    private ArrayList mKniffelTotalDownerSection = new ArrayList<Serializable>();
     private int mPosition;
     private int mGamePosition;
     private ArrayList<informationGame> mInformationGamesList;
+    private ArrayList<informationGamePlayerStats> InformationGamePlayerStatsArray;
 
 
-    public dialogEnterKniffel(ArrayList<FolderItem> FolderList, int position, ArrayList<informationGame> informationGamesList, int gamePosition){
+    public dialogEnterKniffel(ArrayList<FolderItem> FolderList, int position, ArrayList<informationGame> informationGamesList, int gamePosition, ArrayList<informationGamePlayerStats> informationGamePlayerStatsArray){
         mFolderList = FolderList;
         mPosition = position;
         mPlayerList =  (ArrayList) mFolderList.get(mPosition).getmPlayerList().clone();
         mInformationGamesList = informationGamesList;
         mGamePosition = gamePosition;
+        InformationGamePlayerStatsArray = informationGamePlayerStatsArray;
     }
 
     @NonNull
@@ -58,21 +60,32 @@ public class dialogEnterKniffel extends AppCompatDialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        for(int i = 0; i < mPlayerList.size(); i++){
-                            if(!mInformationGamesList.get(0).isInteger(mKniffelGesamtsumme01.get(i).toString()) || !mInformationGamesList.get(0).isInteger(mKniffelGesamtsumme02.get(i).toString())){
-                                Toast errorToast = Toast.makeText(getActivity(), "Keine gültige Eingabe bei Person: "+mPlayerList.get(i), Toast.LENGTH_SHORT);
+                        for(int players = 0; players < InformationGamePlayerStatsArray.size(); players ++){
+                            if(!mInformationGamesList.get(InformationGamePlayerStatsArray.get(0).getGameId()).isInteger(mKniffelTotalUpperSection.get(players).toString())
+                                    || !mInformationGamesList.get(InformationGamePlayerStatsArray.get(0).getGameId()).isInteger(mKniffelTotalDownerSection.get(players).toString())){
+                                Toast errorToast = Toast.makeText(getActivity(), "Keine gültige Eingabe bei Person: "+mPlayerList.get(players), Toast.LENGTH_SHORT);
                                 errorToast.show();
                                 dismiss();
                             }
                         }
-                        mInformationGamesList.get(mGamePosition).setKniffelGesamtsumme01(mKniffelGesamtsumme01);
-                        mInformationGamesList.get(mGamePosition).setKniffelGesamtsumme02(mKniffelGesamtsumme02);
+                        for(int players = 0; players < InformationGamePlayerStatsArray.size(); players ++) {
+                            InformationGamePlayerStatsArray.get(players).setKniffelGesamtsumme01(mKniffelTotalUpperSection.indexOf(players));
+                            InformationGamePlayerStatsArray.get(players).setKniffelGesamtsumme02(mKniffelTotalUpperSection.indexOf(players));
+                        }
+
                     }
                 });
 
+        mKniffelTotalUpperSection = new ArrayList();
+        mKniffelTotalDownerSection = new ArrayList();
+        for (int players = 0; players < InformationGamePlayerStatsArray.size(); players ++) {
+            mKniffelTotalUpperSection.add(null);
+            mKniffelTotalDownerSection.add(null);
+        }
 
-        final EditText EditTextGesamtsumme01 = view.findViewById(R.id.EditTextGesamtSumme01);
-        final EditText EditTextGesamtsumme02 = view.findViewById(R.id.EditTextGesamtSumme02);
+
+        final EditText EditTextTotalUpperSection = view.findViewById(R.id.EditTextGesamtSumme01);
+        final EditText EditTextTotalDownerSection = view.findViewById(R.id.EditTextGesamtSumme02);
 
         final Spinner spinner = view.findViewById(R.id.SpinnerPlayerList);
         final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, mPlayerList);
@@ -80,37 +93,19 @@ public class dialogEnterKniffel extends AppCompatDialogFragment {
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList stringEditText = new ArrayList();
-                ArrayList stringSavedValues = new ArrayList();
-                stringEditText.add(EditTextGesamtsumme01.getText().toString());
-                stringEditText.add(EditTextGesamtsumme02.getText().toString());
-                stringSavedValues.add(mKniffelGesamtsumme01.get(SelectedPlayerSpinner).toString());
-                stringSavedValues.add(mKniffelGesamtsumme02.get(SelectedPlayerSpinner).toString());
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { //set new Selection
+                mKniffelTotalUpperSection.set(position, EditTextTotalUpperSection.getText().toString());
+                mKniffelTotalDownerSection.set(position, EditTextTotalDownerSection.getText().toString());
 
-                SelectedPlayerSpinner =  mInformationGamesList.get(0).changeSelection(stringEditText, stringSavedValues, SelectedPlayerSpinner, position, getContext(), spinner);
+                EditTextTotalUpperSection.setText(null);
+                EditTextTotalDownerSection.setText(null);
+
+                SelectedPlayerSpinner = position;
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {spinner.setSelection(0);}
         });
 
-        mKniffelGesamtsumme01 = mInformationGamesList.get(mGamePosition).setupArrayListSavedValues(mPlayerList.size(), mInformationGamesList.get(mGamePosition).getKniffelGesamtsumme01());
-        mKniffelGesamtsumme02 = mInformationGamesList.get(mGamePosition).setupArrayListSavedValues(mPlayerList.size(), mInformationGamesList.get(mGamePosition).getKniffelGesamtsumme02());
-
-        Button ConfirmPlayerStats = view.findViewById(R.id.ButtonConfirmPlayerStats);
-        ConfirmPlayerStats.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mInformationGamesList.get(mGamePosition).setValuesSuccessful(mKniffelGesamtsumme01, SelectedPlayerSpinner, getContext(), EditTextGesamtsumme01, mPlayerList.size()) &&
-                        mInformationGamesList.get(mGamePosition).setValuesSuccessful(mKniffelGesamtsumme02, SelectedPlayerSpinner, getContext(), EditTextGesamtsumme02, mPlayerList.size())){
-                    mKniffelGesamtsumme01.set(SelectedPlayerSpinner,EditTextGesamtsumme01.getText().toString());
-                    mKniffelGesamtsumme02.set(SelectedPlayerSpinner,EditTextGesamtsumme02.getText().toString());
-                    //Farbige Markierung der definierten ELemente einbauen!
-                    EditTextGesamtsumme01.setText(null);
-                    EditTextGesamtsumme02.setText(null);
-                }
-            }
-        });
         return builder.create();
     }
 }

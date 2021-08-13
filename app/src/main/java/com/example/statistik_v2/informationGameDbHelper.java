@@ -230,11 +230,11 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
     }
 
 
-    public ArrayList<informationGame> getInformation() { //only game information; PlayerList, title, description, GameType not here
+    public ArrayList<informationGame> getInformation(int FolderIndex) { //only game information; PlayerList, title, description, GameType not here
         ArrayList<informationGame> informationGameArrayList = new ArrayList<informationGame>();
 
-        String selectQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_DATE;
-        SQLiteDatabase database = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_DATE + " WHERE " + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + FolderIndex;
+        SQLiteDatabase database = getReadableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
 
         if(cursor.moveToFirst()) {
@@ -244,41 +244,89 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
                 informationGame.setGameId(cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_GAME_ID)));
                 informationGame.setDate(cursor.getString(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_DATE)));
 
-                String selectGameQuery; //0: Platzierung; 1: Kniffel; 2: Mädn; 3: Monopoly; 4: Wikinger Schach; 5: Zeit und Anzahl
-                switch (getDirectoryInformation().get(informationGame.getFolderIndex()).getGameType()){ //inefficient
+                informationGameArrayList.add(informationGame);
+
+            } while (cursor.moveToNext());
+        }
+        return informationGameArrayList;
+    }
+
+    public ArrayList<informationGamePlayerStats> getPlayerInformation(int FolderIndex, int GameId) {
+        ArrayList<informationGamePlayerStats> informationGamePlayerStatsArrayList = new ArrayList<informationGamePlayerStats>();
+
+        String selectGameQuery; //0: Platzierung; 1: Kniffel; 2: Mädn; 3: Monopoly; 4: Wikinger Schach; 5: Zeit und Anzahl
+        SQLiteDatabase database = getReadableDatabase();
+        //switch (getDirectoryInformation().get(informationGame.getFolderIndex()).getGameType()){ //inefficient
+                switch (getDirectoryInformation().get(FolderIndex).getGameType()) {
                     case 0:
                         selectGameQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_PLACEMENT + " WHERE "
-                                + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + cursor.getPosition();
+                                + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + FolderIndex + " AND "
+                                + informationGameContractClass.StatisticTable.COLUMN_GAME_ID + " = " + GameId;
                         Cursor PlacementCursor = database.rawQuery(selectGameQuery, null);
                         if(PlacementCursor.moveToFirst()){
-                            informationGame.setRankingPlayers();
+                            do {
+                            informationGamePlayerStats informationGamePlayerStats = new informationGamePlayerStats(FolderIndex, GameId);
+                            informationGamePlayerStats.setRankingPlayers(PlacementCursor.getInt(PlacementCursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLACEMENT)));
+
+                            informationGamePlayerStatsArrayList.add(informationGamePlayerStats);
+                            } while (PlacementCursor.moveToNext());
+                            return informationGamePlayerStatsArrayList;
                         }
                         break;
                     case 1:
                         selectGameQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_KNIFFEL + " WHERE "
-                                + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + cursor.getPosition();
+                                + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + FolderIndex + " AND "
+                                + informationGameContractClass.StatisticTable.COLUMN_GAME_ID + " = " + GameId;
+                        Cursor KniffelCursor = database.rawQuery(selectGameQuery, null);
+                        if(KniffelCursor.moveToFirst()) {
+                            do {
+                                informationGamePlayerStats informationGamePlayerStats = new informationGamePlayerStats(FolderIndex, GameId);
+                                informationGamePlayerStats.setRankingPlayers(KniffelCursor.getInt(KniffelCursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLACEMENT)));
+
+                                informationGamePlayerStatsArrayList.add(informationGamePlayerStats);
+                            } while (KniffelCursor.moveToNext());
+                            return informationGamePlayerStatsArrayList;
+                        }
                         break;
                     case 2:
                         selectGameQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_MADN + " WHERE "
-                                + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + cursor.getPosition();
+                                + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + FolderIndex + " AND "
+                                + informationGameContractClass.StatisticTable.COLUMN_GAME_ID + " = " + GameId;
+                        Cursor MadnCursor = database.rawQuery(selectGameQuery, null);
+                        if(MadnCursor.moveToFirst()) {
+                            do {
+                                informationGamePlayerStats informationGamePlayerStats = new informationGamePlayerStats(FolderIndex, GameId);
+                                informationGamePlayerStats.setRankingPlayers(MadnCursor.getInt(MadnCursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLACEMENT)));
+
+                                informationGamePlayerStatsArrayList.add(informationGamePlayerStats);
+                            } while (MadnCursor.moveToNext());
+                            return informationGamePlayerStatsArrayList;
+                        }
                         break;
                     case 3:
                         selectGameQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_MONOPOLY + " WHERE "
-                                + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + cursor.getPosition();
+                                + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + FolderIndex + " AND "
+                                + informationGameContractClass.StatisticTable.COLUMN_GAME_ID + " = " + GameId;
+                        Cursor MonopolyCursor = database.rawQuery(selectGameQuery, null);
+                        if(MonopolyCursor.moveToFirst()) {
+                            do {
+                                informationGamePlayerStats informationGamePlayerStats = new informationGamePlayerStats(FolderIndex, GameId);
+                                informationGamePlayerStats.setRankingPlayers(MonopolyCursor.getInt(MonopolyCursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLACEMENT)));
+
+                                informationGamePlayerStatsArrayList.add(informationGamePlayerStats);
+                            } while (MonopolyCursor.moveToNext());
+                            return informationGamePlayerStatsArrayList;
+                        }
                         break;
                     case 4:
                     case 5:
                         //selectPlayerQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_KNIFFEL + " WHERE "
                         // + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + cursor.getPosition();
-                        throw new IllegalStateException("Not implemented yet " + getDirectoryInformation().get(informationGame.getFolderIndex()).getGameType());
+                        throw new IllegalStateException("Not implemented yet " + getDirectoryInformation().get(FolderIndex).getGameType());
                     default:
-                        throw new IllegalStateException("Unexpected value: " + getDirectoryInformation().get(informationGame.getFolderIndex()).getGameType());
+                        throw new IllegalStateException("Unexpected value: " + getDirectoryInformation().get(FolderIndex).getGameType());
                 }
-
-
-            } while (cursor.moveToNext());
-        }
-        return null;
+                return null;
     }
 
 }

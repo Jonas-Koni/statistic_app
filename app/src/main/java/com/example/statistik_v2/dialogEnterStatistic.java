@@ -23,6 +23,7 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
     private ArrayList<DataItem> mDataList;
 
     private int mGameType;
+    private ArrayList InformationGamePlayerStatsArray;
 
     private String mTitle;
     private int mPosition;
@@ -38,16 +39,11 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
             c.set(Calendar.MONTH, month);
             c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             mInformationGamesList.get(mPosition).setDate(c.getTime().toString());
-            //mFolderList.get(mPosition).changeDate(c.getTime());
         }
     };
 
-    public static final String EXTRA_TEXT = "com.example.statistik_v2.EXTRA_TEXT";
-    public static final String EXTRA_NUMBER = "com.example.statistik_v2.EXTRA_NUMBER";
-    public static final String EXTRA_ARRAY = "com.example.statistik_v2.EXTRA_ARRAY";
-
     //private RecyclerView.Adapter mAdapter;
-    public dialogEnterStatistic(int ImageResource, int position, ArrayList<FolderItem> FolderList, ArrayList<informationGame> informationGamesList, int GamePosition) {
+    public dialogEnterStatistic(int ImageResource, int position, ArrayList<FolderItem> FolderList, ArrayList<informationGame> informationGamesList, int GamePosition, ArrayList informationGamePlayerStatsArray) {
         mPosition = position;
         mFolderList = FolderList;
         mPlayerList = mFolderList.get(mPosition).getmPlayerList();
@@ -55,6 +51,7 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
         mTitle = mFolderList.get(mPosition).getText1().toString();
         mInformationGamesList = informationGamesList;
         mGamePosition = GamePosition;
+        InformationGamePlayerStatsArray = informationGamePlayerStatsArray;
 
 
     }
@@ -91,34 +88,6 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
         return builder.create();
     }
     public void saveData(View view) {
-        String FILENAME = mFolderList.get(mPosition).getText1();
-        String entry = mFolderList.get(mPosition).getGameType()+","+mFolderList.get(mPosition).getmPlayerList().size()+",";
-
-        switch (mFolderList.get(mPosition).getGameType()) {
-            case 0:
-                for (int players = 0; players <= mFolderList.get(mPosition).getmPlayerList().size()-1; players ++) {
-                    entry += mInformationGamesList.get(mGamePosition).getRankingPlayers().get(players);
-                    entry += ",";
-                }
-                break;
-            case 1:
-                for (int players = 0; players <= mFolderList.get(mPosition).getmPlayerList().size()-1; players ++) {
-                    entry += mInformationGamesList.get(mGamePosition).getRankingPlayers().get(players);
-                    entry += ",";
-                }
-                for (int players = 0; players <= mFolderList.get(mPosition).getmPlayerList().size()-1; players ++) {
-                    entry += mInformationGamesList.get(mGamePosition).getKniffelGesamtsumme01().get(players);
-                    entry += ",";
-                }
-                for (int players = 0; players <= mFolderList.get(mPosition).getmPlayerList().size()-1; players ++) {
-                    entry += mInformationGamesList.get(mGamePosition).getKniffelGesamtsumme02().get(players);
-                    entry += ",";
-                }
-        }
-        entry += ",    hi";
-    }
-
-    public void exportCSV(View view) {
 
     }
 
@@ -197,22 +166,22 @@ public class dialogEnterStatistic extends AppCompatDialogFragment implements Dat
     }
 
     public void open_EnterMadn() {
-        dialogEnterMadn enterMadn = new dialogEnterMadn(mPosition, mFolderList, mInformationGamesList);
+        dialogEnterMadn enterMadn = new dialogEnterMadn(mPosition, mFolderList, mInformationGamesList, InformationGamePlayerStatsArray);
         enterMadn.show(getFragmentManager(), "enterMadn");
     }
 
     public void open_EnterKniffel(){
-        dialogEnterKniffel enterKniffel = new dialogEnterKniffel(mFolderList, mPosition, mInformationGamesList, mGamePosition);
+        dialogEnterKniffel enterKniffel = new dialogEnterKniffel(mFolderList, mPosition, mInformationGamesList, mGamePosition, InformationGamePlayerStatsArray);
         enterKniffel.show(getFragmentManager(), "dialogEnterKniffel");
     }
 
     public void open_EnterPlacement() {
-        EnterPlacement enterPlacement = new EnterPlacement(mPosition, mFolderList, mInformationGamesList);
+        EnterPlacement enterPlacement = new EnterPlacement(mPosition, mFolderList, mInformationGamesList, InformationGamePlayerStatsArray);
         enterPlacement.show(getFragmentManager(),"EnterPlacementDialog");
     }
 
     public void open_Monopoly() {
-        dialogEnterMonopoly enterMonopoly = new dialogEnterMonopoly(mFolderList, mPosition, mInformationGamesList, mGamePosition);
+        dialogEnterMonopoly enterMonopoly = new dialogEnterMonopoly(mFolderList, mPosition, mInformationGamesList, mGamePosition, InformationGamePlayerStatsArray);
         enterMonopoly.show(getFragmentManager(), "dialogEnterMonopoly");
     }
 

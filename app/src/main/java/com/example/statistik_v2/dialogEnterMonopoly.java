@@ -30,13 +30,15 @@ public class dialogEnterMonopoly extends AppCompatDialogFragment  {
     private int mPosition;
     private int mGamePosition;
     private ArrayList<informationGame> mInformationGamesList;
+    private ArrayList<informationGamePlayerStats> InformationGamePlayerStatsArray;
 
-    public dialogEnterMonopoly(ArrayList<FolderItem> FolderList, int position, ArrayList<informationGame> informationGamesList, int gamePosition){
+    public dialogEnterMonopoly(ArrayList<FolderItem> FolderList, int position, ArrayList<informationGame> informationGamesList, int gamePosition, ArrayList<informationGamePlayerStats> informationGamePlayerStatsArray){
         mFolderList = FolderList;
         mPosition = position;
         mPlayerList =  (ArrayList) mFolderList.get(mPosition).getmPlayerList().clone();
         mInformationGamesList = informationGamesList;
         mGamePosition = gamePosition;
+        InformationGamePlayerStatsArray = informationGamePlayerStatsArray;
     }
 
     @NonNull
@@ -57,18 +59,32 @@ public class dialogEnterMonopoly extends AppCompatDialogFragment  {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        for(int i = 0; i < mPlayerList.size(); i++){
-                            if(!mInformationGamesList.get(0).isInteger(mMonopolyGeldBar.get(i).toString()) || !mInformationGamesList.get(0).isInteger(mMonopolyGeldHaus.get(i).toString()) || !mInformationGamesList.get(0).isInteger(mMonopolyGeldGrundstueck.get(i).toString())){
-                                Toast errorToast = Toast.makeText(getActivity(), "Keine gültige Eingabe bei Person: "+mPlayerList.get(i), Toast.LENGTH_SHORT);
+                        for(int players = 0; players < InformationGamePlayerStatsArray.size(); players ++){
+                            if(!mInformationGamesList.get(InformationGamePlayerStatsArray.get(0).getGameId()).isInteger(mMonopolyGeldBar.get(players).toString())
+                                    || !mInformationGamesList.get(InformationGamePlayerStatsArray.get(0).getGameId()).isInteger(mMonopolyGeldHaus.get(players).toString())
+                                    || !mInformationGamesList.get(InformationGamePlayerStatsArray.get(0).getGameId()).isInteger(mMonopolyGeldGrundstueck.get(players).toString())){
+                                Toast errorToast = Toast.makeText(getActivity(), "Keine gültige Eingabe bei Person: "+mPlayerList.get(players), Toast.LENGTH_SHORT);
                                 errorToast.show();
                                 dismiss();
                             }
                         }
-                        mInformationGamesList.get(mGamePosition).setMonopolyGeldBar(mMonopolyGeldBar);
-                        mInformationGamesList.get(mGamePosition).setMonopolyGeldHaus(mMonopolyGeldHaus);
-                        mInformationGamesList.get(mGamePosition).setMonopolyGeldGrundstueck(mMonopolyGeldGrundstueck);
+
+                        for(int players = 0; players < InformationGamePlayerStatsArray.size(); players ++) {
+                            InformationGamePlayerStatsArray.get(players).setMonopolyGeldBar(mMonopolyGeldBar.indexOf(players));
+                            InformationGamePlayerStatsArray.get(players).setMonopolyGeldGrundstueck(mMonopolyGeldGrundstueck.indexOf(players));
+                            InformationGamePlayerStatsArray.get(players).setMonopolyGeldHaus(mMonopolyGeldHaus.indexOf(players));
+                        }
                     }
                 });
+
+        mMonopolyGeldBar = new ArrayList();
+        mMonopolyGeldGrundstueck = new ArrayList();
+        mMonopolyGeldHaus = new ArrayList();
+        for (int players = 0; players < InformationGamePlayerStatsArray.size(); players ++) {
+            mMonopolyGeldBar.add(null);
+            mMonopolyGeldGrundstueck.add(null);
+            mMonopolyGeldHaus.add(null);
+        }
 
 
         final EditText EditTextGeldHaus = view.findViewById(R.id.EditTextGeldHaus);
@@ -82,37 +98,18 @@ public class dialogEnterMonopoly extends AppCompatDialogFragment  {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList stringEditText = new ArrayList();
-                ArrayList stringSavedValues = new ArrayList();
-                stringEditText.add(EditTextGeldHaus.getText().toString());
-                stringEditText.add(EditTextGeldBar.getText().toString());
-                stringEditText.add(EditTextGeldGrundstueck.getText().toString());
-                stringSavedValues.add(mMonopolyGeldBar.get(SelectedPlayerSpinner).toString());
-                stringSavedValues.add(mMonopolyGeldHaus.get(SelectedPlayerSpinner).toString());
-                stringSavedValues.add(mMonopolyGeldGrundstueck.get(SelectedPlayerSpinner).toString());
+                mMonopolyGeldBar.set(position, EditTextGeldBar.getText().toString());
+                mMonopolyGeldGrundstueck.set(position, EditTextGeldGrundstueck.getText().toString());
+                mMonopolyGeldHaus.set(position, EditTextGeldHaus.getText().toString());
 
-                SelectedPlayerSpinner =  mInformationGamesList.get(0).changeSelection(stringEditText, stringSavedValues, SelectedPlayerSpinner, position, getContext(), spinner);
+                EditTextGeldBar.setText(null);
+                EditTextGeldGrundstueck.setText(null);
+                EditTextGeldHaus.setText(null);
+
+                SelectedPlayerSpinner = position;
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {spinner.setSelection(0);}
-        });
-
-        mMonopolyGeldBar = mInformationGamesList.get(mGamePosition).setupArrayListSavedValues(mPlayerList.size(), mInformationGamesList.get(mGamePosition).getMonopolyGeldBar());
-        mMonopolyGeldHaus = mInformationGamesList.get(mGamePosition).setupArrayListSavedValues(mPlayerList.size(), mInformationGamesList.get(mGamePosition).getMonopolyGeldHaus());
-        mMonopolyGeldGrundstueck = mInformationGamesList.get(mGamePosition).setupArrayListSavedValues(mPlayerList.size(), mInformationGamesList.get(mGamePosition).getMonopolyGeldGrundstueck());
-
-        Button ConfirmPlayerStats = view.findViewById(R.id.ButtonConfirmPlayerStatsMonopoly);
-        ConfirmPlayerStats.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mInformationGamesList.get(mGamePosition).setValuesSuccessful(mMonopolyGeldBar, SelectedPlayerSpinner, getContext(), EditTextGeldHaus, mPlayerList.size()) &&
-                        mInformationGamesList.get(mGamePosition).setValuesSuccessful(mMonopolyGeldHaus, SelectedPlayerSpinner, getContext(), EditTextGeldBar, mPlayerList.size()) &&
-                        mInformationGamesList.get(mGamePosition).setValuesSuccessful(mMonopolyGeldGrundstueck, SelectedPlayerSpinner, getContext(), EditTextGeldGrundstueck, mPlayerList.size())){
-                    EditTextGeldBar.setText(null);
-                    EditTextGeldGrundstueck.setText(null);
-                    EditTextGeldHaus.setText(null);
-                }
-            }
         });
         return builder.create();
     }

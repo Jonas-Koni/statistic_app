@@ -17,58 +17,23 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
     private int FolderIndex;
     private int GameId;
     private String Date;
-    private ArrayList RankingPlayers;
-    private ArrayList KniffelGesamtsumme01;
-    private ArrayList KniffelGesamtsumme02;
-    private ArrayList MadnWuerfe;
-    private ArrayList MadnGeworfen;
-    private ArrayList MonopolyGeldBar;
-    private ArrayList MonopolyGeldHaus;
-    private ArrayList MonopolyGeldGrundstueck;
-
 
     public informationGame(){
         FolderIndex = 0;
     }
 
 
-
     String getDate() {
         return Date;
     }
-
-    ArrayList getKniffelGesamtsumme01() {return KniffelGesamtsumme01;}
-    ArrayList getKniffelGesamtsumme02() {return KniffelGesamtsumme02;}
-    ArrayList getRankingPlayers() {return RankingPlayers;}
-    ArrayList getMadnWuerfe() {return MadnWuerfe;}
-    ArrayList getMadnGeworfen() {return MadnGeworfen;}
-    ArrayList getMonopolyGeldBar() {return MonopolyGeldBar;}
-    ArrayList getMonopolyGeldHaus() {return MonopolyGeldHaus;}
-    ArrayList getMonopolyGeldGrundstueck() {return MonopolyGeldGrundstueck;}
     int getFolderIndex() {return FolderIndex;}
+
     void setFolderIndex(int folderIndex) {FolderIndex = folderIndex;}
     void setGameId(int gameId) {GameId = gameId;}
     void setDate(String date) {
         Date = date;
     }
-    void setRankingPlayers(ArrayList rankingPlayers) {
-        RankingPlayers = rankingPlayers;
-    }
-    void setKniffelGesamtsumme01(ArrayList kniffelGesamtsumme01) {
-        KniffelGesamtsumme01 = kniffelGesamtsumme01;
-    }
-    void setKniffelGesamtsumme02(ArrayList kniffelGesamtsumme02) {
-        KniffelGesamtsumme02 = kniffelGesamtsumme02;
-    }
-    void setMadnWuerfe(ArrayList madnWuerfe) {
-        MadnWuerfe = madnWuerfe;
-    }
-    void setMadnGeworfen(ArrayList madnGeworfen) {
-        MadnGeworfen = madnGeworfen;
-    }
-    void setMonopolyGeldBar(ArrayList geldBar) {MonopolyGeldBar = geldBar;}
-    void setMonopolyGeldHaus(ArrayList geldHaus) {MonopolyGeldHaus = geldHaus;}
-    void setMonopolyGeldGrundstueck(ArrayList geldGrundstueck) {MonopolyGeldGrundstueck = geldGrundstueck;}
+
 
     public int changeSelection(ArrayList stringEditText, ArrayList stringSavedValues, int SelectedPlayerSpinner, int position, Context context, Spinner spinner){
         if(SelectedPlayerSpinner != position) {
@@ -91,7 +56,7 @@ public class informationGame implements DatePickerDialog.OnDateSetListener {
             if(ListStringSavedValues != null && isInteger(ListStringSavedValues.get(numberPlayer).toString())) {
                 SetupArrayList.add(ListStringSavedValues.get(numberPlayer).toString());
             } else {
-                SetupArrayList.add("not defined yet");
+                SetupArrayList.add(null);
             }
         }
         return SetupArrayList;

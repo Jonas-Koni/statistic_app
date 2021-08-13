@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -26,14 +27,17 @@ public class EnterPlacement extends AppCompatDialogFragment {
     private int SelectedPlacementSpinner;
     private int SelectedPlayerSpinner;
     private ArrayList<informationGame> mInformationGamesList;
+    private ArrayList<informationGamePlayerStats> InformationGamePlayerStatsArray;
 
-    public EnterPlacement(int position, ArrayList<FolderItem> FolderList, ArrayList<informationGame> informationGamesList){
+    public EnterPlacement(int position, ArrayList<FolderItem> FolderList, ArrayList<informationGame> informationGamesList, ArrayList<informationGamePlayerStats> informationGamePlayerStatsArray){
         mPosition = position;
         mFolderList = FolderList;
         mPlayerList = (ArrayList) mFolderList.get(mPosition).getmPlayerList().clone();
         Platzierung = new ArrayList();
         PlatzierungPlayers = new ArrayList();
         mInformationGamesList = informationGamesList;
+        InformationGamePlayerStatsArray = informationGamePlayerStatsArray;
+
     }
 
 
@@ -55,12 +59,31 @@ public class EnterPlacement extends AppCompatDialogFragment {
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                            mInformationGamesList.get(mPosition).setRankingPlayers(PlatzierungPlayers);
+                        /*int sumPlacement = 0;             //condition: every Placement only once
+                        int sumPlayerPlacement = 0;
+                        for(int players = 0; players < InformationGamePlayerStatsArray.size(); players ++) {
+                            sumPlacement += players + 1;
+                            sumPlayerPlacement += PlatzierungPlayers.indexOf(players);
+                        }
+                        if (sumPlacement != sumPlayerPlacement) {
+                            Toast errorToast = Toast.makeText(getActivity(), "Keine gültige Eingabe, die Summe der Platzierung", Toast.LENGTH_SHORT);
+                            errorToast.show();
+                            dismiss();
+                        }*/
+
+                        for(int players = 0; players < InformationGamePlayerStatsArray.size(); players ++) {
+                            InformationGamePlayerStatsArray.get(players).setRankingPlayers(PlatzierungPlayers.indexOf(players));
+                        }
                         //Kontrolle fehlt!
 
 
                     }
                 });
+
+        PlatzierungPlayers = new ArrayList();
+        for (int players = 0; players < InformationGamePlayerStatsArray.size(); players ++) {
+            PlatzierungPlayers.add(null);
+        }
 
         final Spinner EpSpinner = view.findViewById(R.id.SpPlayerList);
         final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, mPlayerList);
@@ -69,6 +92,7 @@ public class EnterPlacement extends AppCompatDialogFragment {
         EpSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                PlatzierungPlayers.set(SelectedPlayerSpinner, SelectedPlacementSpinner);
                 SelectedPlayerSpinner = position;
             }
 
@@ -81,8 +105,6 @@ public class EnterPlacement extends AppCompatDialogFragment {
         for(int i = 0; i < mPlayerList.size(); i++){
             Platzierung.add(i+1);
         }
-
-        PlatzierungPlayers = mInformationGamesList.get(0).setupArrayListSavedValues(mPlayerList.size(), mInformationGamesList.get(0).getRankingPlayers());
 
         Spinner EpPlatzierung = view.findViewById(R.id.SpPlacementList);
         final ArrayAdapter adapter1 = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, Platzierung);
@@ -97,17 +119,6 @@ public class EnterPlacement extends AppCompatDialogFragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 EpSpinner.setSelection(0);
-            }
-        });
-
-
-        Button ConfirmPlacement = view.findViewById(R.id.ButtonConfirm);
-        ConfirmPlacement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mPlayerList.size()<=0){return;}
-                PlatzierungPlayers.set(SelectedPlayerSpinner, SelectedPlacementSpinner);
-
             }
         });
 

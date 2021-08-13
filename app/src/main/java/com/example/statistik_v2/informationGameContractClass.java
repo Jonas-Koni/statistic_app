@@ -21,14 +21,14 @@ public final class informationGameContractClass {
 
         //date
         public static final String TABLE_NAME_DATE = "date";
-        public static final String COLUMN_DIRECTORY_ID = "ID of directory";
-        public static final String COLUMN_GAME_ID = "ID of game (in directory)";
+        public static final String COLUMN_DIRECTORY_ID = "ID_of_directory";
+        public static final String COLUMN_GAME_ID = "ID_of_game_in_directory";
         public static final String COLUMN_DATE = "date";
 
-        //DIrectoryPlayerList
-        public static final String TABLE_NAME_DIRECTORY_PLAYERS = "players in directory";
+        //DirectoryPlayerList
+        public static final String TABLE_NAME_DIRECTORY_PLAYERS = "players_in_directory";
         //directory Id
-        public static final String COLUMN_PLAYER_ID = "ID of player";
+        public static final String COLUMN_PLAYER_ID = "ID_of_player";
 
         //every GameType
         //directory ID
@@ -41,8 +41,8 @@ public final class informationGameContractClass {
 
         //Kniffel:
         public static final String TABLE_NAME_KNIFFEL = "kniffel";
-        public static final String COLUMN_KNIFFEL_TOTAL_UPPER_SECTION = "total upper section";
-        public static final String COLUMN_KNIFFEL_TOTAL_DOWNER_SECTION = "total downer section";
+        public static final String COLUMN_KNIFFEL_TOTAL_UPPER_SECTION = "total_upper_section";
+        public static final String COLUMN_KNIFFEL_TOTAL_DOWNER_SECTION = "total_downer_section";
         public static final String COLUMN_KNIFFEL_TOTAL = "total";
 
         //Mädn
@@ -52,9 +52,9 @@ public final class informationGameContractClass {
 
         //Monopoly
         public static final String TABLE_NAME_MONOPOLY = "monopoly";
-        public static final String COLUMN_MONOPOLY_CASH = "cash (only winner)";
-        public static final String COLUMN_MONOPOLY_VALUE_HOUSE = "value of house (only winner)";
-        public static final String COLUMN_MONOPOLY_VALUE_PROPERTY = "value of property (only winner)";
+        public static final String COLUMN_MONOPOLY_CASH = "cash_only_winner";
+        public static final String COLUMN_MONOPOLY_VALUE_HOUSE = "value_of_house_only_winner";
+        public static final String COLUMN_MONOPOLY_VALUE_PROPERTY = "value_of_property_only_winner";
 
 
     }

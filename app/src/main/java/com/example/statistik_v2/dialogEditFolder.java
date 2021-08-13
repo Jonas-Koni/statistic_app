@@ -28,6 +28,7 @@ public class dialogEditFolder extends AppCompatDialogFragment {
     private ArrayList<GamesItem> mGamesList;
     private ArrayList<FolderItem> mFolderList;
     private ArrayList<informationGame> mInformationList;
+    private informationGameDbHelper informationGameDbHelper;
     public dialogEditFolder(int position, ArrayList<FolderItem> FolderList){
         mPosition = position;
         mFolderList = FolderList;
@@ -137,7 +138,15 @@ public class dialogEditFolder extends AppCompatDialogFragment {
     }
 
     public void open_EnterStatistic(){ //0: Platzierung; 1: Knffel; 2: Mädn; 3: Monopoly; 4: Wikinger Schach; 5: Zeit und Anzahl
-        dialogEnterStatistic dialog_data = new dialogEnterStatistic(R.drawable.figure, mPosition, mFolderList, mInformationList, 0);
+        ArrayList informationGamePlayerStatsArray = new ArrayList();
+        informationGameDbHelper = new informationGameDbHelper(this.getContext());
+        int GameId = informationGameDbHelper.getInformation(mPosition).size();
+        for (int player = 0; player < mFolderList.get(mPosition).getmPlayerList().size(); player ++) {
+            informationGamePlayerStats informationGamePlayerStats = new informationGamePlayerStats(mPosition, GameId);
+            informationGamePlayerStatsArray.add(informationGamePlayerStats);
+        }
+
+        dialogEnterStatistic dialog_data = new dialogEnterStatistic(R.drawable.figure, mPosition, mFolderList, mInformationList, 0, informationGamePlayerStatsArray);
         dialog_data.show(getFragmentManager(), "ExampleDialog");
 
     }
