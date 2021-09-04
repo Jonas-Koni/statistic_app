@@ -36,20 +36,20 @@ public class informationGamePlayerStats {
     void setRankingPlayers(int placement) {
         Placement = placement;
     }
-    void setKniffelGesamtsumme01(int kniffelGesamtsumme01) {
+    void setKniffelTotalUpperSection(int kniffelGesamtsumme01) {
         KniffelGesamtsumme01 = kniffelGesamtsumme01;
     }
-    void setKniffelGesamtsumme02(int kniffelGesamtsumme02) {
+    void setKniffelTotalDownerSection(int kniffelGesamtsumme02) {
         KniffelGesamtsumme02 = kniffelGesamtsumme02;
     }
-    void setMadnWuerfe(int madnWuerfe) {
+    void setMadnThrew(int madnWuerfe) {
         MadnWuerfe = madnWuerfe;
     }
-    void setMadnGeworfen(int madnGeworfen) {
+    void setMadnThrown(int madnGeworfen) {
         MadnGeworfen = madnGeworfen;
     }
-    void setMonopolyGeldBar(int geldBar) {MonopolyGeldBar = geldBar;}
-    void setMonopolyGeldHaus(int geldHaus) {MonopolyGeldHaus = geldHaus;}
-    void setMonopolyGeldGrundstueck(int geldGrundstueck) {MonopolyGeldGrundstueck = geldGrundstueck;}
+    void setMonopolyCash(int geldBar) {MonopolyGeldBar = geldBar;}
+    void setMonopolyValueHouse(int geldHaus) {MonopolyGeldHaus = geldHaus;}
+    void setMonopolyValueProperty(int geldGrundstueck) {MonopolyGeldGrundstueck = geldGrundstueck;}
 
 }

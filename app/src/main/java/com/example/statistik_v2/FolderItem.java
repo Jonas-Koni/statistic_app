@@ -9,7 +9,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class FolderItem implements Parcelable {
-    private int mImageResource;
+
+    private static int mImageResource;
     private String mText1;
     private String mText2;
     private ArrayList mPlayerList = new ArrayList();

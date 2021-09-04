@@ -17,7 +17,7 @@ public final class informationGameContractClass {
 
         //playerlist
         public static final String TABLE_NAME_PLAYERS = "players";
-        public static final String COLUMN_PLAYER_NAME = "name of player";
+        public static final String COLUMN_PLAYER_NAME = "name_of_player";
 
         //date
         public static final String TABLE_NAME_DATE = "date";

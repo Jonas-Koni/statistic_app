@@ -21,8 +21,10 @@ public class MainActivity extends AppCompatActivity {
     private FolderAdapter mAdapter;
     private ArrayList<File> mFileList = new ArrayList<File>();
 
+
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
     private StatisticDataSource dataSource;
+    private informationGameDbHelper dbHelper = new informationGameDbHelper(this);
 
 
     @Override
@@ -47,9 +49,18 @@ public class MainActivity extends AppCompatActivity {
                 insertItem(position);
             }
         });
+
+
+
     }
     public void createFolderList() {
         mFolderList = new ArrayList<>();
+        mFolderList = dbHelper.getDirectoryInformation();
+        dbHelper.close();
+
+        if(mFolderList.size() > 0) {
+            mFolderList.get(0).setImageResource(R.drawable.ordner_empty);
+        }
     }
     public void buildRecyclerView() {
         RecyclerView mRecyclerView = findViewById(R.id.recycleView);

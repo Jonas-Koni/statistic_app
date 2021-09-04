@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -65,8 +64,8 @@ public class dialogEnterMadn extends AppCompatDialogFragment {
                             }
                         }
                         for(int players = 0; players < InformationGamePlayerStatsArray.size(); players ++) {
-                            InformationGamePlayerStatsArray.get(players).setMadnWuerfe(mAnzahlWuerfe.indexOf(players));
-                            InformationGamePlayerStatsArray.get(players).setMadnGeworfen(mAnzahlGeworfen.indexOf(players));
+                            InformationGamePlayerStatsArray.get(players).setMadnThrew(mAnzahlWuerfe.indexOf(players));
+                            InformationGamePlayerStatsArray.get(players).setMadnThrown(mAnzahlGeworfen.indexOf(players));
                         }
                     }
                 });

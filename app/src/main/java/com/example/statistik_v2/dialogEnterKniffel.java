@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -69,8 +68,8 @@ public class dialogEnterKniffel extends AppCompatDialogFragment {
                             }
                         }
                         for(int players = 0; players < InformationGamePlayerStatsArray.size(); players ++) {
-                            InformationGamePlayerStatsArray.get(players).setKniffelGesamtsumme01(mKniffelTotalUpperSection.indexOf(players));
-                            InformationGamePlayerStatsArray.get(players).setKniffelGesamtsumme02(mKniffelTotalUpperSection.indexOf(players));
+                            InformationGamePlayerStatsArray.get(players).setKniffelTotalUpperSection(mKniffelTotalUpperSection.indexOf(players));
+                            InformationGamePlayerStatsArray.get(players).setKniffelTotalDownerSection(mKniffelTotalUpperSection.indexOf(players));
                         }
 
                     }

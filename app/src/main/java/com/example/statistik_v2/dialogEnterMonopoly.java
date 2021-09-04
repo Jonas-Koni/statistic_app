@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -70,9 +69,9 @@ public class dialogEnterMonopoly extends AppCompatDialogFragment  {
                         }
 
                         for(int players = 0; players < InformationGamePlayerStatsArray.size(); players ++) {
-                            InformationGamePlayerStatsArray.get(players).setMonopolyGeldBar(mMonopolyGeldBar.indexOf(players));
-                            InformationGamePlayerStatsArray.get(players).setMonopolyGeldGrundstueck(mMonopolyGeldGrundstueck.indexOf(players));
-                            InformationGamePlayerStatsArray.get(players).setMonopolyGeldHaus(mMonopolyGeldHaus.indexOf(players));
+                            InformationGamePlayerStatsArray.get(players).setMonopolyCash(mMonopolyGeldBar.indexOf(players));
+                            InformationGamePlayerStatsArray.get(players).setMonopolyValueProperty(mMonopolyGeldGrundstueck.indexOf(players));
+                            InformationGamePlayerStatsArray.get(players).setMonopolyValueHouse(mMonopolyGeldHaus.indexOf(players));
                         }
                     }
                 });
