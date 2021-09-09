@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 public class FolderItem implements Parcelable {
 
     private static int mImageResource;
+    private int DirectoryId;
     private String mText1;
     private String mText2;
     private ArrayList mPlayerList = new ArrayList();
@@ -68,6 +69,7 @@ public class FolderItem implements Parcelable {
         mText2 = text;
     }
     void setImageResource(int ImageResource) {mImageResource = ImageResource;}
+    void setDirectoryId(int directoryId) {DirectoryId = directoryId;}
     void setDate(Date Date) {
         mDate = Date;
     }
@@ -84,6 +86,7 @@ public class FolderItem implements Parcelable {
         return mText2;
     }
     Date getDate() {return mDate;}
+    int getDirectoryId() {return DirectoryId;}
 
 
     @Override

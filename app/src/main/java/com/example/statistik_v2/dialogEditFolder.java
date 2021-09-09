@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 
 import java.util.ArrayList;
 
@@ -119,8 +120,16 @@ public class dialogEditFolder extends AppCompatDialogFragment {
             }
         });
 
+        dbHelper = new informationGameDbHelper(this.getContext());
+
+
         return builder.create();
     }
+
+
+
+
+
 
     private void initList() {
         mGamesList = new ArrayList<>();
@@ -136,11 +145,17 @@ public class dialogEditFolder extends AppCompatDialogFragment {
     public void saveChanges(){
         mFolderList.get(mPosition).setGameType(mGameType);
         mFolderList.get(mPosition).setPlayerList(mPlayerList);
+
+        int DirectoryId = mFolderList.get(mPosition).getDirectoryId();
+        dbHelper.insertGameType(GameTypeToInteger(mGameType), DirectoryId);
+        dbHelper.insertDirectoryPlayers();
     }
 
-    public void open_EnterStatistic(){ //0: Platzierung; 1: Knffel; 2: Mädn; 3: Monopoly; 4: Wikinger Schach; 5: Zeit und Anzahl
+
+
+    public String GameTypeToInteger(int gameType) {
         String GameType = "error";
-        switch (mGameType) {
+        switch (gameType) {
             case 0:
                 GameType = "Platzierung";
                 break;
@@ -159,13 +174,18 @@ public class dialogEditFolder extends AppCompatDialogFragment {
             case 5:
                 GameType = "Zeit und Anzahl";
                 break;
-
         }
+        return GameType;
+    }
+
+    public void open_EnterStatistic(){ //0: Platzierung; 1: Knffel; 2: Mädn; 3: Monopoly; 4: Wikinger Schach; 5: Zeit und Anzahl
+        String GameType = GameTypeToInteger(mGameType);
+        int DirectoryId = mFolderList.get(mPosition).getDirectoryId();
 
         ArrayList informationGamePlayerStatsArray = new ArrayList();
-        dbHelper = new informationGameDbHelper(this.getContext());
         int GameId = dbHelper.getInformation(mPosition).size();
-        dbHelper.insertGameType(GameType, mPosition, this.getContext());
+        dbHelper.insertGameType(GameType, mPosition);
+
         for (int player = 0; player < mFolderList.get(mPosition).getmPlayerList().size(); player ++) {
             informationGamePlayerStats informationGamePlayerStats = new informationGamePlayerStats(mPosition, GameId);
             informationGamePlayerStatsArray.add(informationGamePlayerStats);

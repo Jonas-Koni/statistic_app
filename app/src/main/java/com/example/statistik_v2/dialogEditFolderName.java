@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -21,19 +22,20 @@ import java.util.ArrayList;
 public class dialogEditFolderName extends AppCompatDialogFragment {
     private EditText Et_Name;
     private EditText Et_shortDescription;
+    private Button BtnDeleteDirectory;
+
     private int mPosition;
+    private int mDirectoryId;
     private ArrayList<FolderItem> mFolderList;
     private FolderAdapter mAdapter;
     private boolean mNewFolder;
-    private ArrayList<File> mFileList = new ArrayList<File>();
     private informationGameDbHelper dbHelper = null;
 
-    public dialogEditFolderName(int position, ArrayList<FolderItem> FolderList, FolderAdapter Adapter, boolean newFolder, ArrayList<File> fileList){
+    public dialogEditFolderName(int position, ArrayList<FolderItem> FolderList, FolderAdapter Adapter, boolean newFolder){
         mPosition = position;
         mFolderList = FolderList;
         mAdapter = Adapter;
         mNewFolder = newFolder;
-        mFileList = fileList;
     }
     @NonNull
     @Override
@@ -48,7 +50,9 @@ public class dialogEditFolderName extends AppCompatDialogFragment {
                 .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        deleteNewDirectory();
+                        if(mNewFolder) {
+                            deleteDirectory(mFolderList.size() - 1);
+                        }
                     }
                 })
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -58,12 +62,23 @@ public class dialogEditFolderName extends AppCompatDialogFragment {
                     }
                 });
 
+        mDirectoryId = mFolderList.get(mPosition).getDirectoryId();
+
+
         this.dbHelper = new informationGameDbHelper(this.getContext());
 
 
         Et_Name = view.findViewById(R.id.Et_Name);
         Et_shortDescription = view.findViewById(R.id.Et_ShortDescription);
+        BtnDeleteDirectory = view.findViewById(R.id.BtnDeleteDirectory);
 
+        BtnDeleteDirectory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteDirectory(mPosition);
+                dismiss();
+            }
+        });
 
         if(!mNewFolder) {
             Et_Name.setText(mFolderList.get(mPosition).getText1()); //StandardText soll aktueller Text sein
@@ -74,28 +89,41 @@ public class dialogEditFolderName extends AppCompatDialogFragment {
         return builder.create();
     }
 
-    private void deleteNewDirectory() {
-        if(mNewFolder) {
-            mFolderList.remove(mFolderList.size() - 1);
-            mAdapter.notifyDataSetChanged();
-        }
+
+
+
+
+    private void deleteDirectory(int index) {
+
+            if (!mNewFolder) {
+                dbHelper.deleteDirectory(mFolderList.get(index).getDirectoryId(), this.getContext());
+                dbHelper.close();
+
+            }
+
+        mFolderList.remove(index);
+        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyItemRemoved(index);
     }
 
     private void changeFolderName() {
         String Text1 = Et_Name.getText().toString();
         String Text2 = Et_shortDescription.getText().toString();
-        mFolderList.get(mPosition).setText1(Text1);
 
-        SQLiteDatabase database = this.dbHelper.getWritableDatabase();
+        mFolderList.get(mPosition).setText1(Text1);
+        mFolderList.get(mPosition).setText2(Text2);
+
+        int newDirectoryId;
 
         if(mNewFolder) {
             dbHelper.insertDirectory(Text1, Text2, this.getContext());
+            newDirectoryId = dbHelper.getDirectoryInformation().get(dbHelper.getDirectoryInformation().size() - 1).getDirectoryId();
+            mFolderList.get(mPosition).setDirectoryId(newDirectoryId);
+
         } else {
-            dbHelper.updateDirectory(Text1, Text2, mPosition);
+            dbHelper.updateDirectory(Text1, Text2, mDirectoryId);
         }
         dbHelper.close();
-
-        mFolderList.get(mPosition).setText2(Text2);
         mAdapter.notifyDataSetChanged();
     }
 

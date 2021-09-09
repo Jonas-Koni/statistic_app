@@ -19,7 +19,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<FolderItem> mFolderList;
     private FolderAdapter mAdapter;
-    private ArrayList<File> mFileList = new ArrayList<File>();
 
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         open_EditFolderName(position, mFolderList, mAdapter, true);
     }
     public void open_EditFolderName(int position, ArrayList<FolderItem> mFolderList, FolderAdapter folderAdapter, boolean newFolder) {
-        dialogEditFolderName dialog = new dialogEditFolderName(position, mFolderList, folderAdapter, newFolder, mFileList);
+        dialogEditFolderName dialog = new dialogEditFolderName(position, mFolderList, folderAdapter, newFolder);
         dialog.show(getSupportFragmentManager(), "edit_foldername");
     }
     public void open_EditFolder(int position, ArrayList<FolderItem> mFolderList) {

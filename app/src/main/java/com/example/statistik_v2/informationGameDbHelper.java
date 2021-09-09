@@ -138,9 +138,20 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
     }
 
 
+    public void deleteDirectory(int DirectoryId, Context context) {
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        String whereClause = informationGameContractClass.StatisticTable._ID + " = ?";
+        String[] whereArguments = new String[] {String.valueOf(DirectoryId)};
+
+        database.delete(informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY, whereClause, whereArguments);
+    }
 
 
-    public void insertGameType(String GameType, int DirectoryId, Context context) {
+
+
+
+    public void insertGameType(String GameType, int DirectoryId) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(informationGameContractClass.StatisticTable.COLUMN_GAMETYPE, GameType);
@@ -355,6 +366,7 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
                 folderItem.setGameType(cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_GAMETYPE)));
                 folderItem.setText1(cursor.getString(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_TITLE)));
                 folderItem.setText2(cursor.getString(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_DESCRIPTION)));
+                folderItem.setDirectoryId(cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable._ID)));
 
                 String selectPlayerQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY_PLAYERS + " WHERE "
                         + informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID + " = " + cursor.getPosition();
@@ -373,6 +385,28 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         }
         return folderItemArrayList;
     }
+
+    public ArrayList<Player> getPlayerList() {
+        ArrayList<Player> playerArrayList = new ArrayList<Player>();
+
+        String selectPlayerQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY_PLAYERS;
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.rawQuery(selectPlayerQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Player player = new Player();
+                player.setPlayerId(cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable._ID)));
+                player.setPlayerName(cursor.getString(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID)));
+
+                playerArrayList.add(player);
+            } while (cursor.moveToNext());
+        }
+        return playerArrayList;
+    }
+
+
+
 
 
     public ArrayList<informationGame> getInformation(int FolderIndex) { //only game information; PlayerList, title, description, GameType not here
@@ -395,6 +429,11 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         }
         return informationGameArrayList;
     }
+
+
+
+
+
 
     public ArrayList<informationGamePlayerStats> getPlayerInformation(int FolderIndex, int GameId) {
         ArrayList<informationGamePlayerStats> informationGamePlayerStatsArrayList = new ArrayList<informationGamePlayerStats>();
