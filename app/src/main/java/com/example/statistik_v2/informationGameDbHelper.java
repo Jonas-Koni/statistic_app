@@ -30,7 +30,8 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
     public static final String SQL_CREATE_PLAYERS =
             "CREATE TABLE " + informationGameContractClass.StatisticTable.TABLE_NAME_PLAYERS +
                     "(" + informationGameContractClass.StatisticTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    informationGameContractClass.StatisticTable.COLUMN_PLAYER_NAME + " TEXT" +
+                    informationGameContractClass.StatisticTable.COLUMN_PLAYER_NAME + " TEXT, " +
+                    informationGameContractClass.StatisticTable.COLUMN_PLAYER_ICON + " INTEGER" +
                     ");";
 
     public static final String SQL_CREATE_DATE =

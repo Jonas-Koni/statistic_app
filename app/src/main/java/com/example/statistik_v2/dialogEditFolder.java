@@ -28,12 +28,14 @@ public class dialogEditFolder extends AppCompatDialogFragment {
     private int mGamePosition;
     private ArrayList<GamesItem> mGamesList;
     private ArrayList<FolderItem> mFolderList;
+    private ArrayList<PlayerListItem> mPlayerListItem;
     private ArrayList<informationGame> mInformationList;
     private informationGameDbHelper dbHelper;
 
-    public dialogEditFolder(int position, ArrayList<FolderItem> FolderList){
+    public dialogEditFolder(int position, ArrayList<FolderItem> FolderList, ArrayList<PlayerListItem> playerListItems){
         mPosition = position;
         mFolderList = FolderList;
+        mPlayerListItem = playerListItems;
         mPlayerList = mFolderList.get(mPosition).getmPlayerList();
         mGameType = mFolderList.get(mPosition).getGameType();
     }
@@ -148,7 +150,7 @@ public class dialogEditFolder extends AppCompatDialogFragment {
 
         int DirectoryId = mFolderList.get(mPosition).getDirectoryId();
         dbHelper.insertGameType(GameTypeToInteger(mGameType), DirectoryId);
-        dbHelper.insertDirectoryPlayers();
+        //dbHelper.insertDirectoryPlayers();
     }
 
 

@@ -58,7 +58,7 @@
         android:layout_below="@id/SpRenamePlayer"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"
-        android:layout_centerHorizontal="false"
+        android:layout_centerHorizontal="true"
         android:text="@string/BtnEnterGame_text"
         android:layout_marginStart="10dp" />
 
@@ -69,7 +69,7 @@
         android:layout_below="@id/BtnEnterGame"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_centerHorizontal="false"
+        android:layout_centerHorizontal="true"
         android:text="@string/BtnEditGame_text"
         android:layout_marginStart="10dp" />
 
@@ -80,7 +80,7 @@
         android:layout_below="@id/BtnEditGame"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_centerHorizontal="false"
+        android:layout_centerHorizontal="true"
         android:text="@string/BtnSeeStatisitics_text"
         android:layout_marginStart="10dp" />
 

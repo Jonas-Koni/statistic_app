@@ -1,5 +1,6 @@
 package com.example.statistik_v2;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,14 +11,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<FolderItem> mFolderList;
+    private ArrayList<PlayerListItem> mPlayerList;
     private FolderAdapter mAdapter;
 
 
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSettingsClick(int position) {
-                open_EditFolder(position, mFolderList);
+                open_EditFolder(position, mFolderList, mPlayerList);
             }
         });
     }
@@ -88,6 +90,16 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.dropdown_menu, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ItemSpieler:
+                open_PlayerList();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void insertItem(int position) {
         mFolderList.add(position, new FolderItem());
@@ -100,8 +112,13 @@ public class MainActivity extends AppCompatActivity {
         dialogEditFolderName dialog = new dialogEditFolderName(position, mFolderList, folderAdapter, newFolder);
         dialog.show(getSupportFragmentManager(), "edit_foldername");
     }
-    public void open_EditFolder(int position, ArrayList<FolderItem> mFolderList) {
-        dialogEditFolder dialog2 = new dialogEditFolder(position, mFolderList);
+    public void open_EditFolder(int position, ArrayList<FolderItem> mFolderList, ArrayList<PlayerListItem> mPlayerListItem) {
+        dialogEditFolder dialog2 = new dialogEditFolder(position, mFolderList, mPlayerListItem);
         dialog2.show(getSupportFragmentManager(), "edit_folder");
+    }
+
+    public void open_PlayerList() {
+        dialogPlayerList dialogPlayerList = new dialogPlayerList();
+        dialogPlayerList.show(getSupportFragmentManager(), "playerList");
     }
 }
