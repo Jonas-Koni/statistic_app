@@ -86,9 +86,6 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
 
 
 
-
-
-
     public informationGameDbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         Log.d(LOG_TAG, "DbHelper hat die Datenbank: " + getDatabaseName() + " erzeugt");
@@ -126,31 +123,13 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         Toast.makeText(context, "insert", Toast.LENGTH_SHORT).show();
     }
 
-    public void updateDirectory(String newTitle, String newDescription, int DirectoryId) {
+    public void insertPlayer(String Name, int imageResource, Context context) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(informationGameContractClass.StatisticTable.COLUMN_TITLE, newTitle);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_DESCRIPTION, newDescription);
-
-        String whereClause = informationGameContractClass.StatisticTable._ID + " = ?";
-        String[] whereArguments = new String[] {String.valueOf(DirectoryId)};
-
-        database.update(informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY, values, whereClause, whereArguments);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_NAME, Name);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ICON, imageResource);
+        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_PLAYERS, null, values);
     }
-
-
-    public void deleteDirectory(int DirectoryId, Context context) {
-        SQLiteDatabase database = this.getWritableDatabase();
-
-        String whereClause = informationGameContractClass.StatisticTable._ID + " = ?";
-        String[] whereArguments = new String[] {String.valueOf(DirectoryId)};
-
-        database.delete(informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY, whereClause, whereArguments);
-    }
-
-
-
-
 
     public void insertGameType(String GameType, int DirectoryId) {
         SQLiteDatabase database = this.getWritableDatabase();
@@ -163,14 +142,105 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         database.update(informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY, values, whereClause, whereArguments);
     }
 
-
-
-
     public void insertPlayerList(String PlayerName) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_NAME, PlayerName);
         database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_PLAYERS, null, values);
+    }
+
+    public void insertDateList(int DirectoryId, int GameId, String Date){
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID, DirectoryId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_GAME_ID, GameId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_DATE, Date);
+        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_DATE, null, values);
+    }
+
+    public void insertDirectoryPlayers(int DirectoryId, int PlayerId) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID, DirectoryId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID, PlayerId);
+        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY_PLAYERS, null, values);
+    }
+
+    public void insertPlacementList(int DirectoryId, int GameId, int PlayerId, int Placement) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID, DirectoryId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_GAME_ID, GameId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID, PlayerId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_PLACEMENT, Placement);
+        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_PLACEMENT, null, values);
+    }
+
+    public void insertKniffelList(int DirectoryId, int GameId, int PlayerId, int Placement, int TotalUpperSection, int TotalDownerSection, int Total) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID, DirectoryId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_GAME_ID, GameId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID, PlayerId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_PLACEMENT, Placement);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_KNIFFEL_TOTAL_UPPER_SECTION, TotalUpperSection);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_KNIFFEL_TOTAL_DOWNER_SECTION, TotalDownerSection);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_KNIFFEL_TOTAL, Total);
+        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_KNIFFEL, null, values);
+    }
+
+
+    public void insertMadnList(int DirectoryId, int GameId, int PlayerId, int Placement, int threw, int thrown) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID, DirectoryId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_GAME_ID, GameId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID, PlayerId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_PLACEMENT, Placement);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_MADN_THREW, threw);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_MADN_THROWN, thrown);
+        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_MADN, null, values);
+    }
+
+    public void insertMonopolyList(int DirectoryId, int GameId, int PlayerId, int Placement, int Cash, int ValueOfHouse, int ValueOfProperty) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID, DirectoryId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_GAME_ID, GameId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID, PlayerId);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_PLACEMENT, Placement);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_MONOPOLY_CASH, Cash);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_MONOPOLY_VALUE_HOUSE, ValueOfHouse);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_MONOPOLY_VALUE_PROPERTY, ValueOfProperty);
+        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_MONOPOLY, null, values);
+    }
+
+
+
+
+
+    public void updateDirectory(String newTitle, String newDescription, int DirectoryId) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(informationGameContractClass.StatisticTable.COLUMN_TITLE, newTitle);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_DESCRIPTION, newDescription);
+
+        String whereClause = informationGameContractClass.StatisticTable._ID + " = ?";
+        String[] whereArguments = new String[] {String.valueOf(DirectoryId)};
+
+        database.update(informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY, values, whereClause, whereArguments);
+    }
+
+    public void updatePlayer(int newIcon, String newName, int PlayerId) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ICON, newIcon);
+        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_NAME, newName);
+
+        String whereClause = informationGameContractClass.StatisticTable._ID + " = ?";
+        String[] whereArguments = new String[] {String.valueOf(PlayerId)};
+
+        database.update(informationGameContractClass.StatisticTable.TABLE_NAME_PLAYERS, values, whereClause, whereArguments);
     }
 
     public void updatePlayerList(String newPlayerName, int DirectoryId) {
@@ -182,18 +252,6 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         String[] whereArguments = new String[] {String.valueOf(DirectoryId)};
 
         database.update(informationGameContractClass.StatisticTable.TABLE_NAME_PLAYERS, values, whereClause, whereArguments);
-    }
-
-
-
-
-    public void insertDateList(int DirectoryId, int GameId, String Date){
-        SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID, DirectoryId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_GAME_ID, GameId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_DATE, Date);
-        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_DATE, null, values);
     }
 
     public void updateDateList(int DirectoryId, int GameId, String Date){
@@ -209,32 +267,6 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         database.update(informationGameContractClass.StatisticTable.TABLE_NAME_DATE, values, whereClause, whereArguments);
     }
 
-
-
-
-    public void insertDirectoryPlayers(int DirectoryId, int PlayerId) {
-        SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID, DirectoryId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID, PlayerId);
-        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY_PLAYERS, null, values);
-    }
-
-    //keine update Methode, da finale Werte
-
-
-
-
-    public void insertPlacementList(int DirectoryId, int GameId, int PlayerId, int Placement) {
-        SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID, DirectoryId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_GAME_ID, GameId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID, PlayerId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_PLACEMENT, Placement);
-        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_PLACEMENT, null, values);
-    }
-
     public void updatePlacementList(int DirectoryId, int GameId, int PlayerId, int Placement) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -247,24 +279,6 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         String[] whereArguments = new String[] {String.valueOf(DirectoryId), String.valueOf(GameId), String.valueOf(PlayerId)};
 
         database.update(informationGameContractClass.StatisticTable.TABLE_NAME_PLACEMENT, values, whereClause, whereArguments);
-    }
-
-
-
-
-
-
-    public void insertKniffelList(int DirectoryId, int GameId, int PlayerId, int Placement, int TotalUpperSection, int TotalDownerSection, int Total) {
-        SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID, DirectoryId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_GAME_ID, GameId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID, PlayerId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_PLACEMENT, Placement);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_KNIFFEL_TOTAL_UPPER_SECTION, TotalUpperSection);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_KNIFFEL_TOTAL_DOWNER_SECTION, TotalDownerSection);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_KNIFFEL_TOTAL, Total);
-        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_KNIFFEL, null, values);
     }
 
     public void updateKniffelList(int DirectoryId, int GameId, int PlayerId, int Placement, int TotalUpperSection, int TotalDownerSection, int Total) {
@@ -284,22 +298,6 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         database.update(informationGameContractClass.StatisticTable.TABLE_NAME_KNIFFEL, values, whereClause, whereArguments);
     }
 
-
-
-
-
-    public void insertMadnList(int DirectoryId, int GameId, int PlayerId, int Placement, int threw, int thrown) {
-        SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID, DirectoryId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_GAME_ID, GameId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID, PlayerId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_PLACEMENT, Placement);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_MADN_THREW, threw);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_MADN_THROWN, thrown);
-        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_MADN, null, values);
-    }
-
     public void updateMadnList(int DirectoryId, int GameId, int PlayerId, int Placement, int threw, int thrown) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -314,23 +312,6 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         String[] whereArguments = new String[] {String.valueOf(DirectoryId), String.valueOf(GameId), String.valueOf(PlayerId)};
 
         database.update(informationGameContractClass.StatisticTable.TABLE_NAME_MADN, values, whereClause, whereArguments);
-    }
-
-
-
-
-
-    public void insertMonopolyList(int DirectoryId, int GameId, int PlayerId, int Placement, int Cash, int ValueOfHouse, int ValueOfProperty) {
-        SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(informationGameContractClass.StatisticTable.COLUMN_DIRECTORY_ID, DirectoryId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_GAME_ID, GameId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID, PlayerId);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_PLACEMENT, Placement);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_MONOPOLY_CASH, Cash);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_MONOPOLY_VALUE_HOUSE, ValueOfHouse);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_MONOPOLY_VALUE_PROPERTY, ValueOfProperty);
-        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_MONOPOLY, null, values);
     }
 
     public void updateMonopolyList(int DirectoryId, int GameId, int PlayerId, int Placement, int Cash, int ValueOfHouse, int ValueOfProperty) {
@@ -349,6 +330,37 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
 
         database.update(informationGameContractClass.StatisticTable.TABLE_NAME_MONOPOLY, values, whereClause, whereArguments);
     }
+
+
+
+
+
+
+    public void deleteDirectory(int DirectoryId, Context context) {
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        String whereClause = informationGameContractClass.StatisticTable._ID + " = ?";
+        String[] whereArguments = new String[] {String.valueOf(DirectoryId)};
+
+        database.delete(informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY, whereClause, whereArguments);
+    }
+
+    public void deletePlayer(int PlayerId, Context context) {
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        String whereClause = informationGameContractClass.StatisticTable._ID + " = ?";
+        String[] whereArguments = new String[] {String.valueOf(PlayerId)};
+
+        database.delete(informationGameContractClass.StatisticTable.TABLE_NAME_PLAYERS, whereClause, whereArguments);
+    }
+
+
+    //keine update Methode, da finale Werte (Zugehörigkeit ? ??
+
+
+
+
+
 
 
 
@@ -406,6 +418,8 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         return playerArrayList;
     }
 
+    ///data/data/com.example.statistik_v2/databases/statistic_directory.db
+
 
 
 
@@ -432,15 +446,31 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
     }
 
 
+    public ArrayList<PlayerListItem> getPlayerInformation() {
+        ArrayList<PlayerListItem> playerListItemArrayList = new ArrayList<PlayerListItem>();
+
+        String selectPlayerQuery = "SELECT * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_PLAYERS;
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor cursor = database.rawQuery(selectPlayerQuery, null);
+
+        if(cursor.moveToFirst()) {
+            do {
+                PlayerListItem playerListItem = new PlayerListItem(
+                        cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ICON)),
+                        cursor.getString(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_NAME)));
+
+                playerListItemArrayList.add(playerListItem);
+            } while (cursor.moveToNext());
+        }
+        return playerListItemArrayList;
+    }
 
 
-
-
-    public ArrayList<informationGamePlayerStats> getPlayerInformation(int FolderIndex, int GameId) {
+    public ArrayList<informationGamePlayerStats> getPlayerGameInformation(int FolderIndex, int GameId) {
         ArrayList<informationGamePlayerStats> informationGamePlayerStatsArrayList = new ArrayList<informationGamePlayerStats>();
 
         String selectGameQuery; //0: Platzierung; 1: Kniffel; 2: Mädn; 3: Monopoly; 4: Wikinger Schach; 5: Zeit und Anzahl
-        SQLiteDatabase database = getReadableDatabase();
+        SQLiteDatabase database = this.getReadableDatabase();
         //switch (getDirectoryInformation().get(informationGame.getFolderIndex()).getGameType()){ //inefficient
                 switch (getDirectoryInformation().get(FolderIndex).getGameType()) {
                     case 0:

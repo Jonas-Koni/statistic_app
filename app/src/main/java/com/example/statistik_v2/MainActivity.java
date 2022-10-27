@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<FolderItem> mFolderList;
     private ArrayList<PlayerListItem> mPlayerList;
+    private ArrayList<PlayerListItem> mPlayerListItem;
     private FolderAdapter mAdapter;
 
 
@@ -33,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        informationGame testMemo = new informationGame();
-        Log.d(LOG_TAG, "Inhalt: " + testMemo.toString());
+        //informationGame testMemo = new informationGame();
+        //Log.d(LOG_TAG, "Inhalt: " + testMemo.toString());
 
         dataSource = new StatisticDataSource(this);
 
@@ -118,7 +119,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void open_PlayerList() {
-        dialogPlayerList dialogPlayerList = new dialogPlayerList();
+        mPlayerListItem = new ArrayList<>();
+        mPlayerListItem = dbHelper.getPlayerInformation();
+        dbHelper.close();
+        dialogPlayerList dialogPlayerList = new dialogPlayerList(mPlayerListItem);
         dialogPlayerList.show(getSupportFragmentManager(), "playerList");
     }
 }

@@ -90,9 +90,6 @@ public class dialogEditFolderName extends AppCompatDialogFragment {
     }
 
 
-
-
-
     private void deleteDirectory(int index) {
 
             if (!mNewFolder) {

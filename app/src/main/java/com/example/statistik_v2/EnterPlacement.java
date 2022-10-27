@@ -123,11 +123,5 @@ public class EnterPlacement extends AppCompatDialogFragment {
         });
 
         return builder.create();
-
-
-
     }
-
-
-
 }

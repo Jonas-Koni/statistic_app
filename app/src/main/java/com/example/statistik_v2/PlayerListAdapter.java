@@ -19,15 +19,36 @@ import java.util.ArrayList;
 
 public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.PlayerListViewHolder> {
     private ArrayList<PlayerListItem> mPlayerList;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
 
     public class PlayerListViewHolder extends RecyclerView.ViewHolder{
         public ImageView mImageView;
         public TextView mTextView1;
 
-        public PlayerListViewHolder(@NonNull View itemView) {
+        public PlayerListViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.ivIconPlayer);
             mTextView1 = itemView.findViewById(R.id.playerName);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null) {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -39,7 +60,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
     @Override
     public PlayerListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.playerlist_item, parent, false);
-        PlayerListViewHolder plv = new PlayerListViewHolder(v);
+        PlayerListViewHolder plv = new PlayerListViewHolder(v, mListener);
         return plv;
     }
 
@@ -59,7 +80,16 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
             if(Name.length>=2){
                 ShortName = String.valueOf(Name[0].charAt(0)) + String.valueOf(Name[1].charAt(0));
             } else {
-                ShortName = String.valueOf(Name[0].charAt(0));
+                boolean error = false;
+                try {
+                    ShortName = String.valueOf(Name[0].charAt(0));
+                } catch (StringIndexOutOfBoundsException e){
+                    ShortName = "";
+                    error = true;
+                }
+                if(!error) {
+                    ShortName = String.valueOf(Name[0].charAt(0));
+                }
             }
             //ColorGenerator generator = ColorGenerator.MATERIAL; //has to be a fixed Color
             float[] HSV = new float[3];
@@ -69,6 +99,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
             int HashName = Color.HSVToColor(255, HSV);
             Drawable Icon = TextDrawable.builder().buildRoundRect(ShortName, HashName, 5); //
             holder.mImageView.setImageDrawable(Icon);
+            holder.mTextView1.setText(currentItem.getName());
         }
     }
 

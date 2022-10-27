@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class PlayerListItem {
     private int mImageResource;
     private String mName;
+    private int mPlayerID;
 
 
 
@@ -24,6 +25,17 @@ public class PlayerListItem {
     public String getName(){
         return mName;
     }
+    public int getmPlayerID() {
+        return mPlayerID;
+    }
+
+    public void setPlayerID(int playerID) {
+        mPlayerID = playerID;
+    }
+    public void setmName(String name) {
+        mName = name;
+    }
+    public void setmImageResource(int imageResource) {mImageResource = imageResource;}
 
 
 

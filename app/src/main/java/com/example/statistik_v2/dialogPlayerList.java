@@ -18,6 +18,14 @@ import java.util.ArrayList;
 
 public class dialogPlayerList extends AppCompatDialogFragment {
     ArrayList<PlayerListItem> mPlayerListItem;
+    PlayerListAdapter mAdapter;
+
+    public dialogPlayerList(ArrayList<PlayerListItem> playerListItems){
+        mPlayerListItem = playerListItems;
+
+    }
+
+    private informationGameDbHelper dbHelper = new informationGameDbHelper(this.getContext());
 
     @NonNull
     @Override
@@ -41,6 +49,7 @@ public class dialogPlayerList extends AppCompatDialogFragment {
                     }
                 });
 
+        createPlayerListItem();
         buildRecyclerview((view));
 
         Button AddPlayer = view.findViewById(R.id.BtnAddPlayer);
@@ -48,34 +57,55 @@ public class dialogPlayerList extends AppCompatDialogFragment {
         AddPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openAddPlayer();
+                int position = mPlayerListItem.size();
+                insertPlayer(position);
             }
         });
 
         return builder.create();
     }
 
+    public void createPlayerListItem(){
+        //mPlayerListItem = new ArrayList<>();
+        //mPlayerListItem = dbHelper.getPlayerInformation();
+        //dbHelper.close();
+
+        //mPlayerListItem.add(new PlayerListItem(-1, "Matthias"));
+        //mPlayerListItem.add(new PlayerListItem(-1, "Matthias Königsmann"));
+        //mPlayerListItem.add(new PlayerListItem(-1, "FLO_KO"));
+        //mPlayerListItem.add(new PlayerListItem(-1, "ere"));*/
+        //mPlayerListItem.add(new PlayerListItem(-1, "ere"));
+
+    }
+
+
     public void buildRecyclerview(View view){
-        mPlayerListItem = new ArrayList<>();
-        mPlayerListItem.add(new PlayerListItem(-1, "Matthias"));
-        mPlayerListItem.add(new PlayerListItem(-1, "Matthias Königsmann"));
-        mPlayerListItem.add(new PlayerListItem(-1, "FLO_KO"));
-        mPlayerListItem.add(new PlayerListItem(-1, "421 4 12412 "));
-
-
         RecyclerView mRecyclerView = view.findViewById(R.id.recycleViewPlayerList);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        PlayerListAdapter mAdapter = new PlayerListAdapter(mPlayerListItem);
+        mAdapter = new PlayerListAdapter(mPlayerListItem);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        //mAdapter.setOnItemClickListener(dialogEnterStatistic.this);
+        mAdapter.setOnItemClickListener(new PlayerListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                openAddPlayer(position, mPlayerListItem, mAdapter, false);
+            }
+        });
+
+
     }
-    public void openAddPlayer(){
-        //dialogAddPlayer dialogAddPlayer = new dialogAddPlayer();
-        //dialogAddPlayer.show(getFragmentManager(), "add player dialog");
+    public void insertPlayer(int position) {
+        mPlayerListItem.add(position, new PlayerListItem(-1, ""));
+        mAdapter.notifyItemInserted(position);
+        openAddPlayer(position, mPlayerListItem, mAdapter, true);
+    }
+
+    public void openAddPlayer(int position, ArrayList<PlayerListItem> playerListItems, PlayerListAdapter adapter, boolean newPlayer){
+        dialogAddPlayer dialogAddPlayer = new dialogAddPlayer(position, playerListItems, adapter, newPlayer);
+        dialogAddPlayer.show(getFragmentManager(), "add player dialog");
     }
 
 
