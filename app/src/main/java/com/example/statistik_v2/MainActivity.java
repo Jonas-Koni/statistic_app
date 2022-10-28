@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,10 +23,11 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<PlayerListItem> mPlayerListItem;
     private FolderAdapter mAdapter;
 
+    public static final String EXTRA_PLAYERLIST = "com.example.statistic_v2.EXTRA_TEXT";
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
     private StatisticDataSource dataSource;
-    private informationGameDbHelper dbHelper = new informationGameDbHelper(this);
+    private final informationGameDbHelper dbHelper = new informationGameDbHelper(this);
 
 
     @Override
@@ -122,7 +123,10 @@ public class MainActivity extends AppCompatActivity {
         mPlayerListItem = new ArrayList<>();
         mPlayerListItem = dbHelper.getPlayerInformation();
         dbHelper.close();
-        dialogPlayerList dialogPlayerList = new dialogPlayerList(mPlayerListItem);
-        dialogPlayerList.show(getSupportFragmentManager(), "playerList");
+        /*dialogPlayerList dialogPlayerList = new dialogPlayerList(mPlayerListItem);
+        dialogPlayerList.show(getSupportFragmentManager(), "playerList");*/
+        Intent intent = new Intent(this, PlayerList.class);
+        intent.putExtra(EXTRA_PLAYERLIST, mPlayerListItem);
+        startActivity(intent);
     }
 }

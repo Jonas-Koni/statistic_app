@@ -241,6 +241,7 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         String[] whereArguments = new String[] {String.valueOf(PlayerId)};
 
         database.update(informationGameContractClass.StatisticTable.TABLE_NAME_PLAYERS, values, whereClause, whereArguments);
+        System.out.println(newName);
     }
 
     public void updatePlayerList(String newPlayerName, int DirectoryId) {
@@ -449,17 +450,25 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
     public ArrayList<PlayerListItem> getPlayerInformation() {
         ArrayList<PlayerListItem> playerListItemArrayList = new ArrayList<PlayerListItem>();
 
-        String selectPlayerQuery = "SELECT * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_PLAYERS;
+        String selectPlayerQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_PLAYERS;
         SQLiteDatabase database = getReadableDatabase();
         Cursor cursor = database.rawQuery(selectPlayerQuery, null);
 
         if(cursor.moveToFirst()) {
             do {
-                PlayerListItem playerListItem = new PlayerListItem(
+                PlayerListItem playerListItem = new PlayerListItem();
+                playerListItem.setPlayerID(cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID)));
+                playerListItem.setmImageResource(cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ICON)));
+                playerListItem.setmName(cursor.getString(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_NAME)));
+
+                playerListItemArrayList.add(playerListItem);
+
+                /*PlayerListItem playerListItem = new PlayerListItem(
                         cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ICON)),
                         cursor.getString(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_NAME)));
 
-                playerListItemArrayList.add(playerListItem);
+                playerListItemArrayList.add(playerListItem);*/
+
             } while (cursor.moveToNext());
         }
         return playerListItemArrayList;

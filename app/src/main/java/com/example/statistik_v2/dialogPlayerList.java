@@ -22,7 +22,6 @@ public class dialogPlayerList extends AppCompatDialogFragment {
 
     public dialogPlayerList(ArrayList<PlayerListItem> playerListItems){
         mPlayerListItem = playerListItems;
-
     }
 
     private informationGameDbHelper dbHelper = new informationGameDbHelper(this.getContext());
@@ -52,7 +51,7 @@ public class dialogPlayerList extends AppCompatDialogFragment {
         createPlayerListItem();
         buildRecyclerview((view));
 
-        Button AddPlayer = view.findViewById(R.id.BtnAddPlayer);
+        Button AddPlayer = view.findViewById(R.id.BttnAddPlayer);
 
         AddPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +97,10 @@ public class dialogPlayerList extends AppCompatDialogFragment {
 
     }
     public void insertPlayer(int position) {
-        mPlayerListItem.add(position, new PlayerListItem(-1, ""));
+        PlayerListItem newItem = new PlayerListItem();
+        newItem.setmName("");
+        newItem.setmImageResource(-1);
+        mPlayerListItem.add(newItem);
         mAdapter.notifyItemInserted(position);
         openAddPlayer(position, mPlayerListItem, mAdapter, true);
     }

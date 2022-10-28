@@ -58,13 +58,14 @@ public class dialogAddPlayer extends AppCompatDialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        System.out.print("Name: ");
                         changeFolderName();
 
                     }
                 });
         mPlayerID = mPlayerListItem.get(mPosition).getmPlayerID();
 
-        this.dbHelper = new informationGameDbHelper(this.getContext());
+        dbHelper = new informationGameDbHelper(this.getContext());
 
         etNewName = view.findViewById(R.id.etNewPlayername);
         BtnDeletePlayer = view.findViewById(R.id.BtnDeletePlayer);
@@ -89,6 +90,7 @@ public class dialogAddPlayer extends AppCompatDialogFragment {
         if (!mNewPlayer) {
             dbHelper.deletePlayer(mPlayerListItem.get(index).getmPlayerID(), this.getContext());
             dbHelper.close();
+            System.out.println("deleted Player");
 
         }
 
