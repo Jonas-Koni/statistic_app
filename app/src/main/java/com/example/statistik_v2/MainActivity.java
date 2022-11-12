@@ -15,12 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.statistik_v2.PlayerListPackage.PlayerList;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<FolderItem> mFolderList;
-    private ArrayList<PlayerListItem> mPlayerList;
-    private ArrayList<PlayerListItem> mPlayerListItem;
     private FolderAdapter mAdapter;
 
     public static final String EXTRA_PLAYERLIST = "com.example.statistic_v2.EXTRA_TEXT";
@@ -52,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
                 insertItem(position);
             }
         });
-
-
-
     }
     public void createFolderList() {
         mFolderList = new ArrayList<>();
@@ -82,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSettingsClick(int position) {
-                open_EditFolder(position, mFolderList, mPlayerList);
+                open_EditFolder(position, mFolderList);
             }
         });
     }
@@ -114,19 +111,13 @@ public class MainActivity extends AppCompatActivity {
         dialogEditFolderName dialog = new dialogEditFolderName(position, mFolderList, folderAdapter, newFolder);
         dialog.show(getSupportFragmentManager(), "edit_foldername");
     }
-    public void open_EditFolder(int position, ArrayList<FolderItem> mFolderList, ArrayList<PlayerListItem> mPlayerListItem) {
-        dialogEditFolder dialog2 = new dialogEditFolder(position, mFolderList, mPlayerListItem);
+    public void open_EditFolder(int position, ArrayList<FolderItem> mFolderList) {
+        dialogEditFolder dialog2 = new dialogEditFolder(position, mFolderList);
         dialog2.show(getSupportFragmentManager(), "edit_folder");
     }
 
     public void open_PlayerList() {
-        mPlayerListItem = new ArrayList<>();
-        mPlayerListItem = dbHelper.getPlayerInformation();
-        dbHelper.close();
-        /*dialogPlayerList dialogPlayerList = new dialogPlayerList(mPlayerListItem);
-        dialogPlayerList.show(getSupportFragmentManager(), "playerList");*/
         Intent intent = new Intent(this, PlayerList.class);
-        intent.putExtra(EXTRA_PLAYERLIST, mPlayerListItem);
         startActivity(intent);
     }
 }

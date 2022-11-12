@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 
 import java.util.ArrayList;
 
@@ -28,14 +27,12 @@ public class dialogEditFolder extends AppCompatDialogFragment {
     private int mGamePosition;
     private ArrayList<GamesItem> mGamesList;
     private ArrayList<FolderItem> mFolderList;
-    private ArrayList<PlayerListItem> mPlayerListItem;
     private ArrayList<informationGame> mInformationList;
     private informationGameDbHelper dbHelper;
 
-    public dialogEditFolder(int position, ArrayList<FolderItem> FolderList, ArrayList<PlayerListItem> playerListItems){
+    public dialogEditFolder(int position, ArrayList<FolderItem> FolderList){
         mPosition = position;
         mFolderList = FolderList;
-        mPlayerListItem = playerListItems;
         mPlayerList = mFolderList.get(mPosition).getmPlayerList();
         mGameType = mFolderList.get(mPosition).getGameType();
     }

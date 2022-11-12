@@ -2,11 +2,9 @@ package com.example.statistik_v2;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class FolderItem implements Parcelable {
 

@@ -1,5 +1,6 @@
 package com.example.statistik_v2;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -123,13 +124,6 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         Toast.makeText(context, "insert", Toast.LENGTH_SHORT).show();
     }
 
-    public void insertPlayer(String Name, int imageResource, Context context) {
-        SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_NAME, Name);
-        values.put(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ICON, imageResource);
-        database.insert(informationGameContractClass.StatisticTable.TABLE_NAME_PLAYERS, null, values);
-    }
 
     public void insertGameType(String GameType, int DirectoryId) {
         SQLiteDatabase database = this.getWritableDatabase();
@@ -367,6 +361,7 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
 
 
 
+    @SuppressLint("Range")
     public ArrayList<FolderItem> getDirectoryInformation() {
         ArrayList<FolderItem> folderItemArrayList = new ArrayList<FolderItem>();
 
@@ -400,24 +395,6 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
         return folderItemArrayList;
     }
 
-    public ArrayList<Player> getPlayerList() {
-        ArrayList<Player> playerArrayList = new ArrayList<Player>();
-
-        String selectPlayerQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_DIRECTORY_PLAYERS;
-        SQLiteDatabase database = this.getReadableDatabase();
-        Cursor cursor = database.rawQuery(selectPlayerQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                Player player = new Player();
-                player.setPlayerId(cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable._ID)));
-                player.setPlayerName(cursor.getString(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID)));
-
-                playerArrayList.add(player);
-            } while (cursor.moveToNext());
-        }
-        return playerArrayList;
-    }
 
     ///data/data/com.example.statistik_v2/databases/statistic_directory.db
 
@@ -425,6 +402,7 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
 
 
 
+    @SuppressLint("Range")
     public ArrayList<informationGame> getInformation(int FolderIndex) { //only game information; PlayerList, title, description, GameType not here
         ArrayList<informationGame> informationGameArrayList = new ArrayList<informationGame>();
 
@@ -447,34 +425,7 @@ public class informationGameDbHelper extends SQLiteOpenHelper{
     }
 
 
-    public ArrayList<PlayerListItem> getPlayerInformation() {
-        ArrayList<PlayerListItem> playerListItemArrayList = new ArrayList<PlayerListItem>();
-
-        String selectPlayerQuery = "SELECT  * FROM " + informationGameContractClass.StatisticTable.TABLE_NAME_PLAYERS;
-        SQLiteDatabase database = getReadableDatabase();
-        Cursor cursor = database.rawQuery(selectPlayerQuery, null);
-
-        if(cursor.moveToFirst()) {
-            do {
-                PlayerListItem playerListItem = new PlayerListItem();
-                playerListItem.setPlayerID(cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ID)));
-                playerListItem.setmImageResource(cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ICON)));
-                playerListItem.setmName(cursor.getString(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_NAME)));
-
-                playerListItemArrayList.add(playerListItem);
-
-                /*PlayerListItem playerListItem = new PlayerListItem(
-                        cursor.getInt(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_ICON)),
-                        cursor.getString(cursor.getColumnIndex(informationGameContractClass.StatisticTable.COLUMN_PLAYER_NAME)));
-
-                playerListItemArrayList.add(playerListItem);*/
-
-            } while (cursor.moveToNext());
-        }
-        return playerListItemArrayList;
-    }
-
-
+    @SuppressLint("Range")
     public ArrayList<informationGamePlayerStats> getPlayerGameInformation(int FolderIndex, int GameId) {
         ArrayList<informationGamePlayerStats> informationGamePlayerStatsArrayList = new ArrayList<informationGamePlayerStats>();
 

@@ -13,8 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".PlayerList"
-            android:exported="false" >
+            android:name=".PlayerListPackage.PlayerList"
+            android:exported="false"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -25,7 +26,9 @@
         <activity
             android:name=".EnterPlacement"
             tools:ignore="Instantiatable" />
-        <activity android:name=".MainActivity" >
+        <activity android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
