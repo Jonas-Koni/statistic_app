@@ -17,12 +17,14 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <Button
-        android:id="@+id/BtnAddPlayer"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_add_player"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/rvPlayerList"
-        android:layout_centerHorizontal="true"
-        android:text="Spieler hinzufügen" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="32dp"
+        android:src="@drawable/ic_add"
+        android:layout_alignParentRight="true" />
 
   </RelativeLayout>

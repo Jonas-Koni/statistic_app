@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.example.statistik_v2.R;
 import com.example.statistik_v2.WrapContentLinearLayoutManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,14 @@ public class PlayerList extends AppCompatActivity implements dialogAddPlayer.dia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_list);
+
+        FloatingActionButton buttonAddNote = findViewById(R.id.button_add_player);
+        buttonAddNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                insertPlayer();
+            }
+        });
 
         RecyclerView mRecyclerView = findViewById(R.id.rvPlayerList);
         mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -45,14 +54,6 @@ public class PlayerList extends AppCompatActivity implements dialogAddPlayer.dia
             public void onChanged(List<RoomPlayers> roomPlayers) {
                 playerAdapter.setPlayers(roomPlayers);
                 //update Recyclerview
-            }
-        });
-
-        Button BtnAddPlayer = findViewById(R.id.BtnAddPlayer);
-        BtnAddPlayer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                insertPlayer();
             }
         });
     }

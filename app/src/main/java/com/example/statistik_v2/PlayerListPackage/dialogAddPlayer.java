@@ -64,9 +64,11 @@ public class dialogAddPlayer extends AppCompatDialogFragment {
 
                     }
                 });
+
         etNewName = view.findViewById(R.id.etNewPlayername);
         //nur, wenn keine Daten mit Spieler
         Button btnDeletePlayer = view.findViewById(R.id.BtnDeletePlayer);
+        etNewName.setText(newPlayerName);
 
         btnDeletePlayer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,8 +77,6 @@ public class dialogAddPlayer extends AppCompatDialogFragment {
                 dismiss();
             }
         });
-
-        etNewName.setText(newPlayerName);
 
         return builder.create();
     }
