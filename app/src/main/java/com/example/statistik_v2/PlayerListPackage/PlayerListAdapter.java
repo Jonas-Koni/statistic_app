@@ -48,15 +48,6 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
         notifyDataSetChanged();
     }
 
-
-    public RoomPlayers getPlayerAt(int position) {
-        return players.get(position);
-    }
-    //delete: in PlayerList
-    /*
-    playerViewModel.delete(adapter.getPlayerAt(viewHolder.getAdapterPosition()));
-     */
-
     public interface OnItemClickListener {
         void onItemClick(RoomPlayers players);
     }
@@ -68,6 +59,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
     class PlayerListViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
         public TextView mTextView1;
+
 
         public PlayerListViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);

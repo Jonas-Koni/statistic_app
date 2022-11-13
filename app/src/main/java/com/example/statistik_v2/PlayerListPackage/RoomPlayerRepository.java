@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.statistik_v2.RoomDatabase;
+
 import java.util.List;
 
 public class RoomPlayerRepository {
@@ -13,7 +15,7 @@ public class RoomPlayerRepository {
     private LiveData<List<RoomPlayers>> allPlayers;
 
     public RoomPlayerRepository(Application application) {
-        RoomPlayerDatabase database = RoomPlayerDatabase.getInstance(application);
+        RoomDatabase database = RoomDatabase.getInstance(application);
         playerDao = database.playerDao();
         allPlayers = playerDao.getAllPlayers();
     }

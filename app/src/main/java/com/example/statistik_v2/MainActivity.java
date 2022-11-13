@@ -3,6 +3,8 @@ package com.example.statistik_v2;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,73 +15,57 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
+import com.example.statistik_v2.FolderListPackage.FolderListAdapter;
+import com.example.statistik_v2.FolderListPackage.RoomFolderViewModel;
+import com.example.statistik_v2.FolderListPackage.RoomFolders;
+import com.example.statistik_v2.FolderListPackage.dialogAddFolder;
 import com.example.statistik_v2.PlayerListPackage.PlayerList;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-    private ArrayList<FolderItem> mFolderList;
-    private FolderAdapter mAdapter;
-
-    public static final String EXTRA_PLAYERLIST = "com.example.statistic_v2.EXTRA_TEXT";
-
-    public static final String LOG_TAG = MainActivity.class.getSimpleName();
-    private StatisticDataSource dataSource;
-    private final informationGameDbHelper dbHelper = new informationGameDbHelper(this);
-
+public class MainActivity extends AppCompatActivity implements dialogAddFolder.dialogAddFolderListener {
+    private RoomFolderViewModel folderViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //informationGame testMemo = new informationGame();
-        //Log.d(LOG_TAG, "Inhalt: " + testMemo.toString());
+        //createFolderList();
+        RecyclerView mRecyclerView = findViewById(R.id.recycleView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setHasFixedSize(true);
 
-        dataSource = new StatisticDataSource(this);
+        FolderListAdapter folderListAdapter = new FolderListAdapter();
+        mRecyclerView.setAdapter(folderListAdapter);
 
-        createFolderList();
-        buildRecyclerView();
+        folderListAdapter.setOnItemClickListener(new FolderListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(RoomFolders folders) {
+                openAddEditFolder(false, folders);
+            }
+        });
 
-        Button buttonInsert = findViewById(R.id.button_insert);
+
+        folderViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(RoomFolderViewModel.class);
+        folderViewModel.getAllFolders().observe(this, new Observer<List<RoomFolders>>() {
+            @Override
+            public void onChanged(List<RoomFolders> roomFolders) {
+                folderListAdapter.setFolders(roomFolders);
+            }
+        });
+
+
+        FloatingActionButton buttonInsert = findViewById(R.id.button_add_folder);
         buttonInsert.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                int position = mFolderList.size();
-                insertItem(position);
-            }
-        });
-    }
-    public void createFolderList() {
-        mFolderList = new ArrayList<>();
-        mFolderList = dbHelper.getDirectoryInformation();
-        dbHelper.close();
-
-        if(mFolderList.size() > 0) {
-            mFolderList.get(0).setImageResource(R.drawable.ordner_empty);
-        }
-    }
-    public void buildRecyclerView() {
-        RecyclerView mRecyclerView = findViewById(R.id.recycleView);
-        mRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new FolderAdapter(mFolderList);
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-
-        mAdapter.setOnItemClickListener(new FolderAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                open_EditFolderName(position, mFolderList, mAdapter, false);
-            }
-
-            @Override
-            public void onSettingsClick(int position) {
-                open_EditFolder(position, mFolderList);
+                insertFolder();
             }
         });
     }
@@ -99,18 +85,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void insertItem(int position) {
-        mFolderList.add(position, new FolderItem());
-        mFolderList.get(position).setImageResource(R.drawable.ordner_empty);
-        mAdapter.notifyItemInserted(position);
-        mFolderList.get(position).setText1("Neuer Ordner (" + position + ")");
-        open_EditFolderName(position, mFolderList, mAdapter, true);
-    }
-    public void open_EditFolderName(int position, ArrayList<FolderItem> mFolderList, FolderAdapter folderAdapter, boolean newFolder) {
-        dialogEditFolderName dialog = new dialogEditFolderName(position, mFolderList, folderAdapter, newFolder);
-        dialog.show(getSupportFragmentManager(), "edit_foldername");
-    }
     public void open_EditFolder(int position, ArrayList<FolderItem> mFolderList) {
         dialogEditFolder dialog2 = new dialogEditFolder(position, mFolderList);
         dialog2.show(getSupportFragmentManager(), "edit_folder");
@@ -119,5 +93,30 @@ public class MainActivity extends AppCompatActivity {
     public void open_PlayerList() {
         Intent intent = new Intent(this, PlayerList.class);
         startActivity(intent);
+    }
+
+
+
+    public void insertFolder() {
+        RoomFolders NewFolder = new RoomFolders(R.drawable.ordner_empty, null, null, null);
+        openAddEditFolder(true, NewFolder);
+    }
+
+    public void openAddEditFolder(boolean isNewFolder, RoomFolders folders){
+        dialogAddFolder dialogAddFolder = new dialogAddFolder(isNewFolder, folders);
+        dialogAddFolder.show(getSupportFragmentManager(), "add folder dialog");
+    }
+    @Override
+    public void applyFolder(RoomFolders folders, boolean delete, boolean isNewPlayer) {
+        if(delete && !isNewPlayer){
+            folderViewModel.delete(folders);
+            return;
+        }
+        if(isNewPlayer && !delete) {
+            folderViewModel.insert(folders);
+            return;
+        }
+        folderViewModel.update(folders);
+
     }
 }

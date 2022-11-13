@@ -40,9 +40,9 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ExampleVie
 
         public ExampleViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
-            mImageView = itemView.findViewById(R.id.imageView);
-            mTextView1 = itemView.findViewById(R.id.textView);
-            mTextView2 = itemView.findViewById(R.id.textView2);
+            mImageView = itemView.findViewById(R.id.ivFolderImage);
+            mTextView1 = itemView.findViewById(R.id.tvFolderTitle);
+            mTextView2 = itemView.findViewById(R.id.tvFolderDescription);
             mEditText = itemView.findViewById(R.id.EditText);
             mEditText2 = itemView.findViewById(R.id.EditText2);
             mSettings = itemView.findViewById(R.id.settings);
@@ -92,8 +92,6 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ExampleVie
         holder.mImageView.setImageResource(currentItem.getImageResource());
         holder.mTextView1.setText(currentItem.getText1());
         holder.mTextView2.setText(currentItem.getText2());
-
-
 
     }
 

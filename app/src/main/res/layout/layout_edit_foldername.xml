@@ -5,15 +5,15 @@
 
 
     <EditText
-        android:id="@+id/Et_Name"
-        android:hint="Name"
+        android:id="@+id/Et_Title"
+        android:hint="Titel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/Et_ShortDescription"
         android:hint="Kurzbeschreibung"
-        android:layout_below="@+id/Et_Name"
+        android:layout_below="@+id/Et_Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

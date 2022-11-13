@@ -66,7 +66,7 @@ public class dialogEditFolderName extends AppCompatDialogFragment {
         this.dbHelper = new informationGameDbHelper(this.getContext());
 
 
-        Et_Name = view.findViewById(R.id.Et_Name);
+        Et_Name = view.findViewById(R.id.Et_Title);
         Et_shortDescription = view.findViewById(R.id.Et_ShortDescription);
         BtnDeleteDirectory = view.findViewById(R.id.BtnDeleteDirectory);
 

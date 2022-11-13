@@ -13,7 +13,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="2dp"
-            android:id="@+id/imageView"/>
+            android:id="@+id/ivFolderImage"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,26 +23,26 @@
             android:textStyle="bold"
             android:textColor="@android:color/darker_gray"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/imageView"
-            android:layout_toRightOf="@+id/imageView"
-            android:id="@+id/textView" />
+            android:layout_toEndOf="@+id/ivFolderImage"
+            android:layout_toRightOf="@+id/ivFolderImage"
+            android:id="@+id/tvFolderTitle" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="description"
             android:textSize="15sp"
-            android:layout_below="@+id/textView"
-            android:layout_toEndOf="@+id/imageView"
+            android:layout_below="@+id/tvFolderTitle"
+            android:layout_toEndOf="@+id/ivFolderImage"
             android:layout_marginStart="8dp"
-            android:layout_toRightOf="@+id/imageView"
+            android:layout_toRightOf="@+id/ivFolderImage"
             android:layout_marginLeft="8dp"
-            android:id="@+id/textView2"/>
+            android:id="@+id/tvFolderDescription"/>
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textView2"
+            android:layout_below="@+id/tvFolderDescription"
             android:visibility="gone"
             android:id="@+id/EditText"
             android:hint="Name"/>
