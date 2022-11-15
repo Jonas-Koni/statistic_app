@@ -1,5 +1,6 @@
 package com.example.statistik_v2.PlayerListPackage;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -7,13 +8,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.statistik_v2.MainActivity;
 import com.example.statistik_v2.R;
 import com.example.statistik_v2.WrapContentLinearLayoutManager;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +62,22 @@ public class PlayerList extends AppCompatActivity implements dialogAddPlayer.dia
                 //update Recyclerview
             }
         });
+        BottomNavigationView bnv = findViewById(R.id.bottomNavigationViewPlayer);
+        bnv.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.home:
+                        open_Main();
+                        break;
+                    default:
+                        break;
+
+                }
+                return true;
+            }
+        });
+
     }
 
     public void insertPlayer() {
@@ -66,6 +88,11 @@ public class PlayerList extends AppCompatActivity implements dialogAddPlayer.dia
     public void openAddEditPlayer(boolean isNewFolder, RoomPlayers player){
         dialogAddPlayer dialogAddPlayer = new dialogAddPlayer(isNewFolder, player);
         dialogAddPlayer.show(getSupportFragmentManager(), "add player dialog");
+    }
+
+    public void open_Main() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override

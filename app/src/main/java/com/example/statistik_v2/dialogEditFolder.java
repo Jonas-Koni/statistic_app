@@ -60,7 +60,7 @@ public class dialogEditFolder extends AppCompatDialogFragment {
             }
         });
 
-        final Spinner mSpinner2 = (Spinner) view.findViewById(R.id.SpRenamePlayer);
+        final Spinner mSpinner2 = (Spinner) view.findViewById(R.id.SpPlayerSelectionList);
         ArrayAdapter adapter2 = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, mPlayerList);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner2.setAdapter(adapter2);

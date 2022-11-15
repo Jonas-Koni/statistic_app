@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.example.statistik_v2.FolderListPackage.FolderListAdapter;
 import com.example.statistik_v2.FolderListPackage.RoomFolderViewModel;
@@ -22,7 +23,9 @@ import com.example.statistik_v2.FolderListPackage.RoomFolders;
 import com.example.statistik_v2.FolderListPackage.dialogAddFolder;
 import com.example.statistik_v2.PlayerListPackage.PlayerList;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +61,22 @@ public class MainActivity extends AppCompatActivity implements dialogAddFolder.d
                 folderListAdapter.setFolders(roomFolders);
             }
         });
+        BottomNavigationView bnv = findViewById(R.id.bottomNavigationView);
+        bnv.setSelectedItemId(R.id.home);
+        bnv.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.player:
+                        open_PlayerList();
+                        break;
+                    default:
+                        break;
 
+                }
+                return true;
+            }
+        });
 
         FloatingActionButton buttonInsert = findViewById(R.id.button_add_folder);
         buttonInsert.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +87,9 @@ public class MainActivity extends AppCompatActivity implements dialogAddFolder.d
             }
         });
     }
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

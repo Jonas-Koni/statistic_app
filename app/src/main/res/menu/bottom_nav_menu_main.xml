@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/player"
+        android:icon="@drawable/ic_person"
+        android:title="Spieler"/>
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_folder"
+        android:title="Ordner"/>
+    <item
+        android:id="@+id/placeholder"
+        android:title=""/>
+    <item
+        android:id="@+id/statistic"
+        android:icon="@drawable/ic_person"
+        android:title="Statistik"/>
+    <item
+        android:id="@+id/placeholder2"
+        android:title=""/>
+</menu>

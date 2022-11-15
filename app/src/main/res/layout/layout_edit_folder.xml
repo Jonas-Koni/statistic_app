@@ -46,7 +46,7 @@
         android:layout_marginStart="10dp" />
 
     <Spinner
-        android:id="@+id/SpRenamePlayer"
+        android:id="@+id/SpPlayerSelectionList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/TvRenamePlayer"/>
@@ -55,7 +55,7 @@
         android:id="@+id/BtnEnterGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/SpRenamePlayer"
+        android:layout_below="@id/SpPlayerSelectionList"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"
         android:layout_centerHorizontal="true"
