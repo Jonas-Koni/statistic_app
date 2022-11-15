@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditFolder.EditPlayer">
+
+    <TextView
+        android:id="@+id/TvGameType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/TvGameType_text"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp" />
+
+    <Spinner
+        android:id="@+id/SpGameType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TvGameType"/>
+
+
+    <TextView
+        android:id="@+id/TvRenamePlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/TvRenamePlayer_text"
+        android:layout_below="@id/SpGameType"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp" />
+
+    <Spinner
+        android:id="@+id/SpPlayerSelectionList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TvRenamePlayer"/>
+
+    <Button
+        android:id="@+id/BtnEnterGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/SpPlayerSelectionList"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/BtnEnterGame_text"
+        android:layout_marginStart="10dp" />
+
+    <Button
+        android:id="@+id/BtnEditGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/BtnEnterGame"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/BtnEditGame_text"
+        android:layout_marginStart="10dp" />
+
+    <Button
+        android:id="@+id/BtnSeeStatistic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/BtnEditGame"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/BtnSeeStatisitics_text"
+        android:layout_marginStart="10dp" />
+
+
+
+</RelativeLayout>
