@@ -5,14 +5,14 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivSpinnerPlayerCheck"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:padding="5dp"
         android:src="@drawable/ic_launcher_foreground" /><!--Make sure image is present in Drawable folder-->
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvSpinnerPlayerName"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_gravity="top"
