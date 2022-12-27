@@ -33,4 +33,13 @@ public class RoomPlayerFolderJoinViewModel extends AndroidViewModel {
         return allFolders;
     }
 
+    public LiveData<List<RoomPlayerFolderLeftJoin>> getAllPlayerFolderJoinLeftJoin(int DirectoryId) {
+        return repository.getAllPlayersInDirectoryLeftJoin(DirectoryId);
+    }
+
+
+    public void deleteByDirectory(int DirectoryId) {
+        repository.deleteByDirectory(DirectoryId);
+    }
+
 }

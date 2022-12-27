@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.provider.ContactsContract;
 
 import androidx.lifecycle.LiveData;
+import androidx.loader.content.AsyncTaskLoader;
 
 import com.example.statistik_v2.RoomDatabase;
 
@@ -29,6 +30,9 @@ public class RoomPlayerFolderJoinRepository {
     }
     public void delete(RoomPlayerFolderJoin playerFolderJoin) {
         new DeletePlayerFolderJoinAsyncTask(folderJoinDao).execute(playerFolderJoin);
+    }
+    public void deleteByDirectory(int DirectoryId) {
+        new DeleteByDirectoryIdAsyncTask(folderJoinDao, DirectoryId).execute();
     }
     public LiveData<List<RoomPlayerFolderJoin>> getAllFolderPlayerJoins() {return allFolderPlayerJoins;}
 
@@ -62,8 +66,45 @@ public class RoomPlayerFolderJoinRepository {
         }
     }
 
+
     public LiveData<List<Integer>> getAllPlayersInDirectory(int DirectoryId){
         return allPlayersInDirectory;
+    }
+
+    public static class DeleteByDirectoryIdAsyncTask extends AsyncTask<Void, Void, Void> {
+        private RoomPlayerFolderJoinDao playerFolderJoinDao;
+        private int DirectoryId;
+
+        private DeleteByDirectoryIdAsyncTask(RoomPlayerFolderJoinDao roomPlayerFolderJoinDao, int DirectoryId) {
+            this.playerFolderJoinDao = roomPlayerFolderJoinDao;
+            this.DirectoryId = DirectoryId;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            this.playerFolderJoinDao.deleteByDirectoryId(DirectoryId);
+            return null;
+        }
+    }
+
+
+    /*public static class GetAllPlayersInDirectoryLeftJoin extends AsyncTask<Void, Void, Void> {
+        private RoomPlayerFolderJoinDao playerFolderJoinDao;
+        private int DirectoryId;
+
+        public GetAllPlayersInDirectoryLeftJoin(RoomPlayerFolderJoinDao roomPlayerFolderJoinDao, int DirectoryId){
+            this.playerFolderJoinDao = roomPlayerFolderJoinDao;
+            this.DirectoryId = DirectoryId;
+        }
+
+        @Override
+        protected LiveData<List<RoomPlayerFolderJoin>> doInBackground(Void... voids) {
+            return this.playerFolderJoinDao.LeftJoin(DirectoryId);
+        }
+    }*/
+
+    public LiveData<List<RoomPlayerFolderLeftJoin>> getAllPlayersInDirectoryLeftJoin(int DirectoryId) {
+        return folderJoinDao.LeftJoin(DirectoryId);
     }
 
 }

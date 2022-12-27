@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,27 +16,34 @@ import androidx.lifecycle.LiveData;
 import com.example.statistik_v2.PlayerListPackage.RoomPlayers;
 import com.example.statistik_v2.R;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class CustomPlayerSpinnerAdapter extends BaseAdapter {
     Context context;
-    //String[] allPlayers;
-    LiveData<List<RoomPlayers>> allPlayers;
-    //int[] PlayerIsIn;
-    LiveData<List<Integer>> PlayerIsIn;
     LayoutInflater inflater;
+    ArrayList<SpinnerCheckboxState> listCbStates;
 
 
-    public CustomPlayerSpinnerAdapter(Context applicationContext, LiveData<List<RoomPlayers>> allPlayers, LiveData<List<Integer>> playerIsIn) {
+    public CustomPlayerSpinnerAdapter(Context applicationContext) {
         this.context = applicationContext;
-        this.allPlayers = allPlayers;
-        this.PlayerIsIn = playerIsIn;
         inflater = (LayoutInflater.from(applicationContext));
     }
     @Override
     public int getCount() {
-        return allPlayers.getValue().size();
+        try {
+            return listCbStates.size();
+        } catch (Exception e) {
+            return 0;
+        }
+        //return allPlayers.getValue().size();
+    }
+
+    public void setListCbStates(ArrayList<SpinnerCheckboxState> listCbStates) {
+        this.listCbStates = listCbStates;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -51,16 +60,20 @@ public class CustomPlayerSpinnerAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflater.inflate(R.layout.custom_player_spinner_items, null);
-        ImageView Check = (ImageView) view.findViewById(R.id.ivSpinnerPlayerCheck);
+
         TextView names = (TextView) view.findViewById(R.id.tvSpinnerPlayerName);
-        Check.setImageResource(R.drawable.ic_baseline_cancel_24);
+        CheckBox checkBox = (CheckBox) view.findViewById(R.id.cbSpinnerPlayer);
 
-        for(int j = 0; j <= PlayerIsIn.getValue().size()-1; j++){
-            int PlayerId = PlayerIsIn.getValue().get(i);
-            Check.setImageResource(R.drawable.ic_baseline_check_24);
-        }
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                //int position = (Integer) compoundButton.getId();
+                listCbStates.get(i).setSelected(b);
+            }
+        });
 
-        names.setText(allPlayers.getValue().get(i).getName());
+        names.setText(listCbStates.get(i).getTitle());
+        checkBox.setChecked(listCbStates.get(i).isSelected());
         return view;
     }
 }

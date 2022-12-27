@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.example.statistik_v2.EditFolder.EditPlayer;
 import com.example.statistik_v2.FolderListPackage.FolderListAdapter;
 import com.example.statistik_v2.FolderListPackage.RoomFolderViewModel;
 import com.example.statistik_v2.FolderListPackage.RoomFolders;
@@ -32,6 +33,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements dialogAddFolder.dialogAddFolderListener {
     private RoomFolderViewModel folderViewModel;
+    public static final String EXTRA_ID = "com.example.statistic_v2.EXTRA_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements dialogAddFolder.d
         folderListAdapter.setOnItemClickListener(new FolderListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(RoomFolders folders) {
-                openAddEditFolder(false, folders);
+                open_EditFolder(folders.getId());
             }
         });
 
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements dialogAddFolder.d
         return super.onOptionsItemSelected(item);
     }
 
-    public void open_EditFolder(int position, ArrayList<FolderItem> mFolderList) {
+    public void open_EditFolder2(int position, ArrayList<FolderItem> mFolderList) {
         dialogEditFolder dialog2 = new dialogEditFolder(position, mFolderList);
         dialog2.show(getSupportFragmentManager(), "edit_folder");
     }
@@ -114,6 +116,13 @@ public class MainActivity extends AppCompatActivity implements dialogAddFolder.d
     public void open_PlayerList() {
         Intent intent = new Intent(this, PlayerList.class);
         startActivity(intent);
+    }
+
+    public void open_EditFolder(int id){
+        Intent intent = new Intent(this, EditPlayer.class);
+        intent.putExtra(EXTRA_ID, id);
+        startActivity(intent);
+
     }
 
 

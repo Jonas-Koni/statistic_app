@@ -13,19 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".EditPlayer"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".PlayerListPackage.PlayerList"
             android:exported="false"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+        </activity>
+        <activity android:name=".EditFolder.EditPlayer"
+            android:exported="false"
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity
             android:name=".dialogEnterMonopoly"

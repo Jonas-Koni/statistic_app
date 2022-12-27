@@ -15,7 +15,7 @@ import com.example.statistik_v2.FolderListPackage.RoomFolders;
 import com.example.statistik_v2.PlayerListPackage.RoomPlayerDao;
 import com.example.statistik_v2.PlayerListPackage.RoomPlayers;
 
-@Database(entities = {RoomPlayers.class, RoomFolders.class, RoomPlayerFolderJoin.class}, version = 1)
+@Database(entities = {RoomPlayers.class, RoomFolders.class, RoomPlayerFolderJoin.class}, version = 2)
 public abstract class RoomDatabase extends androidx.room.RoomDatabase {
 
     private static RoomDatabase instance;
